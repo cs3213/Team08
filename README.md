@@ -1,6 +1,6 @@
-Project-Re-Bro
+Project Re-Bro
 =====================
-<This project uses 'node_modules' and 'bower_components' hence you will need to perform
+This project uses 'node_modules' and 'bower_components' hence you will need to perform
 <blockquote>
   <code>npm install</code><br />
   <code>bower install</code>
