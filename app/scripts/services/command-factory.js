@@ -52,6 +52,9 @@ angular.module('rebroApp')
 
                 if (!constructors.hasOwnProperty(name)) {
                     throw new Error('Command "' + name + '" is undefined');
+
+                } else if (receiver instanceof Character === false) {
+                    throw new Error('Receiver must be an instance of Character');
                 }
 
                 var command = {};
