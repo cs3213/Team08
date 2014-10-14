@@ -1,4 +1,4 @@
-var myapp = angular.module('sortableApp', ['ui.sortable']);
+var myapp = angular.module('sortableApp', ['tg.dynamicDirective','ui.sortable']);
 
 myapp.controller('sortableController', function ($scope) {
   var tmpList = [];
@@ -54,6 +54,13 @@ myapp.controller('sortableController', function ($scope) {
             'hasList': false
             
         },
+            {
+            'name': 'repeat',
+            'drag': true,
+            'hasValue': false,
+            'hasList': true,
+            'statementList': []
+        },
         {
             'name': 'repeat',
             'drag': true,
@@ -73,7 +80,15 @@ myapp.controller('sortableController', function ($scope) {
  // $scope.items = $scope.rootItem.items;
     $scope.sortableOptions = {
     placeholder: "app",
-    connectWith: ".editor"
+    connectWith: ".apps-container"
+
   };
+    
+    $scope.getView = function(item){
+     if(item.hasList){  
+        return "nest_Item.html";
+     }
+        return null;
+    };
   
 });
