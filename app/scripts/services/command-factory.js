@@ -6,25 +6,25 @@ angular.module('rebroApp')
         var constructors = {
             setX: function(receiver, value) {
                 this.execute = function() {
-                    receiver.xPos = value;
+                    receiver.xPos = Number(value);
                 }
             },
 
             setY: function(receiver, value) {
                 this.execute = function() {
-                    receiver.yPos = value;
+                    receiver.yPos = Number(value);
                 }
             },
 
             moveX: function(receiver, value) {
                 this.execute = function() {
-                    receiver.xPos += value;
+                    receiver.xPos += Number(value);
                 }
             },
 
             moveY: function(receiver, value) {
                 this.execute = function() {
-                    receiver.yPos += value;
+                    receiver.yPos += Number(value);
                 }
             },
 
