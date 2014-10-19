@@ -1,14 +1,17 @@
 <html>
 
-//List of buttons to initialise the code
 <button onclick="hello('google').login()">Google</button>
 <button id="authorizeButton" onclick="handleAuthResult()">Authorize</button>
 <!--Add a file picker for the user to start the upload process -->
 <input type="file" id="filePicker" style="display: none" />
+
 <button onclick="onApiLoad()">Load File</button>
-<button onclick="hello('google').logout()">Logout</button>
+
+<button onclick="location.href = 'https://accounts.google.com/logout';" id="myButton" class="float-left submit-button" >Logout</button>
 
 <head>
+    
+    
 </head>
 
 <body>
@@ -21,7 +24,6 @@
 
     
 <script>
-    
     //Dev Parameters
     var CLIENT_ID = '762525072987-jvj4k7qp586b3ro93dfq3ieiegjo6f37.apps.googleusercontent.com';
     var developerKey = 'AIzaSyDBKs5GQEYcqvHSTvlRKu_hs9JhanUdu3o';
@@ -32,30 +34,23 @@ hello.init({
 , {redirect_uri: 'http://localhost:9000/index.html'}
 );
 
-        
-    
-
+    /*
 //when user click login
 hello.on('auth.login', function(auth){
 	console.log("You are signed in to Google");
 	getGoogleProfileName();
 });
-
+      */              
     
 //when user click logout
-hello("google").logout().then( function(){
-    alert(" Sign Out ");
-}, function (e){
-    alert( "Sign out error: " + e.error.message);
-});
-                    
-    
-//when user click logout
+    //listener for authenticator to logout
 hello.on('auth.logout', function(auth){
 	console.log("You are signed out from Google");    
 }, function(e){
 	alert( "Signed out error: " + e.error.message );
 });
+
+
 
 //input username
 function getGoogleProfileName(){
@@ -82,8 +77,8 @@ function getGoogleProfileName(){
         window.setTimeout(checkAuth, 1);
       }
 
-      /**
-       * Check if the current user has authorized the application.
+      
+      // Check if the current user has authorized the application.
        
       function checkAuth() {
         gapi.auth.authorize(
@@ -245,7 +240,7 @@ function getGoogleProfileName(){
         var message = 'You picked: ' + url;
         document.getElementById('result').innerHTML = message;
       }
-    //===========================================================================end Google Picker
+    //end Google Picker
         
     
     //write stm to json format
