@@ -1,8 +1,12 @@
 <html>
 
 <button onclick="hello('google').login()">Google</button>
-<button onclick="hello('google').api()">Load File</button>
-    <br><br>
+        <!--Add a file picker for the user to start the upload process -->
+<input type="file" id="filePicker" style="display: none" />
+<input type="button" id="authorizeButton" style="display: none" value="Authorize" />
+<button onclick="handleAuthResult()">Authorize</button>
+<button onclick="onApiLoad()">Load File</button>
+    
 <button onclick="hello('google').logout()">Logout</button>
 
 <head>
@@ -12,7 +16,12 @@
 	<script src='hello.js'></script>
     <script src="../bower_components/angular/angular.js"></script>
     <script src="jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
+    <script type="text/javascript" src="https://apis.google.com/js/api.js?onload=onApiLoad"></script>
 
+
+    
+    
 <script>
 hello.init({ 
 	google   : "762525072987-jvj4k7qp586b3ro93dfq3ieiegjo6f37.apps.googleusercontent.com"}
@@ -45,44 +54,188 @@ function getGoogleProfileName(){
 }
 
     
-function getFile(){
-    hello("google").api("me/folder").then(function(json){
-        alert("Your file is" + json.text);
-    }, function(e){
-        alert("Whoops! " + e.error.message );
-})};
-    
-function postFile(){
-    hello("google").api("me/folder", post).then(function(json){
-        alert("Your file is" + json.text);
-    }, function(e){
-        alert("Whoops! " + e.error.message );
-})};
+/*Allow User to Upload File to Drive
+*  =====================================================
+*/
+      var CLIENT_ID = '762525072987-jvj4k7qp586b3ro93dfq3ieiegjo6f37.apps.googleusercontent.com';
+      var SCOPES = 'https://www.googleapis.com/auth/drive';
 
-    
-//angular button
-var app = angular.module('myApp', []);
-	
-	app.controller('controller', ['$scope', function($scope) {
-	    $scope.function1 = function(msg) {
-	         alert(msg + ' first function call!');   
-	    };
-	    $scope.function2 = function(msg) {
-	         alert(msg + ' second function call!');   
-	    };
-	}]);
-    
+      /**
+       * Called when the client library is loaded to start the auth flow.
+       */
+      function handleClientLoad() {
+        window.setTimeout(checkAuth, 1);
+      }
 
+      /**
+       * Check if the current user has authorized the application.
+       */
+      function checkAuth() {
+        gapi.auth.authorize(
+            {'client_id': CLIENT_ID, 'scope': SCOPES, 'immediate': true},
+            handleAuthResult);
+      }
+
+      /**
+       * Called when authorization server replies.
+       *
+       * @param {Object} authResult Authorization result.
+       */
+      function handleAuthResult(authResult) {
+        var authButton = document.getElementById('authorizeButton');
+        var filePicker = document.getElementById('filePicker');
+        authButton.style.display = 'none';
+        filePicker.style.display = 'none';
+        if (authResult && !authResult.error) {
+          // Access token has been successfully retrieved, requests can be sent to the API.
+          filePicker.style.display = 'block';
+          filePicker.onchange = uploadFile;
+        } else {
+          // No access token could be retrieved, show the button to start the authorization flow.
+          authButton.style.display = 'block';
+          authButton.onclick = function() {
+              gapi.auth.authorize(
+                  {'client_id': CLIENT_ID, 'scope': SCOPES, 'immediate': false},
+                  handleAuthResult);
+          };
+        }
+      }
+
+      /**
+       * Start the file upload.
+       *
+       * @param {Object} evt Arguments from the file selector.
+       */
+      function uploadFile(evt) {
+        gapi.client.load('drive', 'v2', function() {
+          var file = evt.target.files[0];
+          insertFile(file);
+        });
+      }
+
+      /**
+       * Insert new file.
+       *
+       * @param {File} fileData File object to read data from.
+       * @param {Function} callback Function to call when the request is complete.
+       */
+      function insertFile(fileData, callback) {
+        const boundary = '-------314159265358979323846';
+        const delimiter = "\r\n--" + boundary + "\r\n";
+        const close_delim = "\r\n--" + boundary + "--";
+
+        var reader = new FileReader();
+        reader.readAsBinaryString(fileData);
+        reader.onload = function(e) {
+          var contentType = fileData.type || 'application/octet-stream';
+          var metadata = {
+            'title': fileData.name,
+            'mimeType': contentType
+          };
+
+          var base64Data = btoa(reader.result);
+          var multipartRequestBody =
+              delimiter +
+              'Content-Type: application/json\r\n\r\n' +
+              JSON.stringify(metadata) +
+              delimiter +
+              'Content-Type: ' + contentType + '\r\n' +
+              'Content-Transfer-Encoding: base64\r\n' +
+              '\r\n' +
+              base64Data +
+              close_delim;
+
+          var request = gapi.client.request({
+              'path': '/upload/drive/v2/files',
+              'method': 'POST',
+              'params': {'uploadType': 'multipart'},
+              'headers': {
+                'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
+              },
+              'body': multipartRequestBody});
+          if (!callback) {
+            callback = function(file) {
+              console.log(file)
+            };
+          }
+          request.execute(callback);
+        }
+      }
+
+    //======================================================== End Upload File
+    
+    
+    
+    //Start Google Picker
+    //=============================================
+    // The Browser API key obtained from the Google Developers Console.
+      var developerKey = 'AIzaSyDBKs5GQEYcqvHSTvlRKu_hs9JhanUdu3o';
+
+      // The Client ID obtained from the Google Developers Console.
+      var clientId = '762525072987-jvj4k7qp586b3ro93dfq3ieiegjo6f37.apps.googleusercontent.com';
+
+      // Scope to use to access user's photos.
+      var scope = ['https://www.googleapis.com/auth/drive.readonly'];
+
+      var pickerApiLoaded = false;
+      var oauthToken;
+
+      // Use the API Loader script to load google.picker and gapi.auth.
+      function onApiLoad() {
+        gapi.load('auth', {'callback': onAuthApiLoad});
+        gapi.load('picker',{'callback': onPickerApiLoad});
+      }
+
+      function onAuthApiLoad() {
+        window.gapi.auth.authorize(
+            {
+              'client_id': clientId,
+              'scope': scope,
+              'immediate': false
+            },
+            handleAuthResultG);
+      }
+
+      function onPickerApiLoad() {
+        pickerApiLoaded = true;
+        createPicker();
+      }
+
+      function handleAuthResultG(authResult) {
+        if (authResult && !authResult.error) {
+          oauthToken = authResult.access_token;
+          createPicker();
+        }
+      }
+
+      // Create and render a Picker object for picking user Photos.
+      function createPicker() {
+        if (pickerApiLoaded && oauthToken) {
+          var picker = new google.picker.PickerBuilder().
+              addView(google.picker.ViewId.DOCS).
+              setOAuthToken(oauthToken).
+              setDeveloperKey('AIzaSyDBKs5GQEYcqvHSTvlRKu_hs9JhanUdu3o').
+              setCallback(pickerCallback).
+              build();
+          picker.setVisible(true);
+        }
+      }
+
+      // A simple callback implementation.
+      function pickerCallback(data) {
+        var url = 'nothing';
+        if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
+          var doc = data[google.picker.Response.DOCUMENTS][0];
+          url = doc[google.picker.Document.URL];
+        }
+        var message = 'You picked: ' + url;
+        document.getElementById('result').innerHTML = message;
+      }
+    //end Google Picker
+        
 </script>
     
 <div id="login-area"></div>
-    
+       <div id="result"></div>
     <br><br>
-	<div data-ng-app="myApp">
-		<div data-ng-controller="controller">
-			<button data-ng-click="function1('AngularJS')">Call first function</button>
-			<button data-ng-click="function2('AngularJS')">Call second function</button>
-		</div>
-	</div>
-    
 </body>
