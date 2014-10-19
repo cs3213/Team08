@@ -1,12 +1,12 @@
 <html>
 
 <button onclick="hello('google').login()">Google</button>
-        <!--Add a file picker for the user to start the upload process -->
+<button id="authorizeButton" onclick="handleAuthResult()">Authorize</button>
+<!--Add a file picker for the user to start the upload process -->
 <input type="file" id="filePicker" style="display: none" />
-<input type="button" id="authorizeButton" style="display: none" value="Authorize" />
-<button onclick="handleAuthResult()">Authorize</button>
+
 <button onclick="onApiLoad()">Load File</button>
-    
+
 <button onclick="hello('google').logout()">Logout</button>
 
 <head>
@@ -21,13 +21,20 @@
 
 
     
-    
 <script>
+    
+    //Dev Parameters
+    var CLIENT_ID = '762525072987-jvj4k7qp586b3ro93dfq3ieiegjo6f37.apps.googleusercontent.com';
+    var developerKey = 'AIzaSyDBKs5GQEYcqvHSTvlRKu_hs9JhanUdu3o';
+
+    
 hello.init({ 
-	google   : "762525072987-jvj4k7qp586b3ro93dfq3ieiegjo6f37.apps.googleusercontent.com"}
+	google   : CLIENT_ID}
 , {redirect_uri: 'http://localhost:9000/index.html'}
 );
 
+        
+    
 
 //when user click login
 hello.on('auth.login', function(auth){
@@ -35,6 +42,15 @@ hello.on('auth.login', function(auth){
 	getGoogleProfileName();
 });
 
+    
+//when user click logout
+hello("google").logout().then( function(){
+    alert(" Sign Out ");
+}, function (e){
+    alert( "Sign out error: " + e.error.message);
+});
+                    
+    
 //when user click logout
 hello.on('auth.logout', function(auth){
 	console.log("You are signed out from Google");    
@@ -57,7 +73,7 @@ function getGoogleProfileName(){
 /*Allow User to Upload File to Drive
 *  =====================================================
 */
-      var CLIENT_ID = '762525072987-jvj4k7qp586b3ro93dfq3ieiegjo6f37.apps.googleusercontent.com';
+
       var SCOPES = 'https://www.googleapis.com/auth/drive';
 
       /**
@@ -69,7 +85,7 @@ function getGoogleProfileName(){
 
       /**
        * Check if the current user has authorized the application.
-       */
+       
       function checkAuth() {
         gapi.auth.authorize(
             {'client_id': CLIENT_ID, 'scope': SCOPES, 'immediate': true},
@@ -169,10 +185,9 @@ function getGoogleProfileName(){
     //Start Google Picker
     //=============================================
     // The Browser API key obtained from the Google Developers Console.
-      var developerKey = 'AIzaSyDBKs5GQEYcqvHSTvlRKu_hs9JhanUdu3o';
+      
 
       // The Client ID obtained from the Google Developers Console.
-      var clientId = '762525072987-jvj4k7qp586b3ro93dfq3ieiegjo6f37.apps.googleusercontent.com';
 
       // Scope to use to access user's photos.
       var scope = ['https://www.googleapis.com/auth/drive.readonly'];
@@ -187,9 +202,10 @@ function getGoogleProfileName(){
       }
 
       function onAuthApiLoad() {
-        window.gapi.auth.authorize(
+        
+          window.gapi.auth.authorize(
             {
-              'client_id': clientId,
+              'client_id': CLIENT_ID,
               'scope': scope,
               'immediate': false
             },
@@ -208,20 +224,19 @@ function getGoogleProfileName(){
         }
       }
 
-      // Create and render a Picker object for picking user Photos.
+      // Create and render a Picker object for loading items from drive.
       function createPicker() {
         if (pickerApiLoaded && oauthToken) {
           var picker = new google.picker.PickerBuilder().
               addView(google.picker.ViewId.DOCS).
               setOAuthToken(oauthToken).
-              setDeveloperKey('AIzaSyDBKs5GQEYcqvHSTvlRKu_hs9JhanUdu3o').
+              setDeveloperKey(developerKey).
               setCallback(pickerCallback).
               build();
           picker.setVisible(true);
         }
       }
-
-      // A simple callback implementation.
+    
       function pickerCallback(data) {
         var url = 'nothing';
         if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
@@ -233,6 +248,13 @@ function getGoogleProfileName(){
       }
     //end Google Picker
         
+    
+    //write stm to json format
+   function insertJFile(stmLst){
+        angular.toJson(stmLst, true);
+   }
+    
+    
 </script>
     
 <div id="login-area"></div>
