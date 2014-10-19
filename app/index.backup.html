@@ -77,17 +77,17 @@
         </div>
         <div class="col-xs-6 fixed-height" style="border: 1px solid #333;">
             <div id="row1.1" class="text-center" style="border: 1px solid #333;">
-                <button id="playButton" type="button" class="btn btn-default btn-xs" style="height:50px; width:50px">
+                <button class="btn btn-default btn-xs" ng-click="onPlay()" style="height:50px; width:50px">
                     <span class="glyphicon glyphicon-play"></span>
                 </button>
+                <!--
                 <button id="stopButton" type="button" class="btn btn-default btn-xs" style="height:50px; width:50px">
                     <span class="glyphicon glyphicon-stop"></span>
                 </button>
+                -->
             </div>
             <div id="row1.2" style="border: 1px solid #333; height: 460px;">
-                stage<br />
                 {{model.character.xPos}}  {{model.character.yPos}}
-                <button ng-click="onPlay()">Play me!</button>
                 <div class="character" ng-style="{'top': model.character.yPos + 'px', 'left': model.character.xPos + 'px'}"></div>
             </div>
         </div>
