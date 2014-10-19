@@ -1,0 +1,78 @@
+<html>
+
+<button onclick="hello('google').login()">google</button>
+
+<head>
+</head>
+
+<body>
+	<script src='hello.js'></script>
+	<script src="jquery-1.11.1.min.js"></script>
+	
+<script>
+
+    
+hello.init({ 
+	google   : "762525072987-jvj4k7qp586b3ro93dfq3ieiegjo6f37.apps.googleusercontent.com"}
+, {redirect_uri: 'http://localhost:9000/app/index.html'}
+);
+
+
+hello.on('auth.login', function(auth){
+	console.log("You are signed in to Google");
+	getGoogleProfileName();
+});
+
+
+
+
+function getGoogleProfileName(){
+	hello( "google" ).api("me").then(function(json){
+		$("#login-area").html("Signed in as <a href='" + json.url + "'>" + json.name + "</a>");
+		$("#login-area").removeClass("no-margin");
+		console.log("Your name is "+ json.name + ", " + json.url);
+	}, function(e){
+		console.log("Whoops! " + e.error.message );
+	});
+}
+
+/*
+hello.on('auth.login', function(auth){
+
+	// call user information, for the given network
+	hello( auth.network ).api( '/me' ).then( function(r){
+		// Inject it into the container
+		var label = document.getElementById( "profile_"+ auth.network );
+		if(!label){
+			label = document.createElement('div');
+			label.id = "profile_"+auth.network;
+			document.getElementById('profile').appendChild(label);
+		}
+		label.innerHTML = '<img src="'+ r.thumbnail +'" /> Hey '+r.name;
+	});
+});
+
+function login(network){
+	// Make a login call and handle the response using promises
+	hello.login(network).then(function(){
+		console.log('fullfilled', 'making api call');
+		// Reurn another promise to get the users profile.
+		return 	hello( network ).api( 'me' );
+	}).then(function(p){
+		// Print it to console.
+		console.log('hello.api(me) was fullfilled', p);
+		return p;
+	}).then(function(p){
+		// Insert it into thumbnail
+		document.getElementById(network).innerHTML = "<img src='"+ p.thumbnail + "' width=24/>Connected to "+ network+" as " + p.name;
+	}).then(null, function(e){
+		// Uh oh
+		console.error(e);
+	});
+}
+*/
+</script>
+    
+<div id="login-area"></div>
+
+</body>
