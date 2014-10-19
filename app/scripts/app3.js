@@ -61,16 +61,12 @@ myapp.controller('sortableController', function ($scope, $interval, Program, Sta
     changeCostume.hasValue = true;
     changeCostume.hasList = false;
     
-    var repeat_1 = new Statement('repeat', '1');
-    repeat_1.hasValue = true;
-    repeat_1.hasList = true;
-    
-    var repeat_2 = new Statement('repeat', '1');
-    repeat_2.hasValue = true;
-    repeat_2.hasList = true;
+    var repeat = new Statement('repeat', '1');
+    repeat.hasValue = true;
+    repeat.hasList = true;
     
     $scope.drawer = {};
-    $scope.drawer.statements = [setX, setY, moveX, moveY, hide, show, changeCostume, repeat_1, repeat_2];
+    $scope.drawer.statements = [setX, setY, moveX, moveY, hide, show, changeCostume, repeat];
     
      $scope.drawer.statementsBackup = angular.copy($scope.drawer.statements);
     
@@ -81,9 +77,44 @@ myapp.controller('sortableController', function ($scope, $interval, Program, Sta
     
  // $scope.items = $scope.rootItem.items;
     $scope.sortableOptions = {
-    placeholder: "app",
-    connectWith: ".apps-container"
-
+    helper: "clone",
+    connectWith: ".editor",
+     start:function(event,ui){
+            $(ui.item).show();
+             $scope.drawer.statements = angular.copy($scope.drawer.statementsBackup);
+    },
+    stop:function(event, ui){
+             $(ui.item).remove();
+    }
+  };
+    
+    $scope.sortableOptions2 = {
+   // placeholder: "app",
+    connectWith: ".editor",
+	receive: function(event, ui)
+	{
+		sortableIn = 1;
+	},
+	over: function(event, ui)
+	{
+		sortableIn = 1;
+	},
+	out: function(event, ui)
+	{
+		sortableIn = 0;
+	},
+	beforeStop: function(event, ui)
+	{
+		if (sortableIn == 0)
+		{
+            // alert($(ui.item).index());
+            var i = $(ui.item).index();
+          $(ui.item).remove();
+       /*  $scope.model.program.stmtList = $scope.model.program.stmtList.splice(i, 1);
+          $scope.$apply; 
+            */
+		}
+	}
   };
     
     $scope.getView = function(item){
