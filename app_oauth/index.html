@@ -1,31 +1,39 @@
 <html>
 
-<button onclick="hello('google').login()">google</button>
+<button onclick="hello('google').login()">Google</button>
+<button onclick="hello('google').api()">Load File</button>
+    <br><br>
+<button onclick="hello('google').logout()">Logout</button>
 
 <head>
 </head>
 
 <body>
 	<script src='hello.js'></script>
-	<script src="jquery-1.11.1.min.js"></script>
-	
-<script>
+    <script src="../bower_components/angular/angular.js"></script>
+    <script src="jquery-1.11.1.min.js"></script>
 
-    
+<script>
 hello.init({ 
 	google   : "762525072987-jvj4k7qp586b3ro93dfq3ieiegjo6f37.apps.googleusercontent.com"}
-, {redirect_uri: 'http://localhost:9000/app/index.html'}
+, {redirect_uri: 'http://localhost:9000/index.html'}
 );
 
 
+//when user click login
 hello.on('auth.login', function(auth){
 	console.log("You are signed in to Google");
 	getGoogleProfileName();
 });
 
+//when user click logout
+hello.on('auth.logout', function(auth){
+	console.log("You are signed out from Google");    
+}, function(e){
+	alert( "Signed out error: " + e.error.message );
+});
 
-
-
+//input username
 function getGoogleProfileName(){
 	hello( "google" ).api("me").then(function(json){
 		$("#login-area").html("Signed in as <a href='" + json.url + "'>" + json.name + "</a>");
@@ -36,43 +44,45 @@ function getGoogleProfileName(){
 	});
 }
 
-/*
-hello.on('auth.login', function(auth){
+    
+function getFile(){
+    hello("google").api("me/folder").then(function(json){
+        alert("Your file is" + json.text);
+    }, function(e){
+        alert("Whoops! " + e.error.message );
+})};
+    
+function postFile(){
+    hello("google").api("me/folder", post).then(function(json){
+        alert("Your file is" + json.text);
+    }, function(e){
+        alert("Whoops! " + e.error.message );
+})};
 
-	// call user information, for the given network
-	hello( auth.network ).api( '/me' ).then( function(r){
-		// Inject it into the container
-		var label = document.getElementById( "profile_"+ auth.network );
-		if(!label){
-			label = document.createElement('div');
-			label.id = "profile_"+auth.network;
-			document.getElementById('profile').appendChild(label);
-		}
-		label.innerHTML = '<img src="'+ r.thumbnail +'" /> Hey '+r.name;
-	});
-});
+    
+//angular button
+var app = angular.module('myApp', []);
+	
+	app.controller('controller', ['$scope', function($scope) {
+	    $scope.function1 = function(msg) {
+	         alert(msg + ' first function call!');   
+	    };
+	    $scope.function2 = function(msg) {
+	         alert(msg + ' second function call!');   
+	    };
+	}]);
+    
 
-function login(network){
-	// Make a login call and handle the response using promises
-	hello.login(network).then(function(){
-		console.log('fullfilled', 'making api call');
-		// Reurn another promise to get the users profile.
-		return 	hello( network ).api( 'me' );
-	}).then(function(p){
-		// Print it to console.
-		console.log('hello.api(me) was fullfilled', p);
-		return p;
-	}).then(function(p){
-		// Insert it into thumbnail
-		document.getElementById(network).innerHTML = "<img src='"+ p.thumbnail + "' width=24/>Connected to "+ network+" as " + p.name;
-	}).then(null, function(e){
-		// Uh oh
-		console.error(e);
-	});
-}
-*/
 </script>
     
 <div id="login-area"></div>
-
+    
+    <br><br>
+	<div data-ng-app="myApp">
+		<div data-ng-controller="controller">
+			<button data-ng-click="function1('AngularJS')">Call first function</button>
+			<button data-ng-click="function2('AngularJS')">Call second function</button>
+		</div>
+	</div>
+    
 </body>
