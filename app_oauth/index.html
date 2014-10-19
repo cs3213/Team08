@@ -5,7 +5,9 @@
 <input type="file" id="filePicker" style="display: none" />
 <input type="button" id="authorizeButton" style="display: none" value="Authorize" />
 <button onclick="handleAuthResult()">Authorize</button>
-    <button onclick="hello('google').logout()">Logout</button>
+<button onclick="onApiLoad()">Load File</button>
+    
+<button onclick="hello('google').logout()">Logout</button>
 
 <head>
 </head>
@@ -14,8 +16,10 @@
 	<script src='hello.js'></script>
     <script src="../bower_components/angular/angular.js"></script>
     <script src="jquery-1.11.1.min.js"></script>
-   <script type="text/javascript" src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
-      
+    <script type="text/javascript" src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
+    <script type="text/javascript" src="https://apis.google.com/js/api.js?onload=onApiLoad"></script>
+
+
     
     
 <script>
@@ -159,10 +163,79 @@ function getGoogleProfileName(){
       }
 
     //======================================================== End Upload File
+    
+    
+    
+    //Start Google Picker
+    //=============================================
+    // The Browser API key obtained from the Google Developers Console.
+      var developerKey = 'AIzaSyDBKs5GQEYcqvHSTvlRKu_hs9JhanUdu3o';
+
+      // The Client ID obtained from the Google Developers Console.
+      var clientId = '762525072987-jvj4k7qp586b3ro93dfq3ieiegjo6f37.apps.googleusercontent.com';
+
+      // Scope to use to access user's photos.
+      var scope = ['https://www.googleapis.com/auth/drive.readonly'];
+
+      var pickerApiLoaded = false;
+      var oauthToken;
+
+      // Use the API Loader script to load google.picker and gapi.auth.
+      function onApiLoad() {
+        gapi.load('auth', {'callback': onAuthApiLoad});
+        gapi.load('picker',{'callback': onPickerApiLoad});
+      }
+
+      function onAuthApiLoad() {
+        window.gapi.auth.authorize(
+            {
+              'client_id': clientId,
+              'scope': scope,
+              'immediate': false
+            },
+            handleAuthResultG);
+      }
+
+      function onPickerApiLoad() {
+        pickerApiLoaded = true;
+        createPicker();
+      }
+
+      function handleAuthResultG(authResult) {
+        if (authResult && !authResult.error) {
+          oauthToken = authResult.access_token;
+          createPicker();
+        }
+      }
+
+      // Create and render a Picker object for picking user Photos.
+      function createPicker() {
+        if (pickerApiLoaded && oauthToken) {
+          var picker = new google.picker.PickerBuilder().
+              addView(google.picker.ViewId.DOCS).
+              setOAuthToken(oauthToken).
+              setDeveloperKey('AIzaSyDBKs5GQEYcqvHSTvlRKu_hs9JhanUdu3o').
+              setCallback(pickerCallback).
+              build();
+          picker.setVisible(true);
+        }
+      }
+
+      // A simple callback implementation.
+      function pickerCallback(data) {
+        var url = 'nothing';
+        if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
+          var doc = data[google.picker.Response.DOCUMENTS][0];
+          url = doc[google.picker.Document.URL];
+        }
+        var message = 'You picked: ' + url;
+        document.getElementById('result').innerHTML = message;
+      }
+    //end Google Picker
         
 </script>
     
 <div id="login-area"></div>
-    
+       <div id="result"></div>
     <br><br>
 </body>
