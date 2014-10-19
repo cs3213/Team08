@@ -1,12 +1,11 @@
 <html>
 
+//List of buttons to initialise the code
 <button onclick="hello('google').login()">Google</button>
 <button id="authorizeButton" onclick="handleAuthResult()">Authorize</button>
 <!--Add a file picker for the user to start the upload process -->
 <input type="file" id="filePicker" style="display: none" />
-
 <button onclick="onApiLoad()">Load File</button>
-
 <button onclick="hello('google').logout()">Logout</button>
 
 <head>
@@ -246,7 +245,7 @@ function getGoogleProfileName(){
         var message = 'You picked: ' + url;
         document.getElementById('result').innerHTML = message;
       }
-    //end Google Picker
+    //===========================================================================end Google Picker
         
     
     //write stm to json format
