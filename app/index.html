@@ -1,110 +1,141 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html class="no-js">
 <head>
-       <meta charset="utf-8">
-       <title>asdasd</title>
-    <!-- build:js(.) scripts/vendor.js -->
-    <!-- bower:js -->
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/jquery-ui/jquery-ui.js"></script>
-    <script src="bower_components/es5-shim/es5-shim.js"></script>
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/json3/lib/json3.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="bower_components/angular-resource/angular-resource.js"></script>
-    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-    <script src="bower_components/angular-animate/angular-animate.js"></script>
-    <script src="bower_components/angular-route/angular-route.js"></script>
-    <script src="bower_components/angular-ui-sortable/sortable.js"></script>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <!-- endbower -->
     <!-- endbuild -->
-        <script src="bower_components/tg-dynamic-directive/tg.dynamic.directive.js"></script>
-        <script src="scripts/app3.js"></script>
-    <script src="scripts/app-classes.js"></script>
-    <script src="scripts/services/command-factory.js"></script>
-    <script src="scripts/services/compiler.js"></script>
-    
-      <style>
-      .list {
-	list-style: none outside none;
-	margin: 10px 0 30px;
-}
-
-.apps-container {
-  border: 1px dashed blue;
-  padding-bottom: 10px;
-    width:50px;
-}
-
-.app {
-	padding: 5px 10px;
-	margin: 5px 0;
-	border: 2px solid #444;
-	border-radius: 5px;
-	background-color: #EA8A8A;
-
-	font-size: 1.1em;
-	font-weight: bold;
-	text-align: center;
-	cursor: move;
-}
-/***  Extra ***/
-
-body {
-	font-family: Verdana, 'Trebuchet ms', Tahoma;
-}
-
-.container {
-	width: 1200px;
-	margin: auto;
-}
-
-.commands { height: 500px; width: 280px; background-color: yellow; !important; float: left;}
-.editor { height: 500px; width: 280px; !important; background-color: green; float: left;}
-.stage { height: 500px; width: 580px; !important; background-color: gray; float: left;}
-.character { height: 50px; width: 50px; !important; background-color: black; position: relative;top:30px;left:30px;}
-.repeat { height: 100px; width: 120px; !important; background-color: red; float: left;}
-.btnTextSize {width: 30px; color: black; }
-
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+    <style>
+        .apps-container {
+            border: 2px dashed white;
+            padding: 5px;
+        }
+        .stmt-block {
+            background-color: #31b0d5;
+            border: 2px solid white;
+            padding: 5px;
+        }
+        .character {
+            height: 100px;
+            width: 80px;
+            background-image: url('http://www.pixentral.com/pics/1t6fTMLSw9s24qiVwQSqF0n0FpmjhZ.png');
+            background-size: 100%;
+            position: relative;
+            top:30px;
+            left:30px;
+        }
     </style>
-   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
 </head>
-       
 <body ng-app="rebroApp">
+<!--[if lt IE 7]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
 
-<div ng-cloak ng-controller="sortableController" class="container">
-  <div class="apps-container commands" ui-sortable="sortableOptions" ng-model="drawer.statements">
-
-      
-    <div ng-repeat="templateStmt in drawer.statements"  ng-model="statements" class="apps-container" >
-        <span>{{templateStmt.type}}</span>
-        <input class="btnTextSize" type="text" ng-model="templateStmt.args[0]" ng-show="templateStmt.hasValue" size="10" value="{{templateStmt.args[0]}}">
-
+<!-- Add your site or application content here -->
+<div ng-cloak class="container">
+    <div class="header">
+        <ul class="nav nav-pills pull-left">
+            <li class="active"><a ng-href="#" ng-click="">New</a></li>
+            <li><a ng-href="#/about">Load</a></li>
+            <li><a ng-href="#">Save</a></li>
+        </ul>
+        <ul class="nav nav-pills pull-right">
+            <li><a ng-href="#" onclick="hello('google').login();getGoogleProfileName();">Log In</a>
+            </li>
+            <li><div id="login-area"></div>
+       <div id="result"></div></script>
+            </li>
+        </ul>
+        <h3 class="text-muted text-center">rebro</h3>
     </div>
-  </div>
-    
-  <div class="apps-container editor" ui-sortable="sortableOptions" ng-model="model.program.stmtList">
-    
-      <div ng-repeat="stmt in model.program.stmtList" ng-model="model.program.stmtList" class="apps-container" >
-            <span ng-hide="stmt.hasList">{{stmt.type}}</span>
-            <input class="btnTextSize" type="text" ng-model="stmt.args[0]" ng-show="stmt.hasValue" ng-hide="stmt.hasList" value="{{stmt.args[0]}}">
+
+    <!--<div ng-view=""></div>-->
+     <div class="row"  ng-controller="sortableController">
+        <div class="col-xs-3 fixed-height drawer" ui-sortable="sortableOptions" ng-model="drawer.statements" style="border: 1px solid #333;">
+            drawer
+            <div ng-repeat="templateStmt in drawer.statements" ng-model="drawer.statements" class="stmt-block" >
+                <span>{{templateStmt.type}}</span>
+                <input class="btnTextSize" type="text" ng-model="templateStmt.args[0]" ng-show="templateStmt.hasValue" size="10" value="{{templateStmt.args[0]}}">
+
+            </div>
+        </div>
+        <div class="col-xs-3 fixed-height editor" ui-sortable="sortableOptions2" ng-model="model.program.stmtList" style="border: 1px solid #333;">
+            editor
+            <div ng-repeat="stmt in model.program.stmtList" ng-model="model.program.stmtList" class="stmt-block">
+                <span ng-hide="stmt.hasList">{{stmt.type}}</span>
+                <input class="btnTextSize" type="text" ng-model="stmt.args[0]" ng-show="stmt.hasValue" ng-hide="stmt.hasList" value="{{stmt.args[0]}}">
             <span ng-show="stmt.hasList">
                 <tg-dynamic-directive ng-model="stmt" tg-dynamic-directive-view="getView">
                 </tg-dynamic-directive>
             </span>
-      </div>
-    
-  </div>  
-    
-    <div class="apps-container stage">
-        stage prototype<br/>
-        {{model.character.xPos}}  {{model.character.yPos}}
-        <button ng-click="onPlay()">Play me!</button>
-        <div class="character" ng-style="{'top': model.character.yPos + 'px', 'left': model.character.xPos + 'px'}"></div>
+            </div>
+        </div>
+        <div class="col-xs-6 fixed-height" style="border: 1px solid #333;">
+            <div id="row1.1" class="text-center" style="border: 1px solid #333;">
+                <button class="btn btn-default btn-xs" ng-click="onPlay()" style="height:50px; width:50px">
+                    <span class="glyphicon glyphicon-play"></span>
+                </button>
+                <!--
+                <button id="stopButton" type="button" class="btn btn-default btn-xs" style="height:50px; width:50px">
+                    <span class="glyphicon glyphicon-stop"></span>
+                </button>
+                -->
+            </div>
+            <div id="row1.2" style="border: 1px solid #333; height: 460px;">
+                {{model.character.xPos}}  {{model.character.yPos}}
+                <div class="character" ng-style="{'top': model.character.yPos + 'px', 'left': model.character.xPos + 'px'}"></div>
+            </div>
+        </div>
     </div>
+
+
+    <div class="footer">
+        <p></p>
+    </div>
+</div>
+
+<!-- build:js(.) scripts/oldieshim.js -->
+<!--[if lt IE 9]>
+<script src="bower_components/es5-shim/es5-shim.js"></script>
+<script src="bower_components/json3/lib/json3.js"></script>
+<![endif]-->
+<!-- endbuild -->
+
+<!-- build:js(.) scripts/vendor.js -->
+<!-- bower:js -->
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+<script src="bower_components/angular-resource/angular-resource.js"></script>
+<script src="bower_components/angular-cookies/angular-cookies.js"></script>
+<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+<script src="bower_components/angular-animate/angular-animate.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+<script src="bower_components/jquery-ui/jquery-ui.js"></script>
+<script src="bower_components/angular-ui-sortable/sortable.js"></script>
+<script src="bower_components/hello/dist/hello.js"></script>
+<!-- endbower -->
+<!-- endbuild -->
+
+<!-- build:js({.tmp,app}) scripts/scripts.js -->
+<script src="bower_components/tg-dynamic-directive/tg.dynamic.directive.js"></script>
+<script src="scripts/app3.js"></script>
+<script src="scripts/login.js"></script>
+<script src="scripts/app-classes.js"></script>
+<script src="scripts/services/command-factory.js"></script>
+<script src="scripts/services/compiler.js"></script>
     
-    <script type ="text/ng-template" id="nest_Item.html">
+<!-- endbuild -->
+     <script type ="text/ng-template" id="nest_Item.html">
     <div class="apps-container repeat" ui-sortable="sortableOptions" ng-model="ngModelItem.stmtList">
         {{ngModelItem.type}} 
           <input class="btnTextSize" type="text" ng-model="ngModelItem.args[0]" ng-show="ngModelItem.hasValue" value="{{ngModelItem.args[1]}}">
@@ -118,9 +149,6 @@ body {
       </div>
     </div>
     </script>
-</div>
-    </body>
-    
-    
-
+   
+</body>
 </html>
