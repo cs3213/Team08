@@ -1,10 +1,15 @@
 var myapp = angular.module('rebroApp', ['tg.dynamicDirective','ui.sortable']);
 
+myapp.controller('saveCtrl', function($scope){
+ 
+        $scope.insertJFile = function (){
+        alert( $scope.model.program.stmtList);
+       console.log(angular.toJson($scope.model.program.stmtList, true));
+   };
+  
+});
+
 myapp.controller('sortableController', function ($scope, $interval, Program, Statement, Character, CompilerSvc) {
-  var tmpList = [];
-   $scope.list1 = [];
-   $scope.list2 = [];
-    
     /******* INITIALIZATION ************/
     $scope.model = {};
     $scope.model.character = new Character();
@@ -124,6 +129,5 @@ myapp.controller('sortableController', function ($scope, $interval, Program, Sta
         return null;
     };
     
-    
-  
+
 });

@@ -122,7 +122,7 @@ function getGoogleProfileName(){
     
     //write stm to json format
    function insertJFile(stmLst){
-        angular.toJson(stmLst, true);
+       console.log(angular.toJson(stmLst, true));
    }
     
     
