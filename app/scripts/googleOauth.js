@@ -50,7 +50,7 @@ function getGoogleProfileName(){
 		/*$(".login-area").html("Signed in as <a href='" + json.url + "'>" + json.name + "</a>");*/
 		//$(".login-area").removeClass("no-margin");
 		console.log("Your name is "+ json.name + ", " + json.url);
-          onAuthApiLoad();
+       onApiLoad();
 	}, function(e){
 		console.log("Whoops! " + e.error.message );
 	});
@@ -66,7 +66,7 @@ function getGoogleProfileName(){
       // Scope to use to access user's photos.
    //   var scope = ['https://www.googleapis.com/auth/drive.readonly'];
 
-     // var pickerApiLoaded = false;
+      var pickerApiLoaded = false;
       var oauthToken;
 
       // Use the API Loader script to load google.picker and gapi.auth.
@@ -82,17 +82,18 @@ function getGoogleProfileName(){
               'scope': SCOPES,
               'immediate': false
             },
-            handleAuthResultG());
+            handleAuthResultG);
       }
 
       function onPickerApiLoad() {
         pickerApiLoaded = true;
-        createPicker();
+      //  createPicker();
       }
 
       function handleAuthResultG(authResult) {
+        
         if (authResult && !authResult.error) {
-          oauthToken = authResult.access_token;
+            oauthToken = authResult.access_token;
         }
       }
 
@@ -114,9 +115,14 @@ function getGoogleProfileName(){
         if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
           var doc = data[google.picker.Response.DOCUMENTS][0];
           url = doc[google.picker.Document.URL];
+          
         }
-        var message = 'You picked: ' + url;
-        document.getElementById('result').innerHTML = message;
+          $.getJSON(url, function(resp) {
+    console.log(resp);
+    
+    
+});
+        // document.getElementById('result').innerHTML = message;
       }
     //end Google Picker
         
@@ -124,10 +130,7 @@ function insertFile(stmtLst) {
        const boundary = '-------314159265358979323846264';
         const delimiter = "\r\n--" + boundary + "\r\n";
         const close_delim = "\r\n--" + boundary + "--";
-        var appState = {
-          number: 12,
-          text: 'hello'
-        };
+
         var fileName = 'RebroCommands.txt';
         var contentType = 'application/json';
         var metadata = {
@@ -155,41 +158,10 @@ function insertFile(stmtLst) {
             'body': multipartRequestBody});
         request.execute(function(arg) {
           console.log(arg);
+            alert("Commands Saved as RebroCommands.txt");
         });
       };
     
-        /**
-       * Check if the current user has authorized the application.
-       */
-   function checkAuth() {
-        gapi.auth.authorize(
-            {'client_id': CLIENT_ID, 'scope': SCOPES, 'immediate': true},
-            handleAuthResult);
-      };
- 
-      /**
-       * Called when authorization server replies.
-       *
-       * @param {Object} authResult Authorization result.
-       */
-function handleAuthResult(authResult) {
-        var authButton = document.getElementById('authorizeButton');
-        var doitButton = document.getElementById('doitButton');
-        authButton.style.display = 'none';
-        doitButton.style.display = 'none';
-        if (authResult && !authResult.error) {
-          // Access token has been successfully retrieved, requests can be sent to the API.
-          doitButton.style.display = 'block';
-          doitButton.onclick = uploadFile; 
-        } else {
-          // No access token could be retrieved, show the button to start the authorization flow.
-          authButton.style.display = 'block';
-          authButton.onclick = function() {
-              gapi.auth.authorize(
-                  {'client_id': CLIENT_ID, 'scope': SCOPES, 'immediate': false},
-                  handleAuthResult);
-          };
-        }
-      };
+
     
     
