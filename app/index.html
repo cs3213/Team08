@@ -97,7 +97,8 @@
             </div>
             <div id="row1.2" style="border: 1px solid #333; height: 460px;">
                 {{model.character.xPos}}  {{model.character.yPos}}
-                <div class="character" ng-class="model.character.costume" ng-style="{'top': model.character.yPos + 'px', 'left': model.character.xPos + 'px'}"></div>
+                <div class="character" ng-class="model.character.costume" ng-show="model.character.isVisible"
+                     ng-style="{'top': model.character.yPos + 'px', 'left': model.character.xPos + 'px'}"></div>
             </div>
         </div>
     </div>
