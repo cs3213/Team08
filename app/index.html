@@ -46,7 +46,7 @@
         <ul class="nav nav-pills pull-left">
             <li class="active"><a ng-href="#" ng-click="">New</a></li>
             <li><a ng-href="#/about">Load</a></li>
-            <li><a ng-href="#" ng-click="insertJFile('aa')">Save</a></li>
+            <li><a ng-href="#" ng-click="insertJFile()">Save</a></li>
         </ul>
         <ul class="nav nav-pills pull-right">
             
@@ -134,7 +134,7 @@
 <script src="scripts/app-classes.js"></script>
 <script src="scripts/services/command-factory.js"></script>
 <script src="scripts/services/compiler.js"></script>
-   
+    <script type="text/javascript" src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
 <!-- endbuild -->
      <script type ="text/ng-template" id="nest_Item.html">
     <div class="apps-container repeat" ui-sortable="sortableOptions" ng-model="ngModelItem.stmtList">

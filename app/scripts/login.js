@@ -1,7 +1,8 @@
     //Dev Parameters
     var CLIENT_ID = '762525072987-jvj4k7qp586b3ro93dfq3ieiegjo6f37.apps.googleusercontent.com';
     var developerKey = 'AIzaSyDBKs5GQEYcqvHSTvlRKu_hs9JhanUdu3o';
-
+    var SCOPES = 'https://www.googleapis.com/auth/drive';
+ 
     
 hello.init({ 
 	google   : CLIENT_ID}
@@ -15,6 +16,7 @@ hello.init({
         hello('google').login();
         getGoogleProfileName();
         document.getElementById(btId).value = "Logout";
+        
     }
     else if(myVal == "logout"){
          window.location.assign("https://accounts.google.com/logout")
@@ -34,7 +36,7 @@ hello.on('auth.login', function(auth){
 hello.on('auth.logout', function(auth){
 	console.log("You are signed out from Google");    
     document.getElementById('login-area').innerHTML = "<a ng-href=\"#\" onclick=\"hello('google').login();getGoogleProfileName();\">Log In</a>";
-    
+  
 }, function(e){
 	alert( "Signed out error: " + e.error.message );
 });
@@ -48,6 +50,7 @@ function getGoogleProfileName(){
 		/*$(".login-area").html("Signed in as <a href='" + json.url + "'>" + json.name + "</a>");*/
 		//$(".login-area").removeClass("no-margin");
 		console.log("Your name is "+ json.name + ", " + json.url);
+          onAuthApiLoad();
 	}, function(e){
 		console.log("Whoops! " + e.error.message );
 	});
@@ -61,9 +64,9 @@ function getGoogleProfileName(){
       // The Client ID obtained from the Google Developers Console.
 
       // Scope to use to access user's photos.
-      var scope = ['https://www.googleapis.com/auth/drive.readonly'];
+   //   var scope = ['https://www.googleapis.com/auth/drive.readonly'];
 
-      var pickerApiLoaded = false;
+     // var pickerApiLoaded = false;
       var oauthToken;
 
       // Use the API Loader script to load google.picker and gapi.auth.
@@ -73,14 +76,13 @@ function getGoogleProfileName(){
       }
 
       function onAuthApiLoad() {
-        
-          window.gapi.auth.authorize(
+         window.gapi.auth.authorize(
             {
               'client_id': CLIENT_ID,
-              'scope': scope,
+              'scope': SCOPES,
               'immediate': false
             },
-            handleAuthResultG);
+            handleAuthResultG());
       }
 
       function onPickerApiLoad() {
@@ -91,7 +93,6 @@ function getGoogleProfileName(){
       function handleAuthResultG(authResult) {
         if (authResult && !authResult.error) {
           oauthToken = authResult.access_token;
-          createPicker();
         }
       }
 
@@ -119,10 +120,76 @@ function getGoogleProfileName(){
       }
     //end Google Picker
         
+function insertFile(stmtLst) {
+       const boundary = '-------314159265358979323846264';
+        const delimiter = "\r\n--" + boundary + "\r\n";
+        const close_delim = "\r\n--" + boundary + "--";
+        var appState = {
+          number: 12,
+          text: 'hello'
+        };
+        var fileName = 'RebroCommands.txt';
+        var contentType = 'application/json';
+        var metadata = {
+          'title': fileName,
+          'mimeType': contentType
+        };
+        var base64Data = btoa(stmtLst);
+        var multipartRequestBody =
+            delimiter +
+            'Content-Type: application/json\r\n\r\n' +
+            JSON.stringify(metadata) +
+            delimiter +
+            'Content-Type: ' + contentType + '\r\n' +
+            'Content-Transfer-Encoding: base64\r\n' +
+            '\r\n' +
+            base64Data +
+            close_delim;
+        var request = gapi.client.request({
+            'path': '/upload/drive/v2/files',
+            'method': 'POST',
+            'params': {'uploadType': 'multipart'},
+            'headers': {
+              'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
+            },
+            'body': multipartRequestBody});
+        request.execute(function(arg) {
+          console.log(arg);
+        });
+      };
     
-    //write stm to json format
-   function insertJFile(stmLst){
-       console.log(angular.toJson(stmLst, true));
-   }
+        /**
+       * Check if the current user has authorized the application.
+       */
+   function checkAuth() {
+        gapi.auth.authorize(
+            {'client_id': CLIENT_ID, 'scope': SCOPES, 'immediate': true},
+            handleAuthResult);
+      };
+ 
+      /**
+       * Called when authorization server replies.
+       *
+       * @param {Object} authResult Authorization result.
+       */
+function handleAuthResult(authResult) {
+        var authButton = document.getElementById('authorizeButton');
+        var doitButton = document.getElementById('doitButton');
+        authButton.style.display = 'none';
+        doitButton.style.display = 'none';
+        if (authResult && !authResult.error) {
+          // Access token has been successfully retrieved, requests can be sent to the API.
+          doitButton.style.display = 'block';
+          doitButton.onclick = uploadFile; 
+        } else {
+          // No access token could be retrieved, show the button to start the authorization flow.
+          authButton.style.display = 'block';
+          authButton.onclick = function() {
+              gapi.auth.authorize(
+                  {'client_id': CLIENT_ID, 'scope': SCOPES, 'immediate': false},
+                  handleAuthResult);
+          };
+        }
+      };
     
     

@@ -8,10 +8,11 @@ myapp.controller('masterCtrl', function($scope) {
 myapp.controller('saveCtrl', function($scope) {
  
         $scope.insertJFile = function (){
-        alert( $scope.model.program.stmtList);
-       console.log(angular.toJson($scope.model.program.stmtList, true));
-   };
-  
+        console.log(angular.toJson($scope.model.program.stmtList, true));
+   insertFile(angular.toJson($scope.model.program.stmtList, true));
+        //$scope.insertFile(angular.toJson($scope.model.program.stmtList, true));
+   };  
+      
 });
 
 myapp.controller('sortableController', function ($scope, $interval, Program, Statement, Character, CompilerSvc) {
