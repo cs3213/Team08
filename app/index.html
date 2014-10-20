@@ -49,11 +49,12 @@
             <li><a ng-href="#">Save</a></li>
         </ul>
         <ul class="nav nav-pills pull-right">
-            <li><a ng-href="#" onclick="hello('google').login();getGoogleProfileName();">Log In</a>
+            
+            <li> <div id="login-area"><a ng-href="#" onclick="hello('google').login();getGoogleProfileName();">Log In</a> </div>
             </li>
-            <li><div id="login-area"></div>
-       <div id="result"></div></script>
-            </li>
+          
+      <li><div id="result"></div></li> 
+            
         </ul>
         <h3 class="text-muted text-center">rebro</h3>
     </div>
@@ -123,6 +124,7 @@
 <script src="bower_components/jquery-ui/jquery-ui.js"></script>
 <script src="bower_components/angular-ui-sortable/sortable.js"></script>
 <script src="bower_components/hello/dist/hello.js"></script>
+
 <!-- endbower -->
 <!-- endbuild -->
 
@@ -133,7 +135,7 @@
 <script src="scripts/app-classes.js"></script>
 <script src="scripts/services/command-factory.js"></script>
 <script src="scripts/services/compiler.js"></script>
-    
+   
 <!-- endbuild -->
      <script type ="text/ng-template" id="nest_Item.html">
     <div class="apps-container repeat" ui-sortable="sortableOptions" ng-model="ngModelItem.stmtList">

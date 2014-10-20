@@ -8,6 +8,19 @@ hello.init({
 , {redirect_uri: 'http://localhost:9000/index.html'}
 );
 
+//test login
+    function toggleLog(myVal, btId){
+        
+    if(myVal == "Login"){
+        hello('google').login();
+        getGoogleProfileName();
+        document.getElementById(btId).value = "Logout";
+    }
+    else if(myVal == "logout"){
+         window.location.assign("https://accounts.google.com/logout")
+    }
+}
+
   /*  
 //when user click login
 hello.on('auth.login', function(auth){
@@ -20,6 +33,8 @@ hello.on('auth.login', function(auth){
     //listener for authenticator to logout
 hello.on('auth.logout', function(auth){
 	console.log("You are signed out from Google");    
+    document.getElementById('login-area').innerHTML = "<a ng-href=\"#\" onclick=\"hello('google').login();getGoogleProfileName();\">Log In</a>";
+    
 }, function(e){
 	alert( "Signed out error: " + e.error.message );
 });
@@ -29,8 +44,9 @@ hello.on('auth.logout', function(auth){
 //input username
 function getGoogleProfileName(){
 	hello( "google" ).api("me").then(function(json){
-		$(".login-area").html("Signed in as <a href='" + json.url + "'>" + json.name + "</a>");
-		$(".login-area").removeClass("no-margin");
+        document.getElementById('login-area').innerHTML = "Signed in as <a href='" + json.url + "'>" + json.name + "</a></br><a onclick=\"hello.logout()\">log out</a>";
+		/*$(".login-area").html("Signed in as <a href='" + json.url + "'>" + json.name + "</a>");*/
+		//$(".login-area").removeClass("no-margin");
 		console.log("Your name is "+ json.name + ", " + json.url);
 	}, function(e){
 		console.log("Whoops! " + e.error.message );
