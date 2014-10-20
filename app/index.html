@@ -26,12 +26,16 @@
         }
         .character {
             height: 100px;
-            width: 80px;
+            width: 90px;
             background-image: url('http://www.pixentral.com/pics/1t6fTMLSw9s24qiVwQSqF0n0FpmjhZ.png');
             background-size: 100%;
+            background-repeat: no-repeat;
             position: relative;
             top:30px;
             left:30px;
+        }
+        .costume-brainy {
+            background-image: url('http://www.pixentral.com/pics/1AUkXIBm3XbYPNWYR5wSRpQ6FnZD0l.png') !important;
         }
     </style>
 </head>
@@ -93,7 +97,7 @@
             </div>
             <div id="row1.2" style="border: 1px solid #333; height: 460px;">
                 {{model.character.xPos}}  {{model.character.yPos}}
-                <div class="character" ng-style="{'top': model.character.yPos + 'px', 'left': model.character.xPos + 'px'}"></div>
+                <div class="character" ng-class="model.character.costume" ng-style="{'top': model.character.yPos + 'px', 'left': model.character.xPos + 'px'}"></div>
             </div>
         </div>
     </div>

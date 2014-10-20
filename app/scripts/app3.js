@@ -66,7 +66,7 @@ myapp.controller('sortableController', function ($scope, $interval, Program, Sta
     show.hasValue = false;
     show.hasList = false;
     
-    var changeCostume = new Statement('changeCostume', 'default-url');
+    var changeCostume = new Statement('changeCostume', 'costume-brainy');
     changeCostume.hasValue = true;
     changeCostume.hasList = false;
     
