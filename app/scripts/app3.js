@@ -1,6 +1,11 @@
 var myapp = angular.module('rebroApp', ['tg.dynamicDirective','ui.sortable']);
 
-myapp.controller('saveCtrl', function($scope){
+myapp.controller('masterCtrl', function($scope) {
+    $scope.model = {};
+    $scope.drawer = {};
+});
+
+myapp.controller('saveCtrl', function($scope) {
  
         $scope.insertJFile = function (){
         alert( $scope.model.program.stmtList);
@@ -11,7 +16,6 @@ myapp.controller('saveCtrl', function($scope){
 
 myapp.controller('sortableController', function ($scope, $interval, Program, Statement, Character, CompilerSvc) {
     /******* INITIALIZATION ************/
-    $scope.model = {};
     $scope.model.character = new Character();
     $scope.model.program = new Program();
     
@@ -69,8 +73,7 @@ myapp.controller('sortableController', function ($scope, $interval, Program, Sta
     var repeat = new Statement('repeat', '1');
     repeat.hasValue = true;
     repeat.hasList = true;
-    
-    $scope.drawer = {};
+
     $scope.drawer.statements = [setX, setY, moveX, moveY, hide, show, changeCostume, repeat];
     
      $scope.drawer.statementsBackup = angular.copy($scope.drawer.statements);
