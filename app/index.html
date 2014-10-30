@@ -95,7 +95,7 @@
             </div>
         </div>-->
     <script type ="text/ng-template" id="nest_Item.html">
-    <div class="apps-container" ui-sortable="sortableOptions2" ng-model="ngModelItem">
+    <div class="apps-container editor" ui-sortable="sortableOptions2" ng-model="ngModelItem">
         <div class="stmt-block" ng-repeat="innerItem in ngModelItem" ng-model="ngModelItem">
         <span>{{innerItem.type}}</span>
         <input class="btnTextSize" type="text" ng-model="innerItem.args[0]"  ng-show="innerItem.hasValue" value="{{innerItem.args[0]}}">
