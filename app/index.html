@@ -110,7 +110,7 @@
   </script>
             
  <script type ="text/ng-template" id="nest_Item2.html">
-    <div class="apps-container " ui-sortable="sortableOptions2" ng-model="ngModelItem">
+    <div class="apps-container repeat" ui-sortable="sortableOptions2" ng-model="ngModelItem">
         <div class="stmt-block" ng-repeat="innerItem2 in ngModelItem" ng-model="ngModelItem">
         <span>{{innerItem2.type}}</span>
         <input class="btnTextSize" type="text" ng-model="innerItem2.args[0]"  ng-show="innerItem2.hasValue" value="{{innerItem2.args[0]}}">
