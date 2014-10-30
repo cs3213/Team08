@@ -92,10 +92,7 @@ myapp.controller('sortableController', function ($scope, $interval, Program, Sta
     
      $scope.drawer.statementsBackup = angular.copy($scope.drawer.statements);
     
-     $scope.change = function() {
-        $scope.drawer.statements = [];
-        $scope.drawer.statements = angular.copy($scope.drawer.statementsBackup);
-      };
+
     
  // $scope.items = $scope.rootItem.items;
     $scope.sortableOptions = {
@@ -138,18 +135,25 @@ myapp.controller('sortableController', function ($scope, $interval, Program, Sta
             
 		}
 	}*/
+        
+        
   };
     
-    
-    $scope.getView = function(item){
-    console.log(angular.toJson(item));
-     if(item.hasList)   {
-            return "nest_Item.html";    
-    
-        
+    $scope.getViewRepeat = function(item){
+     if(item)   {
+         console.log("asd");
+        return "nest_Item2.html";   
      }
         return null;
     };
+        
+    $scope.getView = function(item){
+    if(item){
+            console.log("asdaaa");
+        return "nest_Item.html";   
+     }
+        return null;
+       };
     
 
 });
