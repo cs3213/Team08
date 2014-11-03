@@ -6,12 +6,17 @@ angular.module('rebroApp')
         this.stmtList = [];
     })
 
-    .value('Statement', function(type) {
+    .value('Statement', function(type, isContainer) {
         this.type = type;
+        this.isContainer = isContainer;
         this.args = [];
         this.stmtList = [];
 
-        for (var i = 1; i < arguments.length; i++) {
+        this.hasArgs = function() {
+            return this.args.length > 0;
+        };
+
+        for (var i = 2; i < arguments.length; i++) {
             this.args.push(arguments[i]);
         }
     })

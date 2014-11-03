@@ -9,7 +9,6 @@
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-    <link rel="stylesheet" href="bower_components/angular-ui-tree/dist/angular-ui-tree.min.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -73,7 +72,7 @@
             drawer
             <div ng-repeat="templateStmt in drawer.statements" ng-model="drawer.statements" class="stmt-block" >
                 <span>{{templateStmt.type}}</span>
-                <input class="btnTextSize" type="text" ng-model="templateStmt.args[0]" ng-show="templateStmt.hasValue" size="10" value="{{templateStmt.args[0]}}">
+                <input class="btnTextSize" type="text" ng-model="templateStmt.args[0]" ng-show="templateStmt.hasArgs()" size="10" value="{{templateStmt.args[0]}}">
 
             </div>
         </div>
@@ -86,9 +85,9 @@
              </tg-dynamic-directive>
              <div style="clear: both;"></div>
         <!--    <div ng-repeat="stmt in model.program.stmtList" ng-model="model.program.stmtList" class="stmt-block">
-                <span ng-hide="stmt.hasList">{{stmt.type}}</span>
-                <input class="btnTextSize" type="text" ng-model="stmt.args[0]"  ng-show="stmt.hasValue && !stmt.hasList" value="{{stmt.args[0]}}">
-            <span ng-show="stmt.hasList" >
+                <span ng-hide="stmt.isContainer">{{stmt.type}}</span>
+                <input class="btnTextSize" type="text" ng-model="stmt.args[0]"  ng-show="stmt.hasArgs() && !stmt.isContainer" value="{{stmt.args[0]}}">
+            <span ng-show="stmt.isContainer" >
                 <tg-dynamic-directive  ng-model="stmt" tg-dynamic-directive-view="getView">
                 </tg-dynamic-directive>
             </span>
@@ -98,8 +97,8 @@
     <div class="apps-container editor" ui-sortable="sortableOptions2" ng-model="ngModelItem">
         <div class="stmt-block" ng-repeat="innerItem in ngModelItem" ng-model="ngModelItem">
         <span>{{innerItem.type}}</span>
-        <input class="btnTextSize" type="text" ng-model="innerItem.args[0]"  ng-show="innerItem.hasValue" value="{{innerItem.args[0]}}">
-        <span ng-show="innerItem.hasList">         
+        <input class="btnTextSize" type="text" ng-model="innerItem.args[0]"  ng-show="innerItem.hasArgs()" value="{{innerItem.args[0]}}">
+        <span ng-show="innerItem.isContainer">         
                 <tg-dynamic-directive  ng-model="innerItem.stmtList" tg-dynamic-directive-view="getViewRepeat">
                 </tg-dynamic-directive>
                 <div style="clear: both;"></div>
@@ -113,8 +112,8 @@
     <div class="apps-container repeat" ui-sortable="sortableOptions2" ng-model="ngModelItem">
         <div class="stmt-block" ng-repeat="innerItem2 in ngModelItem" ng-model="ngModelItem">
         <span>{{innerItem2.type}}</span>
-        <input class="btnTextSize" type="text" ng-model="innerItem2.args[0]"  ng-show="innerItem2.hasValue" value="{{innerItem2.args[0]}}">
-        <span ng-show="innerItem2.hasList">         
+        <input class="btnTextSize" type="text" ng-model="innerItem2.args[0]"  ng-show="innerItem2.hasArgs()" value="{{innerItem2.args[0]}}">
+        <span ng-show="innerItem2.isContainer">         
                 <tg-dynamic-directive  ng-model="innerItem2.stmtList" tg-dynamic-directive-view="getViewRepeat">
                 </tg-dynamic-directive>
                 <div style="clear: both;"></div>
@@ -171,7 +170,6 @@
 <script src="bower_components/angular-route/angular-route.js"></script>
 <script src="bower_components/jquery-ui/jquery-ui.js"></script>
 <script src="bower_components/angular-ui-sortable/sortable.js"></script>
-<script src="bower_components/angular-ui-tree/dist/angular-ui-tree.js"></script>
 <script src="bower_components/hello/dist/hello.all.min.js"></script>
 <!-- endbower -->
 <!-- endbuild -->
@@ -183,6 +181,7 @@
 <script src="scripts/app-classes.js"></script>
 <script src="scripts/services/command-factory.js"></script>
 <script src="scripts/services/compiler.js"></script>
+<script src="scripts/services/statement-repository.js"></script>
     <script type="text/javascript" src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
 <!-- endbuild -->
  

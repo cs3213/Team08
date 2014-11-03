@@ -3,7 +3,6 @@ var myapp = angular.module('rebroApp', ['tg.dynamicDirective','ui.sortable']);
 myapp.controller('masterCtrl', function($scope) {
     $scope.model = {};
     $scope.drawer = {};
-    $scope.dragger = {};
     $scope.lala=function(){
       $scope.model.xxx = angular.toJson($scope.model.program) + "</br>";
     };
@@ -28,7 +27,7 @@ myapp.controller('headerCtrl', function($scope, Program, Character) {
       
 });
 
-myapp.controller('sortableController', function ($scope, $interval, Program, Statement, Character, CompilerSvc) {
+myapp.controller('sortableController', function ($scope, $interval, Program, Statement, Character, CompilerSvc, StatementRepository) {
     /******* INITIALIZATION ************/
     $scope.model.character = new Character();
     $scope.model.program = new Program();
@@ -55,42 +54,8 @@ myapp.controller('sortableController', function ($scope, $interval, Program, Sta
             }
         }, 200);
     };
-    /************************************/
-    var setX = new Statement('setX', 0);
-    setX.hasValue = true;
-    setX.hasList = false;
-    
-    var setY = new Statement('setY', 0);
-    setY.hasValue = true;
-    setY.hasList = false;
-    
-    var moveX = new Statement('moveX', 0);
-    moveX.hasValue = true;
-    moveX.hasList = false;
-    
-    var moveY = new Statement('moveY', 0);
-    moveY.hasValue = true;
-    moveY.hasList = false;
-    
-    var hide = new Statement('hide', 0);
-    hide.hasValue = false;
-    hide.hasList = false;
-    
-    var show = new Statement('show', 0);
-    show.hasValue = false;
-    show.hasList = false;
-    
-    var changeCostume = new Statement('changeCostume', 'costume-brainy');
-    changeCostume.hasValue = true;
-    changeCostume.hasList = false;
-    
-    var repeat = new Statement('repeat', '1');
-    repeat.hasValue = true;
-    repeat.hasList = true;
 
-    $scope.drawer.statements = [setX, setY, moveX, moveY, hide, show, changeCostume, repeat];
-    
-     $scope.drawer.statementsBackup = angular.copy($scope.drawer.statements);
+    $scope.drawer.statements = StatementRepository.getStatementTemplates();
     
 
     
@@ -101,7 +66,7 @@ myapp.controller('sortableController', function ($scope, $interval, Program, Sta
     
      start:function(event,ui){
            $(ui.item).show();
-             $scope.drawer.statements = angular.copy($scope.drawer.statementsBackup);
+           $scope.drawer.statements = StatementRepository.getStatementTemplates();
     },
     stop:function(event, ui){
              $(ui.item).remove();
