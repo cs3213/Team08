@@ -103,10 +103,24 @@ myapp.controller('sortableController', function ($scope, $interval, Program, Sta
         
         
   };
+
+  $scope.colors = [
+      {name:'black', shade:'dark'},
+      {name:'white', shade:'light'},
+      {name:'red', shade:'dark'},
+      {name:'blue', shade:'dark'},
+      {name:'yellow', shade:'light'}
+    ];
+    
+    $scope.programVariables=[
+                {name:'x', value:'5'},
+            {name:'black', value:'5'}
+            
+            
+    ];
     
     $scope.getViewRepeat = function(item){
      if(item)   {
-         console.log("asd");
         return "nest_Item2.html";   
      }
         return null;
@@ -114,7 +128,6 @@ myapp.controller('sortableController', function ($scope, $interval, Program, Sta
         
     $scope.getView = function(item){
     if(item){
-            console.log("asdaaa");
         return "nest_Item.html";   
      }
         return null;

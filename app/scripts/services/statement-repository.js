@@ -3,6 +3,14 @@
 angular.module('rebroApp')
 
     .factory('StatementRepository', function (Statement) {
+        var operators= ['+', '-', '*', '/', '%'];
+        var programVariables=[
+                    {name:'x', value:'5'},
+            {name:'black', value:'5'}
+
+            
+            
+        ];
         var templates = [
             new Statement('setX', false, 0),
             new Statement('setY', false, 0),
@@ -11,7 +19,9 @@ angular.module('rebroApp')
             new Statement('hide', false),
             new Statement('show', false),
             new Statement('changeCostume', false, 'costume-brainy'),
-            new Statement('repeat', true, '1')
+            new Statement('repeat', true, '1'),
+            new Statement('Forever Loop', true),
+            new Statement('var', false, 0 , operators)
         ];
 
         return {
