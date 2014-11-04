@@ -119,7 +119,7 @@
         </div>
         
 <!--============Editor box==================--> 
-        <div class="col-xs-3 fixed-height editor" ui-sortable="sortableOptions2" ng-model="model.program.stmtList" style="border: 1px solid #333;">
+        <div class="col-xs-3 fixed-height  editor" ui-sortable="sortableOptions2" ng-model="model.program.stmtList" style="border: 1px solid #333;">
             editor {{model.program.stmtList.length}}
              <tg-dynamic-directive ng-model="model.program.stmtList" tg-dynamic-directive-view="getView">
              </tg-dynamic-directive>
@@ -153,7 +153,7 @@
                               
                 </span>
         <span ng-show="innerItem.isContainer">         
-                <tg-dynamic-directive  ng-model="innerItem.stmtList" tg-dynamic-directive-view="getViewRepeat">
+                <tg-dynamic-directive  ng-model="innerItem.stmtList" tg-dynamic-directive-view="getView">
                 </tg-dynamic-directive>
                 <div style="clear: both;"></div>
         </span>
@@ -162,10 +162,32 @@
      </script>
             
     <script type ="text/ng-template" id="nest_Item2.html">
-    <div class="apps-container repeat" ui-sortable="sortableOptions2" ng-model="ngModelItem">
+    <div class="apps-container editor" ui-sortable="sortableOptions2" ng-model="ngModelItem">
         <div class="stmt-block" ng-repeat="innerItem2 in ngModelItem" ng-model="ngModelItem">
         <span>{{innerItem2.type}}</span>
-        <input class="btnTextSize" type="text" ng-model="innerItem2.args[0]"  ng-show="innerItem2.hasArgs()" value="{{innerItem2.args[0]}}">
+        <span ng-show="innerItem2.hasArgs() && innerItem2.type !== 'assign'">
+                <input class="btnTextSize" type="text" ng-model="innerItem2.args[0]"  size="10" value="{{templateStmt.args[0]}}">
+                </span>
+
+                <span ng-show="innerItem2.type === 'assign'">
+
+                <input type="text" ng-model="innerItem2.args[0]" typeahead="var.name for var in programVariables" placeholder="var" class="variableBox">
+                =
+
+                <span ng-repeat="ops in innerItem2.args[1] track by $index">
+                 <span ng-if="$even">
+                 <input type="text" ng-model="ops" typeahead="var.name for var in programVariables" placeholder="var" class="variableBox">
+                 </span>
+                 <span ng-if="$odd">
+                 <input type="text" ng-model="ops" typeahead="oper for oper in operators" placeholder="oper" class="operatorBox">
+                 </span>
+                </span>
+
+                <span ng-click="innerItem2.addOperation()" class="addOperationbtn">
+                </span>
+                <span ng-click="innerItem2.removeOperation()" class="removeOperationbtn"></span>
+                              
+                </span>
         <span ng-show="innerItem2.isContainer">         
                 <tg-dynamic-directive  ng-model="innerItem2.stmtList" tg-dynamic-directive-view="getViewRepeat">
                 </tg-dynamic-directive>

@@ -83,6 +83,11 @@ body {
     height: 520px;
 }
 
+.scrollable-menu {
+    max-height: 520px;
+    overflow-y: auto;
+}
+
 .variableBox{
   width:40px;
 }

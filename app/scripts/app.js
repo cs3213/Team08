@@ -51,6 +51,8 @@ myapp.controller('sortableController', function ($scope, Program, Statement, Cha
     $scope.drawer.statements = StatementRepository.getStatementTemplates();
        
     $scope.operators= ['+', '-', '*', '/', '%'];
+
+    $scope.booleanOper= ['>', '<', '==', '>=', '<=', '!='];
     
     $scope.programVariables=[
             {name:'x', value:'5'},
