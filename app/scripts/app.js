@@ -1,4 +1,4 @@
-var myapp = angular.module('rebroApp', ['tg.dynamicDirective','ui.sortable']);
+var myapp = angular.module('rebroApp', ['tg.dynamicDirective','ui.sortable','ui.bootstrap']);
 
 myapp.controller('masterCtrl', function($scope) {
     $scope.model = {};
@@ -49,8 +49,10 @@ myapp.controller('sortableController', function ($scope, Program, Statement, Cha
     };
 
     $scope.drawer.statements = StatementRepository.getStatementTemplates();
+       
+    $scope.operators= ['+', '-', '*', '/', '%'];
     
- $scope.programVariables=[
+    $scope.programVariables=[
             {name:'x', value:'5'},
             {name:'black', value:'5'}
             

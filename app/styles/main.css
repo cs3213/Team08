@@ -84,8 +84,10 @@ body {
 }
 
 .variableBox{
-  width:50px;
-
+  width:40px;
+}
+.operatorBox{
+  width:20px;
 }
 
 tg-dynamic-directive {

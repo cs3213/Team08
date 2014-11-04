@@ -13,7 +13,6 @@
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/acute.select.css" />
     <!-- endbuild -->
     <style>
      
@@ -38,6 +37,22 @@
         }
         .costume-brainy {
             background-image: url('http://www.pixentral.com/pics/1AUkXIBm3XbYPNWYR5wSRpQ6FnZD0l.png') !important;
+        }
+        .addOperationbtn {
+            float: right;
+            background-image: url("images/plus.gif");
+            background-size: 100%;
+            position: relative;
+             height: 20px;
+            width: 20px;
+        }
+        .removeOperationbtn {
+            float: right;
+            background-image: url("images/minus.gif");
+            background-size: 100%;
+            position: relative;
+             height: 20px;
+            width: 20px;
         }
     </style>
 </head>
@@ -84,12 +99,22 @@
 
                 <input type="text" ng-model="templateStmt.args[0]" typeahead="var.name for var in programVariables" placeholder="var" class="variableBox">
                 =
-                <input type="text" ng-model="templateStmt.args[1][0]" typeahead="var.name for var in programVariables" placeholder="var" class="variableBox">
-             
+
+                <span ng-repeat="ops in templateStmt.args[1] track by $index">
+                 <span ng-if="$even">
+                 <input type="text" ng-model="ops" typeahead="var.name for var in programVariables" placeholder="var" class="variableBox">
+                 </span>
+                 <span ng-if="$odd">
+                 <input type="text" ng-model="ops" typeahead="oper for oper in operators" placeholder="oper" class="operatorBox">
+                 </span>
                 </span>
 
+                <span ng-click="templateStmt.addOperation()" class="addOperationbtn">
+                </span>
+                <span ng-click="templateStmt.removeOperation()" class="removeOperationbtn"></span>
+                              
+                </span>
               
-                
             </div>
         </div>
         
@@ -104,7 +129,29 @@
     <div class="apps-container editor" ui-sortable="sortableOptions2" ng-model="ngModelItem">
         <div class="stmt-block" ng-repeat="innerItem in ngModelItem" ng-model="ngModelItem">
         <span>{{innerItem.type}}</span>
-        <input class="btnTextSize" type="text" ng-model="innerItem.args[0]"  ng-show="innerItem.hasArgs()" value="{{innerItem.args[0]}}">
+        <span ng-show="innerItem.hasArgs() && innerItem.type !== 'assign'">
+                <input class="btnTextSize" type="text" ng-model="innerItem.args[0]"  size="10" value="{{templateStmt.args[0]}}">
+                </span>
+
+                <span ng-show="innerItem.type === 'assign'">
+
+                <input type="text" ng-model="innerItem.args[0]" typeahead="var.name for var in programVariables" placeholder="var" class="variableBox">
+                =
+
+                <span ng-repeat="ops in innerItem.args[1] track by $index">
+                 <span ng-if="$even">
+                 <input type="text" ng-model="ops" typeahead="var.name for var in programVariables" placeholder="var" class="variableBox">
+                 </span>
+                 <span ng-if="$odd">
+                 <input type="text" ng-model="ops" typeahead="oper for oper in operators" placeholder="oper" class="operatorBox">
+                 </span>
+                </span>
+
+                <span ng-click="innerItem.addOperation()" class="addOperationbtn">
+                </span>
+                <span ng-click="innerItem.removeOperation()" class="removeOperationbtn"></span>
+                              
+                </span>
         <span ng-show="innerItem.isContainer">         
                 <tg-dynamic-directive  ng-model="innerItem.stmtList" tg-dynamic-directive-view="getViewRepeat">
                 </tg-dynamic-directive>
