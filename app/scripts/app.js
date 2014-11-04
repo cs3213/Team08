@@ -27,32 +27,25 @@ myapp.controller('headerCtrl', function($scope, Program, Character) {
       
 });
 
-myapp.controller('sortableController', function ($scope, $interval, Program, Statement, Character, CompilerSvc, StatementRepository) {
+myapp.controller('sortableController', function ($scope, Program, Statement, Character, CompilerSvc, RunnerSvc, StatementRepository) {
     /******* INITIALIZATION ************/
     $scope.model.character = new Character();
     $scope.model.program = new Program();
     
     $scope.onPlay = function() {
         var receiver = $scope.model.character;
-        var executableList = CompilerSvc.compile($scope.model.program, receiver);
+        var build = CompilerSvc.compile($scope.model.program, receiver);
         
         // some temp reset code
         receiver.xPos = 0;
         receiver.yPos = 0;
         receiver.isVisible = true;
 
-        //Perhaps a RunnerSvc
-        $scope.myTempCount = 0;
-        var intervalPromise = $interval(function () {
-            var i = $scope.myTempCount;
-            if (i < executableList.length) {
-                executableList[i].execute();
-               // $scope.stub.execMsg = $scope.stub.msgs[i];
-                $scope.myTempCount++;
-            } else {
-                $interval.cancel(intervalPromise);
-            }
-        }, 200);
+        $scope.intervalPromise = RunnerSvc.runProgram(build);
+    };
+
+    $scope.onStop = function() {
+        RunnerSvc.stopProgram($scope.intervalPromise);
     };
 
     $scope.drawer.statements = StatementRepository.getStatementTemplates();
