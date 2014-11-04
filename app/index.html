@@ -72,27 +72,32 @@
             drawer
             <div ng-repeat="templateStmt in drawer.statements" ng-model="drawer.statements" class="stmt-block" >
                 <span>{{templateStmt.type}}</span>
-                <input class="btnTextSize" type="text" ng-model="templateStmt.args[0]" ng-show="templateStmt.hasArgs()" size="10" value="{{templateStmt.args[0]}}">
+                
+                <span ng-show="templateStmt.hasArgs() && templateStmt.type !== 'var'">
+                <input class="btnTextSize" type="text" ng-model="templateStmt.args[0]"  size="10" value="{{templateStmt.args[0]}}">
+                </span>
 
+                <span ng-show="templateStmt.type === 'var'">
+                <select name="myText" ng-model="templateStmt.args[0]" ng-options="var.name for var in programVariables">        </select>
+
+                = 
+
+
+                </span>
+
+               
+        
+                
             </div>
         </div>
-         
-         
+        
 <!--============Editor box==================--> 
         <div class="col-xs-3 fixed-height editor" ui-sortable="sortableOptions2" ng-model="model.program.stmtList" style="border: 1px solid #333;">
             editor {{model.program.stmtList.length}}
              <tg-dynamic-directive ng-model="model.program.stmtList" tg-dynamic-directive-view="getView">
              </tg-dynamic-directive>
              <div style="clear: both;"></div>
-        <!--    <div ng-repeat="stmt in model.program.stmtList" ng-model="model.program.stmtList" class="stmt-block">
-                <span ng-hide="stmt.isContainer">{{stmt.type}}</span>
-                <input class="btnTextSize" type="text" ng-model="stmt.args[0]"  ng-show="stmt.hasArgs() && !stmt.isContainer" value="{{stmt.args[0]}}">
-            <span ng-show="stmt.isContainer" >
-                <tg-dynamic-directive  ng-model="stmt" tg-dynamic-directive-view="getView">
-                </tg-dynamic-directive>
-            </span>
-            </div>
-        </div>-->
+      
     <script type ="text/ng-template" id="nest_Item.html">
     <div class="apps-container editor" ui-sortable="sortableOptions2" ng-model="ngModelItem">
         <div class="stmt-block" ng-repeat="innerItem in ngModelItem" ng-model="ngModelItem">
@@ -105,10 +110,9 @@
         </span>
         </div>
       </div>
-   
-  </script>
+     </script>
             
- <script type ="text/ng-template" id="nest_Item2.html">
+    <script type ="text/ng-template" id="nest_Item2.html">
     <div class="apps-container repeat" ui-sortable="sortableOptions2" ng-model="ngModelItem">
         <div class="stmt-block" ng-repeat="innerItem2 in ngModelItem" ng-model="ngModelItem">
         <span>{{innerItem2.type}}</span>
@@ -120,8 +124,7 @@
         </span>
         </div>
       </div>
-   
-</script>
+     </script>
          </div>
          
 <!--============Stage box==================--> 
@@ -188,6 +191,8 @@
 <script src="scripts/services/statement-repository.js"></script>
     <script type="text/javascript" src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
 <!-- endbuild -->
- 
+ <script type="text/javascript">
+createEditableSelect(document.forms[0].myText);
+</script>
 </body>
 </html>
