@@ -3,8 +3,9 @@
 angular.module('rebroApp')
     .factory('CompilerSvc', function(CommandFactory) {
 
+        var loopsForever;
         var foreverIndex;
-        var foreverNest;
+        var foreverNestLevel;
 
         function compileRecursively(numTimes, stmtList, receiver, execList, nestLevel) {
 
@@ -12,8 +13,8 @@ angular.module('rebroApp')
                 for (var j = 0; j < stmtList.length; j++) {
                     compileStatement(stmtList[j], receiver, execList, nestLevel);
 
-                    if (nestLevel <= foreverNest) {
-                        break;;
+                    if (nestLevel < foreverNestLevel) {
+                        return execList;
                     }
                 }
             }
@@ -26,7 +27,7 @@ angular.module('rebroApp')
             for (var j = 0; j < stmtList.length; j++) {
                 compileStatement(stmtList[j], receiver, execList, nestLevel);
 
-                if (nestLevel < foreverNest) {
+                if (nestLevel < foreverNestLevel) {
                     break;
                 }
             }
@@ -40,8 +41,9 @@ angular.module('rebroApp')
                 compileRecursively(stmt.args[0], stmt.stmtList, receiver, execList, nestLevel + 1);
 
             } else if (stmt.type === 'forever') {
+                loopsForever = true;
                 foreverIndex = execList.length;
-                foreverNest = nestLevel + 1;
+                foreverNestLevel = nestLevel + 1;
                 compileForever(stmt.stmtList, receiver, execList, nestLevel + 1);
 
             } else {
@@ -52,14 +54,16 @@ angular.module('rebroApp')
 
         return {
             compile: function(program, receiver) {
-                foreverNest = -1;
+                loopsForever = false;
+                foreverNestLevel = -1;
                 foreverIndex = -1;  // no forever looping initially
 
                 var build = {};
                 build.executableList = compileRecursively(1, program.stmtList, receiver, [], 0);
                 build.foreverIndex = foreverIndex;
-                build.loopsForever = function() {
-                    return foreverIndex >= 0;
+                build.loopsForever = loopsForever;
+                build.hasEmptyForever = function() {
+                    return this.foreverIndex >= this.executableList.length;
                 };
 
                 return build;

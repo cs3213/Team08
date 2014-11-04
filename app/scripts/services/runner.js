@@ -11,7 +11,7 @@ angular.module('rebroApp')
                 var intervalPromise = $interval(function () {
                     if (i < build.executableList.length) {
                         build.executableList[i++].execute();
-                    } else if (build.loopsForever()) {
+                    } else if (build.loopsForever && !build.hasEmptyForever()) {
                         i = build.foreverIndex;
                         build.executableList[i++].execute();
                     } else {

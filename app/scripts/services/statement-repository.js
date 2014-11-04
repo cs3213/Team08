@@ -20,7 +20,7 @@ angular.module('rebroApp')
             new Statement('show', false),
             new Statement('changeCostume', false, 'costume-brainy'),
             new Statement('repeat', true, '1'),
-            new Statement('Forever Loop', true),
+            new Statement('forever', true),
             new Statement('var', false, 0 , operators)
         ];
 
