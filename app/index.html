@@ -76,17 +76,16 @@
             <div ng-repeat="templateStmt in drawer.statements" ng-model="drawer.statements" class="stmt-block" >
                 <span>{{templateStmt.type}}</span>
                 
-                <span ng-show="templateStmt.hasArgs() && templateStmt.type !== 'var'">
+                <span ng-show="templateStmt.hasArgs() && templateStmt.type !== 'assign'">
                 <input class="btnTextSize" type="text" ng-model="templateStmt.args[0]"  size="10" value="{{templateStmt.args[0]}}">
                 </span>
 
-                <span ng-show="templateStmt.type === 'var'">
+                <span ng-show="templateStmt.type === 'assign'">
 
                 <input type="text" ng-model="templateStmt.args[0]" typeahead="var.name for var in programVariables" placeholder="var" class="variableBox">
                 =
                 <input type="text" ng-model="templateStmt.args[1][0]" typeahead="var.name for var in programVariables" placeholder="var" class="variableBox">
-                {{templateStmt.args[1][0]= 55}}
-               {{templateStmt.args[1][0]}}
+             
                 </span>
 
               

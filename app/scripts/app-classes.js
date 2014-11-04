@@ -15,10 +15,20 @@ angular.module('rebroApp')
         this.hasArgs = function() {
             return this.args.length > 0;
         };
+        if(type === 'assign'){
+            this.args[1].push()
+
+        };
+
 
         for (var i = 2; i < arguments.length; i++) {
             this.args.push(arguments[i]);
         }
+
+        this.addOperation = function(){
+
+
+        };
     })
 
     .value('Character', function() {
