@@ -14,8 +14,8 @@ angular.module('rebroApp')
             new Statement('changeCostume', false, 'costume-brainy'),
             new Statement('repeat', true, '1'),
             new Statement('forever', true),
-            new Statement('assign', false, '' , []),
-            new Statement('if', 'true', [])
+            new Statement('assign', false, undefined),
+            new Statement('if', 'true')
         ];
 
         return {

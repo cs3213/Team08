@@ -53,10 +53,12 @@ myapp.controller('sortableController', function ($scope, Program, Statement, Cha
     $scope.operators= ['+', '-', '*', '/', '%'];
 
     $scope.booleanOper= ['>', '<', '==', '>=', '<=', '!='];
+
+    $scope.allOperators= $scope.operators.concat($scope.booleanOper);
     
     $scope.programVariables=[
-            {name:'x', value:'5'},
-            {name:'black', value:'5'}
+            {name:'x', value: 0},
+            {name:'y', value: 0}
             
             
     ];
@@ -105,10 +107,6 @@ myapp.controller('sortableController', function ($scope, Program, Statement, Cha
         
         
   };
-
-   
-    
-
     $scope.getViewRepeat = function(item){
      if(item)   {
         return "nest_Item2.html";   
@@ -122,6 +120,39 @@ myapp.controller('sortableController', function ($scope, Program, Statement, Cha
      }
         return null;
        };
-    
-
 });
+
+var secretEmptyKey = '[$empty$]';
+
+myapp.directive('emptyTypeahead', function () {
+      return {
+        require: 'ngModel',
+        link: function (scope, element, attrs, modelCtrl) {
+          // this parser run before typeahead's parser
+          modelCtrl.$parsers.unshift(function (inputValue) {
+            var value = (inputValue ? inputValue : secretEmptyKey); // replace empty string with secretEmptyKey to bypass typeahead-min-length check
+            modelCtrl.$viewValue = value; // this $viewValue must match the inputValue pass to typehead directive
+            return value;
+          });
+          
+          // this parser run after typeahead's parser
+          modelCtrl.$parsers.push(function (inputValue) {
+            return inputValue === secretEmptyKey ? '' : inputValue; // set the secretEmptyKey back to empty string
+          });
+        }
+      }
+    })
+myapp.controller('TypeaheadCtrl', function($scope, $http, $timeout) {
+      
+      $scope.stateComparator = function (state, viewValue) {
+        return viewValue === secretEmptyKey || (''+state).toLowerCase().indexOf((''+viewValue).toLowerCase()) > -1;
+      };
+      
+      $scope.onFocus = function (e) {
+        $timeout(function () {
+          $(e.target).trigger('input');
+          $(e.target).trigger('change'); // for IE
+        });
+      };
+      
+    });
