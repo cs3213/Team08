@@ -66,7 +66,7 @@
 <div ng-cloak class="container">
     
         
-    <div class="header" ng-controller="headerCtrl">
+    <div class="header" id="headerCtrl" ng-controller="headerCtrl">
         <ul class="nav nav-pills pull-left">
             <li class="active"><a ng-href="#" ng-click="newProgram()">New</a></li>
             <li><a ng-href="#" ng-click="createJPicker()">Load</a></li>
@@ -137,6 +137,7 @@
         
 <!--============Editor box==================--> 
         <div class="col-xs-3 fixed-height  editor" ui-sortable="sortableOptions2" ng-model="model.program.stmtList" style="border: 1px solid #333;">
+            {{model.program.stmtList}}
             editor {{model.program.stmtList.length}}
              <tg-dynamic-directive ng-model="model.program.stmtList" tg-dynamic-directive-view="getView">
              </tg-dynamic-directive>

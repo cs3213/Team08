@@ -3,10 +3,7 @@ var myapp = angular.module('rebroApp', ['tg.dynamicDirective','ui.sortable','ui.
 myapp.controller('masterCtrl', function($scope) {
     $scope.model = {};
     $scope.drawer = {};
-    $scope.lala=function(){
-      $scope.model.xxx = angular.toJson($scope.model.program) + "</br>";
-    };
-    
+   
 });
 
 myapp.controller('headerCtrl', function($scope, Program, Character) {
@@ -20,10 +17,15 @@ myapp.controller('headerCtrl', function($scope, Program, Character) {
            createPicker();
     };
     
-        $scope.insertJFile = function (){
-         insertFile(angular.toJson($scope.model.program.stmtList, true));
-        //$scope.insertFile(angular.toJson($scope.model.program.stmtList, true));
+    $scope.insertJFile = function (){
+        insertFile(angular.toJson($scope.model.program.stmtList, true));
    };  
+
+    $scope.loadProgram = function(text){
+      var x = angular.fromJson(text);
+      $scope.model.program.stmtList = angular.copy(x);
+     //angular.element($('#editor')).scope().apply();
+    }
       
 });
 
