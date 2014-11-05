@@ -109,4 +109,4 @@ function compileStatement(stmt, receiver, execList, nestLevel) {
         var command = CommandFactory.createCommand(stmt.type, receiver, stmt.args);
         execList.push(command);
     }
-}/
+}*/
