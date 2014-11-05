@@ -1,7 +1,7 @@
     //Dev Parameters
     var CLIENT_ID = '762525072987-jvj4k7qp586b3ro93dfq3ieiegjo6f37.apps.googleusercontent.com';
     var developerKey = 'AIzaSyDBKs5GQEYcqvHSTvlRKu_hs9JhanUdu3o';
-    var SCOPES = 'https://www.googleapis.com/auth/drive';
+    var SCOPES = 'https://www.googleapis.com/auth/drive.readonly';
  
     
 hello.init({ 
@@ -102,6 +102,7 @@ function createPicker() {
     if (pickerApiLoaded && oauthToken) {
       var picker = new google.picker.PickerBuilder().
           addView(google.picker.ViewId.DOCS).
+          setOrigin(window.location.protocol + '//' + window.location.host).
           setOAuthToken(oauthToken).
           setDeveloperKey(developerKey).
           setCallback(pickerCallback).
@@ -111,14 +112,44 @@ function createPicker() {
 }
     
 function pickerCallback(data) {
-var url = 'nothing';
     if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
-        var doc = data[google.picker.Response.DOCUMENTS][0];
-        url = doc[google.picker.Document.URL];  
+        var fileId = data.docs[0].id;
+        var url = 'https://www.googleapis.com/drive/v2/files/' + fileId;
+        //var doc = data[google.picker.Response.DOCUMENTS][0];
+        getData(url, function(responseText){
+            var metaData = JSON.parse(responseText);
+            getData(metaData.downloadUrl, function(text) {
+                //give ryan: wad u wan is in text :D
+                console.log(text);
+                //=================Ryan this is wad u want above..
+            });
+        });
     }
 }
 //end Google Picker
         
+//Download File
+/**
+ * Download a file's content.
+ */
+function getData(url, callback) {
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            callback(xmlhttp.responseText);
+        }
+    }
+    xmlhttp.open('GET', url, true);
+    var myToken = gapi.auth.getToken();
+    xmlhttp.setRequestHeader('Authorization', 'Bearer ' + myToken.access_token);
+    xmlhttp.send();
+}
+
+
+function alertMe(){
+    console.log("Ello download done!");
+}
+
 function insertFile(stmtLst) {
         const boundary = '-------314159265358979323846264';
         const delimiter = "\r\n--" + boundary + "\r\n";
