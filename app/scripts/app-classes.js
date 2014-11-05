@@ -20,7 +20,7 @@ angular.module('rebroApp')
             this.args.push(arguments[i]);
         }
         if(this.type === 'assign'){
-            this.args[1].push('');
+            this.args[1].push(undefined);
         }
     
 
@@ -32,8 +32,8 @@ angular.module('rebroApp')
         };
 
         this.addOperation = function(){
-            this.args[1].push('');
-            this.args[1].push('');
+            this.args[1].push(undefined);
+            this.args[1].push(undefined);
         };
     })
 
