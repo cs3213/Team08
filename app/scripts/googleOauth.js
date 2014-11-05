@@ -56,78 +56,71 @@ function getGoogleProfileName(){
 	});
 }
     
-    //Start Google Picker
-    //=============================================
-    // The Browser API key obtained from the Google Developers Console.
-      
+//Start Google Picker
+//=============================================
+// The Browser API key obtained from the Google Developers Console.
 
-      // The Client ID obtained from the Google Developers Console.
 
-      // Scope to use to access user's photos.
-   //   var scope = ['https://www.googleapis.com/auth/drive.readonly'];
+// The Client ID obtained from the Google Developers Console.
 
-      var pickerApiLoaded = false;
-      var oauthToken;
+// Scope to use to access user's photos.
+//   var scope = ['https://www.googleapis.com/auth/drive.readonly'];
 
-      // Use the API Loader script to load google.picker and gapi.auth.
-      function onApiLoad() {
-        gapi.load('auth', {'callback': onAuthApiLoad});
-        gapi.load('picker',{'callback': onPickerApiLoad});
-      }
+var pickerApiLoaded = false;
+var oauthToken;
 
-      function onAuthApiLoad() {
-         window.gapi.auth.authorize(
-            {
-              'client_id': CLIENT_ID,
-              'scope': SCOPES,
-              'immediate': false
-            },
-            handleAuthResultG);
-      }
+// Use the API Loader script to load google.picker and gapi.auth.
+function onApiLoad() {
+    gapi.load('auth', {'callback': onAuthApiLoad});
+    gapi.load('picker',{'callback': onPickerApiLoad});
+}
 
-      function onPickerApiLoad() {
-        pickerApiLoaded = true;
-      //  createPicker();
-      }
+function onAuthApiLoad() {
+ window.gapi.auth.authorize(
+    {
+      'client_id': CLIENT_ID,
+      'scope': SCOPES,
+      'immediate': false
+    },
+    handleAuthResultG);
+}
 
-      function handleAuthResultG(authResult) {
-        
-        if (authResult && !authResult.error) {
-            oauthToken = authResult.access_token;
-        }
-      }
+function onPickerApiLoad() {
+pickerApiLoaded = true;
+//  createPicker();
+}
 
-      // Create and render a Picker object for loading items from drive.
-      function createPicker() {
-        if (pickerApiLoaded && oauthToken) {
-          var picker = new google.picker.PickerBuilder().
-              addView(google.picker.ViewId.DOCS).
-              setOAuthToken(oauthToken).
-              setDeveloperKey(developerKey).
-              setCallback(pickerCallback).
-              build();
-          picker.setVisible(true);
-        }
-      }
+function handleAuthResultG(authResult) {
+
+if (authResult && !authResult.error) {
+    oauthToken = authResult.access_token;
+}
+}
+
+// Create and render a Picker object for loading items from drive.
+function createPicker() {
+    if (pickerApiLoaded && oauthToken) {
+      var picker = new google.picker.PickerBuilder().
+          addView(google.picker.ViewId.DOCS).
+          setOAuthToken(oauthToken).
+          setDeveloperKey(developerKey).
+          setCallback(pickerCallback).
+          build();
+      picker.setVisible(true);
+    }
+}
     
-      function pickerCallback(data) {
-        var url = 'nothing';
-        if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
-          var doc = data[google.picker.Response.DOCUMENTS][0];
-          url = doc[google.picker.Document.URL];
-          
-        }
-          $.getJSON(url, function(resp) {
-    console.log(resp);
-    
-    
-});
-        // document.getElementById('result').innerHTML = message;
-      }
-    //end Google Picker
+function pickerCallback(data) {
+var url = 'nothing';
+    if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
+        var doc = data[google.picker.Response.DOCUMENTS][0];
+        url = doc[google.picker.Document.URL];  
+    }
+}
+//end Google Picker
         
 function insertFile(stmtLst) {
-       const boundary = '-------314159265358979323846264';
+        const boundary = '-------314159265358979323846264';
         const delimiter = "\r\n--" + boundary + "\r\n";
         const close_delim = "\r\n--" + boundary + "--";
 
@@ -160,7 +153,7 @@ function insertFile(stmtLst) {
           console.log(arg);
             alert("Commands Saved as RebroCommands.txt");
         });
-      };
+};
     
 
     
