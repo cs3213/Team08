@@ -2,7 +2,7 @@
     var CLIENT_ID = '762525072987-jvj4k7qp586b3ro93dfq3ieiegjo6f37.apps.googleusercontent.com';
     var developerKey = 'AIzaSyDBKs5GQEYcqvHSTvlRKu_hs9JhanUdu3o';
     var SCOPES = 'https://www.googleapis.com/auth/drive.readonly';
- 
+ var myModule = angular.module('myModule', []);
     
 hello.init({ 
 	google   : CLIENT_ID}
@@ -119,9 +119,8 @@ function pickerCallback(data) {
         getData(url, function(responseText){
             var metaData = JSON.parse(responseText);
             getData(metaData.downloadUrl, function(text) {
-                //give ryan: wad u wan is in text :D
-                console.log(text);
-                //=================Ryan this is wad u want above..
+              console.log(text);
+             angular.element($('#headerCtrl')).scope().loadProgram(text);
             });
         });
     }
