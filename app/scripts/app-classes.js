@@ -19,6 +19,22 @@ angular.module('rebroApp')
         for (var i = 2; i < arguments.length; i++) {
             this.args.push(arguments[i]);
         }
+        if(this.type === 'assign'){
+            this.args[1].push('');
+        }
+    
+
+        this.removeOperation = function(){
+            if(this.args[1].length > 2){
+                this.args[1].pop();
+                this.args[1].pop();
+            }
+        };
+
+        this.addOperation = function(){
+            this.args[1].push('');
+            this.args[1].push('');
+        };
     })
 
     .value('Character', function() {

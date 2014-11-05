@@ -1,4 +1,4 @@
-var myapp = angular.module('rebroApp', ['tg.dynamicDirective','ui.sortable']);
+var myapp = angular.module('rebroApp', ['tg.dynamicDirective','ui.sortable','ui.bootstrap']);
 
 myapp.controller('masterCtrl', function($scope) {
     $scope.model = {};
@@ -49,8 +49,17 @@ myapp.controller('sortableController', function ($scope, Program, Statement, Cha
     };
 
     $scope.drawer.statements = StatementRepository.getStatementTemplates();
-    
+       
+    $scope.operators= ['+', '-', '*', '/', '%'];
 
+    $scope.booleanOper= ['>', '<', '==', '>=', '<=', '!='];
+    
+    $scope.programVariables=[
+            {name:'x', value:'5'},
+            {name:'black', value:'5'}
+            
+            
+    ];
     
  // $scope.items = $scope.rootItem.items;
     $scope.sortableOptions = {
@@ -97,21 +106,9 @@ myapp.controller('sortableController', function ($scope, Program, Statement, Cha
         
   };
 
-  $scope.colors = [
-      {name:'black', shade:'dark'},
-      {name:'white', shade:'light'},
-      {name:'red', shade:'dark'},
-      {name:'blue', shade:'dark'},
-      {name:'yellow', shade:'light'}
-    ];
+   
     
-    $scope.programVariables=[
-                {name:'x', value:'5'},
-            {name:'black', value:'5'}
-            
-            
-    ];
-    
+
     $scope.getViewRepeat = function(item){
      if(item)   {
         return "nest_Item2.html";   
