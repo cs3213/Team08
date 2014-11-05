@@ -2,7 +2,8 @@
 
 angular.module('rebroApp')
 
-    .factory('RunnerSvc', function($interval) {
+    .factory('Runner', function($interval) {
+
         var refreshRate = 20;
 
         return {
@@ -11,9 +12,11 @@ angular.module('rebroApp')
                 var intervalPromise = $interval(function () {
                     if (i < build.executableList.length) {
                         build.executableList[i++].execute();
+
                     } else if (build.loopsForever && !build.hasEmptyForever()) {
                         i = build.foreverIndex;
                         build.executableList[i++].execute();
+
                     } else {
                         $interval.cancel(intervalPromise);
                     }
@@ -21,8 +24,10 @@ angular.module('rebroApp')
 
                 return intervalPromise;
             },
+
             stopProgram: function(intervalPromise) {
                 $interval.cancel(intervalPromise);
             }
         };
+
     });

@@ -27,7 +27,7 @@ myapp.controller('headerCtrl', function($scope, Program, Character) {
       
 });
 
-myapp.controller('sortableController', function ($scope, Program, Statement, Character, CompilerSvc, RunnerSvc, StatementRepository) {
+myapp.controller('sortableController', function ($scope, Program, Statement, Character, Compiler, Runner, StatementRepository) {
     /******* INITIALIZATION ************/
     $scope.model.character = new Character();
     $scope.model.program = new Program();
