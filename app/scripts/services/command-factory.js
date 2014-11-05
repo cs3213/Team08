@@ -2,59 +2,52 @@
 
 angular.module('rebroApp')
 
-    .factory('CommandFactory', function(Character) {
+    .factory('CommandFactory', function() {
+
         var constructors = {
-            setX: function(receiver, value) {
+            setX: function(varTable, value) {
                 this.execute = function() {
-                    receiver.xPos = Number(value);
+                    varTable.setVar('spriteX', Number(value));
                 }
             },
-
-            setY: function(receiver, value) {
+            setY: function(varTable, value) {
                 this.execute = function() {
-                    receiver.yPos = Number(value);
+                    varTable.setVar('spriteY', Number(value));
                 }
             },
-
-            moveX: function(receiver, value) {
+            moveX: function(varTable, value) {
                 this.execute = function() {
-                    receiver.xPos += Number(value);
+                    value = varTable.getVar('spriteX') + Number(value);
+                    varTable.setVar('spriteX', value);
                 }
             },
-
-            moveY: function(receiver, value) {
+            moveY: function(varTable, value) {
                 this.execute = function() {
-                    receiver.yPos += Number(value);
+                    value = varTable.getVar('spriteY') + Number(value);
+                    varTable.setVar('spriteY', value);
                 }
             },
-
-            changeCostume: function(receiver, value) {
+            changeCostume: function(character, value) {
                 this.execute = function() {
-                    receiver.costume = value;
+                    character.costume = value;
                 }
             },
-
-            show: function(receiver) {
+            show: function(character) {
                 this.execute = function() {
-                    receiver.isVisible = true;
+                    character.isVisible = true;
                 }
             },
-
-            hide: function(receiver) {
+            hide: function(character) {
                 this.execute = function() {
-                    receiver.isVisible = false;
+                    character.isVisible = false;
                 }
             }
         };
 
         return {
             createCommand: function(name, receiver, args) {
-
                 if (!constructors.hasOwnProperty(name)) {
                     throw new Error('Command "' + name + '" is undefined');
-
-                } else if (receiver instanceof Character === false) {
-                    throw new Error('Receiver must be an instance of Character');
                 }
 
                 var command = {};
@@ -63,4 +56,5 @@ angular.module('rebroApp')
                 return command;
             }
         };
+
     });
