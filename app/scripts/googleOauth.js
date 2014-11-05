@@ -1,7 +1,7 @@
     //Dev Parameters
     var CLIENT_ID = '762525072987-jvj4k7qp586b3ro93dfq3ieiegjo6f37.apps.googleusercontent.com';
     var developerKey = 'AIzaSyDBKs5GQEYcqvHSTvlRKu_hs9JhanUdu3o';
-    var SCOPES = 'https://www.googleapis.com/auth/drive';
+    var SCOPES = 'https://www.googleapis.com/auth/drive.readonly';
  
     
 hello.init({ 
@@ -56,78 +56,102 @@ function getGoogleProfileName(){
 	});
 }
     
-    //Start Google Picker
-    //=============================================
-    // The Browser API key obtained from the Google Developers Console.
-      
+//Start Google Picker
+//=============================================
+// The Browser API key obtained from the Google Developers Console.
 
-      // The Client ID obtained from the Google Developers Console.
 
-      // Scope to use to access user's photos.
-   //   var scope = ['https://www.googleapis.com/auth/drive.readonly'];
+// The Client ID obtained from the Google Developers Console.
 
-      var pickerApiLoaded = false;
-      var oauthToken;
+// Scope to use to access user's photos.
+//   var scope = ['https://www.googleapis.com/auth/drive.readonly'];
 
-      // Use the API Loader script to load google.picker and gapi.auth.
-      function onApiLoad() {
-        gapi.load('auth', {'callback': onAuthApiLoad});
-        gapi.load('picker',{'callback': onPickerApiLoad});
-      }
+var pickerApiLoaded = false;
+var oauthToken;
 
-      function onAuthApiLoad() {
-         window.gapi.auth.authorize(
-            {
-              'client_id': CLIENT_ID,
-              'scope': SCOPES,
-              'immediate': false
-            },
-            handleAuthResultG);
-      }
+// Use the API Loader script to load google.picker and gapi.auth.
+function onApiLoad() {
+    gapi.load('auth', {'callback': onAuthApiLoad});
+    gapi.load('picker',{'callback': onPickerApiLoad});
+}
 
-      function onPickerApiLoad() {
-        pickerApiLoaded = true;
-      //  createPicker();
-      }
+function onAuthApiLoad() {
+ window.gapi.auth.authorize(
+    {
+      'client_id': CLIENT_ID,
+      'scope': SCOPES,
+      'immediate': false
+    },
+    handleAuthResultG);
+}
 
-      function handleAuthResultG(authResult) {
+function onPickerApiLoad() {
+pickerApiLoaded = true;
+//  createPicker();
+}
+
+function handleAuthResultG(authResult) {
+
+if (authResult && !authResult.error) {
+    oauthToken = authResult.access_token;
+}
+}
+
+// Create and render a Picker object for loading items from drive.
+function createPicker() {
+    if (pickerApiLoaded && oauthToken) {
+      var picker = new google.picker.PickerBuilder().
+          addView(google.picker.ViewId.DOCS).
+          setOrigin(window.location.protocol + '//' + window.location.host).
+          setOAuthToken(oauthToken).
+          setDeveloperKey(developerKey).
+          setCallback(pickerCallback).
+          build();
+      picker.setVisible(true);
+    }
+}
+    
+function pickerCallback(data) {
+    if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
+        var fileId = data.docs[0].id;
+        var url = 'https://www.googleapis.com/drive/v2/files/' + fileId;
+        //var doc = data[google.picker.Response.DOCUMENTS][0];
+        getData(url, function(responseText){
+            var metaData = JSON.parse(responseText);
+            getData(metaData.downloadUrl, function(text) {
+                //give ryan: wad u wan is in text :D
+                console.log(text);
+                //=================Ryan this is wad u want above..
+            });
+        });
+    }
+}
+//end Google Picker
         
-        if (authResult && !authResult.error) {
-            oauthToken = authResult.access_token;
+//Download File
+/**
+ * Download a file's content.
+ */
+function getData(url, callback) {
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            callback(xmlhttp.responseText);
         }
-      }
+    }
+    xmlhttp.open('GET', url, true);
+    var myToken = gapi.auth.getToken();
+    xmlhttp.setRequestHeader('Authorization', 'Bearer ' + myToken.access_token);
+    xmlhttp.send();
+}
 
-      // Create and render a Picker object for loading items from drive.
-      function createPicker() {
-        if (pickerApiLoaded && oauthToken) {
-          var picker = new google.picker.PickerBuilder().
-              addView(google.picker.ViewId.DOCS).
-              setOAuthToken(oauthToken).
-              setDeveloperKey(developerKey).
-              setCallback(pickerCallback).
-              build();
-          picker.setVisible(true);
-        }
-      }
-    
-      function pickerCallback(data) {
-        var url = 'nothing';
-        if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
-          var doc = data[google.picker.Response.DOCUMENTS][0];
-          url = doc[google.picker.Document.URL];
-          
-        }
-          $.getJSON(url, function(resp) {
-    console.log(resp);
-    
-    
-});
-        // document.getElementById('result').innerHTML = message;
-      }
-    //end Google Picker
-        
+
+function alertMe(){
+    console.log("Ello download done!");
+}
+
 function insertFile(stmtLst) {
-       const boundary = '-------314159265358979323846264';
+        const boundary = '-------314159265358979323846264';
         const delimiter = "\r\n--" + boundary + "\r\n";
         const close_delim = "\r\n--" + boundary + "--";
 
@@ -160,7 +184,7 @@ function insertFile(stmtLst) {
           console.log(arg);
             alert("Commands Saved as RebroCommands.txt");
         });
-      };
+};
     
 
     
