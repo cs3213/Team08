@@ -92,29 +92,31 @@
                 <span>{{templateStmt.type}}</span>
                 
                 <span ng-show="templateStmt.hasArgs() && templateStmt.type !== 'assign'">
-                <input class="btnTextSize" type="text" ng-model="templateStmt.args[0]"  size="10" value="{{templateStmt.args[0]}}">
-                </span>
+
+                    <input class="btnTextSize" type="text" ng-model="templateStmt.args[0]"  size="10" value="{{templateStmt.args[0]}}">
+                    </span>
 
                 <span ng-show="templateStmt.type === 'assign'">
 
-                <input type="text" ng-model="templateStmt.args[0]" typeahead="var.name for var in programVariables" placeholder="var" class="variableBox">
-                =
+                    <input type="text" ng-model="templateStmt.args[0]" typeahead="var.name for var in programVariables" placeholder="var" class="variableBox">
+                    =
+                    <span ng-repeat="ops in templateStmt.args[1] track by $index">
+                    <span ng-if="$even">
+                    <input type="text" ng-model="ops" typeahead="var.name for var in programVariables" placeholder="var" class="variableBox">
+                    </span>
+                    <span ng-if="$odd">
+                    <input type="text" ng-model="ops" typeahead="oper for oper in operators" placeholder="oper" class="operatorBox">
+                    </span>
+                    </span>
 
-                <span ng-repeat="ops in templateStmt.args[1] track by $index">
-                 <span ng-if="$even">
-                 <input type="text" ng-model="ops" typeahead="var.name for var in programVariables" placeholder="var" class="variableBox">
-                 </span>
-                 <span ng-if="$odd">
-                 <input type="text" ng-model="ops" typeahead="oper for oper in operators" placeholder="oper" class="operatorBox">
-                 </span>
+                    <span ng-click="templateStmt.addOperation()" class="addOperationbtn">
+                    </span>
+                    <span ng-click="templateStmt.removeOperation()" class="removeOperationbtn"></span>
                 </span>
 
-                <span ng-click="templateStmt.addOperation()" class="addOperationbtn">
+                <span ng-show="templateStmt.type === 'if'">
+
                 </span>
-                <span ng-click="templateStmt.removeOperation()" class="removeOperationbtn"></span>
-                              
-                </span>
-              
             </div>
         </div>
         
@@ -160,43 +162,7 @@
         </div>
       </div>
      </script>
-            
-    <script type ="text/ng-template" id="nest_Item2.html">
-    <div class="apps-container editor" ui-sortable="sortableOptions2" ng-model="ngModelItem">
-        <div class="stmt-block" ng-repeat="innerItem2 in ngModelItem" ng-model="ngModelItem">
-        <span>{{innerItem2.type}}</span>
-        <span ng-show="innerItem2.hasArgs() && innerItem2.type !== 'assign'">
-                <input class="btnTextSize" type="text" ng-model="innerItem2.args[0]"  size="10" value="{{templateStmt.args[0]}}">
-                </span>
-
-                <span ng-show="innerItem2.type === 'assign'">
-
-                <input type="text" ng-model="innerItem2.args[0]" typeahead="var.name for var in programVariables" placeholder="var" class="variableBox">
-                =
-
-                <span ng-repeat="ops in innerItem2.args[1] track by $index">
-                 <span ng-if="$even">
-                 <input type="text" ng-model="ops" typeahead="var.name for var in programVariables" placeholder="var" class="variableBox">
-                 </span>
-                 <span ng-if="$odd">
-                 <input type="text" ng-model="ops" typeahead="oper for oper in operators" placeholder="oper" class="operatorBox">
-                 </span>
-                </span>
-
-                <span ng-click="innerItem2.addOperation()" class="addOperationbtn">
-                </span>
-                <span ng-click="innerItem2.removeOperation()" class="removeOperationbtn"></span>
-                              
-                </span>
-        <span ng-show="innerItem2.isContainer">         
-                <tg-dynamic-directive  ng-model="innerItem2.stmtList" tg-dynamic-directive-view="getViewRepeat">
-                </tg-dynamic-directive>
-                <div style="clear: both;"></div>
-        </span>
-        </div>
-      </div>
-     </script>
-         </div>
+    </div>
          
 <!--============Stage box==================--> 
         <div class="col-xs-6 fixed-height" style="border: 1px solid #333;">
