@@ -110,9 +110,9 @@
                     </span>
                     </span>
 
-                    <span ng-click="templateStmt.addOperation()" class="addOperationbtn">
+                    <span ng-click="addOperation(templateStmt)" class="addOperationbtn">
                     </span>
-                    <span ng-click="templateStmt.removeOperation()" class="removeOperationbtn"></span>
+                    <span ng-click="removeOperation(templateStmt)" class="removeOperationbtn"></span>
                 </span>
         <!--=========If Commands==========-->
                 <span ng-show="templateStmt.type === 'if'" ng-controller="TypeaheadCtrl">
@@ -128,9 +128,9 @@
                     </span>
                     </span>
 
-                    <span ng-click="templateStmt.addOperation()" class="addOperationbtn">
+                    <span ng-click="addOperation(templateStmt)" class="addOperationbtn">
                     </span>
-                    <span ng-click="templateStmt.removeOperation()" class="removeOperationbtn"></span>
+                    <span ng-click="removeOperation(templateStmt)" class="removeOperationbtn"></span>
                 </span>
             </div>
         </div>
@@ -166,9 +166,9 @@
                  </span>
                 </span>
 
-                <span ng-click="innerItem.addOperation()" class="addOperationbtn">
+                <span ng-click="addOperation(innerItem)" class="addOperationbtn">
                 </span>
-                <span ng-click="innerItem.removeOperation()" class="removeOperationbtn"></span>
+                <span ng-click="removeOperation(innerItem)" class="removeOperationbtn"></span>
                               
                 </span>
          <!--=========If Commands==========-->
@@ -185,9 +185,9 @@
                     </span>
                     </span>
 
-                    <span ng-click="innerItem.addOperation()" class="addOperationbtn">
+                    <span ng-click="addOperation(innerItem)" class="addOperationbtn">
                     </span>
-                    <span ng-click="innerItem.removeOperation()" class="removeOperationbtn"></span>
+                    <span ng-click="removeOperation(innerItem)" class="removeOperationbtn"></span>
                 </span>
         <span ng-show="innerItem.isContainer">         
                 <tg-dynamic-directive  ng-model="innerItem.stmtList" tg-dynamic-directive-view="getView">
