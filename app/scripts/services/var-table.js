@@ -9,7 +9,7 @@ angular.module('rebroApp')
             '_characterY': 0
         };
 
-        var reservedVars = {};
+        var reservedVars = angular.copy(defaultValues);
         var userVars = {};
 
         return {
