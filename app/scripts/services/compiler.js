@@ -4,7 +4,7 @@ angular.module('rebroApp')
 
     .factory('Compiler', function(CommandFactory, VarTable) {
 
-        var sprite = null;
+        var character = null;
 
         function compileRecursively(stmtList) {
             for (var i = 0; i < stmtList.length; i++) {
@@ -25,7 +25,7 @@ angular.module('rebroApp')
                     case 'show':
                     case 'hide':
                     case 'changeCostume':
-                        command = CommandFactory.createCommand(stmt.type, sprite, stmt.args);
+                        command = CommandFactory.createCommand(stmt.type, character, stmt.args);
                         break;
 
                     default:
@@ -38,7 +38,7 @@ angular.module('rebroApp')
 
         return {
             compile: function(program, receiver) {
-                sprite = receiver;
+                character = receiver;
                 var executable = angular.copy(program);
                 compileRecursively(executable.stmtList);
                 return executable;
