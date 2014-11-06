@@ -3,6 +3,7 @@
 angular.module('rebroApp')
 
     .value('Program', function() {
+        this.userVars = [];
         this.stmtList = [];
     })
 
@@ -11,10 +12,6 @@ angular.module('rebroApp')
         this.isContainer = isContainer;
         this.args = [];
         this.stmtList = [];
-
-        this.hasArgs = function() {
-            return this.args.length > 0;
-        };
 
         for (var i = 2; i < arguments.length; i++) {
             this.args.push(arguments[i]);
