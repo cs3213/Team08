@@ -212,9 +212,9 @@
                 -->
             </div>
             <div id="row1.2" style="border: 1px solid #333; height: 460px;">
-                {{model.character.xPos}}  {{model.character.yPos}}
+                {{varTable.getValue(varTable.VAR_CHARACTER_X)}}  {{varTable.getValue(varTable.VAR_CHARACTER_Y)}}
                 <div class="character" ng-class="model.character.costume" ng-show="model.character.isVisible"
-                     ng-style="{'top': model.character.yPos + 'px', 'left': model.character.xPos + 'px'}"></div>
+                     ng-style="{'top': varTable.getValue(varTable.VAR_CHARACTER_Y) + 'px', 'left': varTable.getValue(varTable.VAR_CHARACTER_X) + 'px'}"></div>
             </div>
         </div>
     </div>

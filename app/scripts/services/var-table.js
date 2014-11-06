@@ -4,15 +4,22 @@ angular.module('rebroApp')
 
     .factory('VarTable', function() {
 
-        var defaultValues = {
-            '_characterX': 0,
-            '_characterY': 0
+        var ReservedVar = {
+            CHARACTER_X: '_characterX',
+            CHARACTER_Y: '_characterY'
         };
+
+        var defaultValues = {};
+        defaultValues[ReservedVar.CHARACTER_X] = 0;
+        defaultValues[ReservedVar.CHARACTER_Y] = 0;
 
         var reservedVars = angular.copy(defaultValues);
         var userVars = {};
 
         return {
+            VAR_CHARACTER_X: ReservedVar.CHARACTER_X,
+            VAR_CHARACTER_Y: ReservedVar.CHARACTER_Y,
+
             getReservedVarNames: function() {
                 var varNames = [];
                 for (var name in reservedVars) {
@@ -37,7 +44,17 @@ angular.module('rebroApp')
                 delete userVars[name];
             },
 
-            clearTable: function(names) {
+            initValues: function() {
+                var name;
+                for (name in reservedVars) {
+                    reservedVars[name] = 0;
+                }
+                for (name in userVars) {
+                    userVars[name] = 0;
+                }
+            },
+
+            clearTable: function() {
                 reservedVars = angular.copy(defaultValues);
                 userVars = {};
             },
