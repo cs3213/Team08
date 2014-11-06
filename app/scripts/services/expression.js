@@ -2,73 +2,102 @@
 
 angular.module('rebroApp')
 
-    .factory('ExpressionEvaluator', function() {
-        var multiply = {
-            sign: '*',
-            evaluate: function(a, b) {
-                return a * b;
-            }
+    .factory('Expression', function() {
+
+        var mathOpr = {
+            addition: '+',
+            subtraction: '-',
+            multiplication: '*',
+            division: '/',
+            modulo: '%'
         };
-        var divide = {
-            sign: '/',
-            evaluate: function(a, b) {
-                return a / b;
-            }
+
+        var boolOpr = {
+            lessThan: '<',
+            lessThanEqual: '<=',
+            greaterThan: '>',
+            greaterThanEqual: '>=',
+            equality: '==',
+            inequality: '!='
         };
-        var modulo = {
-            sign: '%',
-            evaluate: function(a, b) {
-                return a % b;
-            }
-        };
+
         var add = {
-            sign: '+',
+            sign: mathOpr.addition,
             evaluate: function(a, b) {
                 return a + b;
             }
         };
+
         var subtract = {
-            sign: '-',
+            sign: mathOpr.subtraction,
             evaluate: function(a, b) {
                 return a - b;
             }
         };
+
+        var multiply = {
+            sign: mathOpr.multiplication,
+            evaluate: function(a, b) {
+                return a * b;
+            }
+        };
+
+        var divide = {
+            sign: mathOpr.division,
+            evaluate: function(a, b) {
+                return a / b;
+            }
+        };
+
+        var modulo = {
+            sign: mathOpr.modulo,
+            evaluate: function(a, b) {
+                return a % b;
+            }
+        };
+
         var lessThan = {
-            sign: '<',
+            sign: boolOpr.lessThan,
             evaluate: function(a, b) {
                 return a < b;
             }
         };
+
         var lessThanOrEqual = {
-            sign: '<=',
+            sign: boolOpr.lessThanEqual,
             evaluate: function(a, b) {
                 return a <= b;
             }
         };
+
         var greaterThan = {
-            sign: '>',
+            sign: boolOpr.greaterThan,
             evaluate: function(a, b) {
                 return a > b;
             }
         };
+
         var greaterThanOrEqual = {
-            sign: '>=',
+            sign: boolOpr.greaterThanEqual,
             evaluate: function(a, b) {
                 return a >= b;
             }
         };
+
         var equality = {
-            sign: '==',
+            sign: boolOpr.equality,
             evaluate: function(a, b) {
                 return a === b;
             }
         };
+
         var inequality = {
-            sign: '!=',
+            sign: boolOpr.inequality,
             evaluate: function(a, b) {
                 return a !== b;
             }
         };
+
         var oprPrec = [
             [multiply, divide, modulo],
             [add, subtract],
@@ -77,6 +106,26 @@ angular.module('rebroApp')
         ];
 
         return {
+            getMathOperators: function() {
+                var result = [];
+                for (var name in mathOpr) {
+                    result.push(mathOpr[name]);
+                }
+                return result;
+            },
+
+            getBooleanOperators: function() {
+                var result = [];
+                for (var name in boolOpr) {
+                    result.push(boolOpr[name]);
+                }
+                return result;
+            },
+
+            getAllOperators: function() {
+                return this.getMathOperators().concat(this.getBooleanOperators());
+            },
+
             // Pre-condition: Expression must be resolved to numeric values
             evaluateExpr: function(expr) {
                 var result = expr.slice();  // copy to workspace

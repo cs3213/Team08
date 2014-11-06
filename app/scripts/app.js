@@ -26,7 +26,7 @@ angular.module('rebroApp', ['tg.dynamicDirective', 'ui.sortable', 'ui.bootstrap'
         };
     })
 
-    .controller('sortableController', function ($scope, VarTable, Compiler, Runner, StatementRepository) {
+    .controller('sortableController', function ($scope, VarTable, Compiler, Runner, StatementRepository, Expression) {
         /******* INITIALIZATION ************/
         $scope.loadProgram = function (text) {
             var temp = angular.fromJson(text);
@@ -65,11 +65,10 @@ angular.module('rebroApp', ['tg.dynamicDirective', 'ui.sortable', 'ui.bootstrap'
         };
 
         $scope.drawer.statements = StatementRepository.getStatementTemplates();
-        $scope.operators = ['+', '-', '*', '/', '%'];
-        $scope.booleanOper = ['>', '<', '==', '>=', '<=', '!='];
-        $scope.allOperators = $scope.operators.concat($scope.booleanOper);
+        $scope.mathOperators = Expression.getMathOperators();
+        $scope.allOperators = Expression.getAllOperators();
         $scope.programVariables = function () {
-            return VarTable.getUserVarNames().concat(VarTable.getReservedVarNames());
+            return VarTable.getAllVarNames();
         };
         $scope.sortableOptions = {
             helper: "clone",

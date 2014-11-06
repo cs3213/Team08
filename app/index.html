@@ -120,7 +120,7 @@
                     <input type="text" ng-model="templateStmt.expressionList[$index]" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead typeahead="var for var in programVariables() | filter:$viewValue:stateComparator" placeholder="var" class="variableBox">
                     </span>
                     <span ng-show="$odd">
-                    <input type="text" ng-model="templateStmt.expressionList[$index]" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead typeahead="oper for oper in operators | filter:$viewValue:stateComparator" placeholder="oper" class="operatorBox">
+                    <input type="text" ng-model="templateStmt.expressionList[$index]" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead typeahead="oper for oper in mathOperators | filter:$viewValue:stateComparator" placeholder="oper" class="operatorBox">
                     </span>
                     </span>
                     <span class="buttonControl">
@@ -273,7 +273,7 @@
 <script src="scripts/app.js"></script>
 <script src="scripts/googleOauth.js"></script>
 <script src="scripts/app-classes.js"></script>
-<script src="scripts/services/expression-evaluator.js"></script>
+<script src="scripts/services/expression.js"></script>
 <script src="scripts/services/var-table.js"></script>
 <script src="scripts/services/command-factory.js"></script>
 <script src="scripts/services/compiler.js"></script>
