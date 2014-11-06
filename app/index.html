@@ -89,11 +89,20 @@
 
     <!--<div ng-view=""></div>-->
      <div class="row" id="sortableController" ng-controller="sortableController">
-         
+        <div class="col-xs-3 fixed-height drawer" style="border: 1px solid #333;">
+            Drawer
+           <div class="input-group input-group-xs">
+                <span class="input-group-addon">Name:</span>
+                <input type="text" class="form-control" ng-model="tempVar">
+                <span class="input-group-btn">
+                <button class="btn btn-default" type="button" ng-click="addVariable(tempVar); tempVar=undefined">Add Var</button>
+                <button class="btn btn-default" type="button" ng-click="deleteVariable(tempVar); tempVar=undefined">Delete Var</button>
+            </span>
+            </div>
+           
 <!--============DRAWER box==================--> 
-        <div class="col-xs-3 fixed-height drawer" ui-sortable="sortableOptions" ng-model="drawer.statements" style="border: 1px solid #333;">
-            drawer
-            <div class="buttonControl">asd</div>
+            <div ui-sortable="sortableOptions" ng-model="drawer.statements">   
+          
             <div ng-repeat="templateStmt in drawer.statements" ng-model="drawer.statements" class="stmt-block" >
         <!--=========Normal Commands==========-->
                 <span>{{templateStmt.type}}</span>
@@ -104,29 +113,29 @@
                 </span>
         <!--=========Assign Commands==========-->
                 <span  ng-model="templateStmt" ng-show="templateStmt.type === 'assign'" ng-controller="TypeaheadCtrl">
-                    <input type="text" ng-model="templateStmt.args[0]" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead typeahead="var.name for var in programVariables | filter:$viewValue:stateComparator" placeholder="var" class="variableBox">
+                    <input type="text" ng-model="templateStmt.args[0]" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead typeahead="var for var in programVariables() | filter:$viewValue:stateComparator" placeholder="var" class="variableBox">
                     =
                     <span ng-model="templateStmt.expressionList" ng-repeat="ops in templateStmt.expressionList track by $index">
                     <span ng-show="$even">
-                    <input type="text" ng-model="templateStmt.expressionList[$index]" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead typeahead="var.name for var in programVariables | filter:$viewValue:stateComparator" placeholder="var" class="variableBox">
+                    <input type="text" ng-model="templateStmt.expressionList[$index]" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead typeahead="var for var in programVariables() | filter:$viewValue:stateComparator" placeholder="var" class="variableBox">
                     </span>
                     <span ng-show="$odd">
                     <input type="text" ng-model="templateStmt.expressionList[$index]" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead typeahead="oper for oper in operators | filter:$viewValue:stateComparator" placeholder="oper" class="operatorBox">
                     </span>
                     </span>
                     <span class="buttonControl">
-                    <span ng-click="addOperation(templateStmt)" class="addOperationbtn">
+                       <span ng-click="removeOperation(templateStmt)" class="removeOperationbtn"></span>
+                    <span ng-click="addOperation(templateStmt)" class="addOperationbtn"></span>
                     </span>
-                    <span ng-click="removeOperation(templateStmt)" class="removeOperationbtn"></span></span>
                 </span>
         <!--=========If Commands==========-->
                 <span ng-show="templateStmt.type === 'if'" ng-controller="TypeaheadCtrl">
-                     <input type="text" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead ng-model="templateStmt.expressionList[0]" typeahead="var.name for var in programVariables | filter:$viewValue:stateComparator" placeholder="var" class="variableBox">
+                     <input type="text" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead ng-model="templateStmt.expressionList[0]" typeahead="var for var in programVariables()  | filter:$viewValue:stateComparator" placeholder="var" class="variableBox">
 
                     <span ng-repeat="ops in templateStmt.expressionList track by $index">
                                  
                     <span ng-show="!$first && $even">
-                    <input type="text" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead ng-model="templateStmt.expressionList[$index]" typeahead="var.name for var in programVariables | filter:$viewValue:stateComparator" placeholder="var" class="variableBox">
+                    <input type="text" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead ng-model="templateStmt.expressionList[$index]" typeahead="var for var in programVariables()  | filter:$viewValue:stateComparator" placeholder="var" class="variableBox">
                     </span>
                     <span ng-show="!$first && $odd">
                     <input type="text" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead ng-model="templateStmt.expressionList[$index]" typeahead="oper for oper in allOperators | filter:$viewValue:stateComparator" placeholder="oper" class="operatorBox">
@@ -134,13 +143,14 @@
                     </span>
 
                     <span class="buttonControl">
-                    <span ng-click="addOperation(templateStmt)" class="addOperationbtn">
+                  
+                    <span ng-click="removeOperation(templateStmt)" class="removeOperationbtn"></span>
+                    <span ng-click="addOperation(templateStmt)" class="addOperationbtn"></span>
                     </span>
-                    <span ng-click="removeOperation(templateStmt)" class="removeOperationbtn"></span></span>
                 </span>
             </div>
         </div>
-        
+        </div>
 <!--============Editor box==================--> 
         <div class="col-xs-3 fixed-height editor" id="editor" ui-sortable="sortableOptions2" ng-model="model.program.stmtList" style="border: 1px solid #333;">
             editor {{model.program.stmtList.length}}
@@ -157,11 +167,11 @@
         </span>
 
         <span ng-show="innerItem.type === 'assign'" ng-controller="TypeaheadCtrl">
-                <input type="text" ng-model="innerItem.args[0]" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead typeahead="var.name for var in programVariables | filter:$viewValue:stateComparator" placeholder="var" class="variableBox">
+                <input type="text" ng-model="innerItem.args[0]" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead typeahead="var for var in programVariables()  | filter:$viewValue:stateComparator" placeholder="var" class="variableBox">
                 =
                 <span ng-model="innerItem.expressionList" ng-repeat="ops in innerItem.expressionList track by $index">
                  <span ng-show="$even">
-                 <input type="text" ng-model="innerItem.expressionList[$index]" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead typeahead="var.name for var in programVariables | filter:$viewValue:stateComparator" placeholder="var" class="variableBox">
+                 <input type="text" ng-model="innerItem.expressionList[$index]" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead typeahead="var for var in programVariables()  | filter:$viewValue:stateComparator" placeholder="var" class="variableBox">
         
                  </span>
                  <span ng-show="$odd">
@@ -170,19 +180,20 @@
                 </span>
 
                     <span class="buttonControl">
-                    <span ng-click="addOperation(innerItem)" class="addOperationbtn">
+                    
+                    <span ng-click="removeOperation(innerItem)" class="removeOperationbtn"></span>
+                    <span ng-click="addOperation(innerItem)" class="addOperationbtn"></span>
                     </span>
-                    <span ng-click="removeOperation(innerItem)" class="removeOperationbtn"></span></span>
                               
                 </span>
          <!--=========If Commands==========-->
                 <span ng-show="innerItem.type === 'if'" ng-controller="TypeaheadCtrl">
-                     <input type="text" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead ng-model="innerItem.expressionList[0]" typeahead="var.name for var in programVariables | filter:$viewValue:stateComparator" placeholder="var" class="variableBox">
+                     <input type="text" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead ng-model="innerItem.expressionList[0]" typeahead="var for var in programVariables()  | filter:$viewValue:stateComparator" placeholder="var" class="variableBox">
 
                     <span ng-model="innerItem.expressionList" ng-repeat="ops in innerItem.expressionList track by $index">
                                  
                     <span ng-show="!$first && $even">
-                    <input type="text" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead ng-model="innerItem.expressionList[$index]" typeahead="var.name for var in programVariables | filter:$viewValue:stateComparator" placeholder="var" class="variableBox">
+                    <input type="text" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead ng-model="innerItem.expressionList[$index]" typeahead="var for var in programVariables()  | filter:$viewValue:stateComparator" placeholder="var" class="variableBox">
                     </span>
                     <span ng-show="!$first && $odd">
                     <input type="text" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead ng-model="innerItem.expressionList[$index]" typeahead="oper for oper in allOperators | filter:$viewValue:stateComparator" placeholder="oper" class="operatorBox">
@@ -190,9 +201,9 @@
                     </span>
 
                    <span class="buttonControl">
+                    <span ng-click="removeOperation(innerItem)" class="removeOperationbtn"></span>
                     <span ng-click="addOperation(innerItem)" class="addOperationbtn">
-                    </span>
-                    <span ng-click="removeOperation(innerItem)" class="removeOperationbtn"></span></span>
+                    </span></span>
                 </span>
         <span ng-show="innerItem.isContainer">         
                 <tg-dynamic-directive  ng-model="innerItem.stmtList" tg-dynamic-directive-view="getView">

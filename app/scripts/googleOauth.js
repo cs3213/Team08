@@ -104,7 +104,7 @@ function pickerCallback(data) {
         getData(url, function(responseText){
             var metaData = JSON.parse(responseText);
             getData(metaData.downloadUrl, function(text) {
-              console.log(text);
+            //  console.log(text);
             angular.element($('#sortableController')).scope().loadProgram(text);
             });
         });

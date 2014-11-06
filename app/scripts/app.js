@@ -6,7 +6,7 @@ myapp.controller('masterCtrl', function ($scope) {
 
 });
 
-myapp.controller('headerCtrl', function ($scope, Program, Character) {
+myapp.controller('headerCtrl', function ($scope, Program, Character, VarTable) {
     $scope.newProgram = function () {
         $scope.model.character = new Character();
         //$scope.model.program = new Program();
@@ -19,28 +19,33 @@ myapp.controller('headerCtrl', function ($scope, Program, Character) {
     };
 
     $scope.insertJFile = function () {
-        insertFile(angular.toJson($scope.model.program.stmtList, true));
+        insertFile(angular.toJson([VarTable.getUserVarNames(),$scope.model.program.stmtList], true));
     };
-
-    $scope.loadProgram2 = function (text) {
-        var x = angular.fromJson(text);
-        $scope.model.program.stmtList = angular.copy(x);
-        //angular.element($('#editor')).scope().apply();
-    }
 
 });
 
-myapp.controller('sortableController', function ($scope, Program, Statement, Character, Compiler, Runner, StatementRepository) {
+myapp.controller('sortableController', function ($scope, Program, Statement, Character, Compiler, Runner, StatementRepository, VarTable) {
     /******* INITIALIZATION ************/
     $scope.model.character = new Character();
     $scope.model.program = new Program();
 
     $scope.loadProgram = function (text) {
-        var temp = angular.fromJson(text);
-     
+        var  temp = angular.fromJson(text);
+        for (var i = 0; i < temp[0].length; i++) {
+            VarTable.addVarName(temp[0][i]);
+        }
+   
         $scope.$apply(function(){
-          $scope.model.program.stmtList = angular.copy(temp);
+            $scope.model.program.stmtList = angular.copy(temp[1]);
         });
+    }
+
+    $scope.addVariable = function(args){
+        VarTable.addVarName(args);
+    }
+
+     $scope.deleteVariable = function(args){
+        VarTable.removeVarName(args);
     }
 
     $scope.hasArgs = function(args) {
@@ -71,12 +76,9 @@ myapp.controller('sortableController', function ($scope, Program, Statement, Cha
 
     $scope.allOperators = $scope.operators.concat($scope.booleanOper);
 
-    $scope.programVariables = [
-        {name: 'x', value: 0},
-        {name: 'y', value: 0}
-
-
-    ];
+    $scope.programVariables = function(){
+        return VarTable.getUserVarNames().concat(VarTable.getReservedVarNames());
+    };
 
     // $scope.items = $scope.rootItem.items;
     $scope.sortableOptions = {
@@ -130,8 +132,7 @@ myapp.controller('sortableController', function ($scope, Program, Statement, Cha
     };
 
     $scope.getView = function (item) {
-      console.log("asdasd");
-        if (item) {
+         if (item) {
             return "nest_Item.html";
         }
         return null;
