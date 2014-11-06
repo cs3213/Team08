@@ -9,7 +9,8 @@ myapp.controller('masterCtrl', function ($scope) {
 myapp.controller('headerCtrl', function ($scope, Program, Character) {
     $scope.newProgram = function () {
         $scope.model.character = new Character();
-        $scope.model.program = new Program();
+        //$scope.model.program = new Program();
+        $scope.model.program.stmtList = [];
 
     };
 
@@ -21,7 +22,7 @@ myapp.controller('headerCtrl', function ($scope, Program, Character) {
         insertFile(angular.toJson($scope.model.program.stmtList, true));
     };
 
-    $scope.loadProgram = function (text) {
+    $scope.loadProgram2 = function (text) {
         var x = angular.fromJson(text);
         $scope.model.program.stmtList = angular.copy(x);
         //angular.element($('#editor')).scope().apply();
@@ -33,6 +34,18 @@ myapp.controller('sortableController', function ($scope, Program, Statement, Cha
     /******* INITIALIZATION ************/
     $scope.model.character = new Character();
     $scope.model.program = new Program();
+
+    $scope.loadProgram = function (text) {
+        var temp = angular.fromJson(text);
+     
+        $scope.$apply(function(){
+          $scope.model.program.stmtList = angular.copy(temp);
+        });
+    }
+
+    $scope.hasArgs = function(args) {
+        return args.length > 0;
+    };
 
     $scope.onPlay = function () {
         var receiver = $scope.model.character;
@@ -117,6 +130,7 @@ myapp.controller('sortableController', function ($scope, Program, Statement, Cha
     };
 
     $scope.getView = function (item) {
+      console.log("asdasd");
         if (item) {
             return "nest_Item.html";
         }
