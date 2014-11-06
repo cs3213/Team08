@@ -1,8 +1,8 @@
-    //Dev Parameters
-    var CLIENT_ID = '762525072987-jvj4k7qp586b3ro93dfq3ieiegjo6f37.apps.googleusercontent.com';
-    var developerKey = 'AIzaSyDBKs5GQEYcqvHSTvlRKu_hs9JhanUdu3o';
-    var SCOPES = 'https://www.googleapis.com/auth/drive.readonly';
- var myModule = angular.module('myModule', []);
+//Dev Parameters
+var CLIENT_ID = '762525072987-jvj4k7qp586b3ro93dfq3ieiegjo6f37.apps.googleusercontent.com';
+var developerKey = 'AIzaSyDBKs5GQEYcqvHSTvlRKu_hs9JhanUdu3o';
+var SCOPES = 'https://www.googleapis.com/auth/drive.readonly';
+var myModule = angular.module('myModule', []);
     
 hello.init({ 
 	google   : CLIENT_ID}
@@ -10,8 +10,7 @@ hello.init({
 );
 
 //test login
-    function toggleLog(myVal, btId){
-        
+function toggleLog(myVal, btId){        
     if(myVal == "Login"){
         hello('google').login();
         getGoogleProfileName();
@@ -23,16 +22,8 @@ hello.init({
     }
 }
 
-  /*  
-//when user click login
-hello.on('auth.login', function(auth){
-	console.log("You are signed in to Google");
-	getGoogleProfileName();
-});
-      */           
-    
 //when user click logout
-    //listener for authenticator to logout
+//listener for authenticator to logout
 hello.on('auth.logout', function(auth){
 	console.log("You are signed out from Google");    
     document.getElementById('login-area').innerHTML = "<a ng-href=\"#\" onclick=\"hello('google').login();getGoogleProfileName();\">Log In</a>";
@@ -42,13 +33,10 @@ hello.on('auth.logout', function(auth){
 });
 
 
-
-//input username
+//GET input username
 function getGoogleProfileName(){
 	hello( "google" ).api("me").then(function(json){
-        document.getElementById('login-area').innerHTML = "Signed in as <a href='" + json.url + "'>" + json.name + "</a></br><a onclick=\"hello.logout()\">log out</a>";
-		/*$(".login-area").html("Signed in as <a href='" + json.url + "'>" + json.name + "</a>");*/
-		//$(".login-area").removeClass("no-margin");
+        document.getElementById('login-area').innerHTML = "Signed in as <a href='" + json.url +         "'>" + json.name + "</a></br><a onclick=\"hello.logout()\">log out</a>";
 		console.log("Your name is "+ json.name + ", " + json.url);
        onApiLoad();
 	}, function(e){
@@ -59,10 +47,7 @@ function getGoogleProfileName(){
 //Start Google Picker
 //=============================================
 // The Browser API key obtained from the Google Developers Console.
-
-
 // The Client ID obtained from the Google Developers Console.
-
 // Scope to use to access user's photos.
 //   var scope = ['https://www.googleapis.com/auth/drive.readonly'];
 
@@ -120,17 +105,18 @@ function pickerCallback(data) {
             var metaData = JSON.parse(responseText);
             getData(metaData.downloadUrl, function(text) {
               console.log(text);
-             angular.element($('#headerCtrl')).scope().loadProgram(text);
+            angular.element($('#sortableController')).scope().loadProgram(text);
             });
         });
     }
 }
 //end Google Picker
-        
+
+
 //Download File
 /**
- * Download a file's content.
- */
+* Download a file's content.
+*/
 function getData(url, callback) {
     xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
@@ -150,39 +136,39 @@ function alertMe(){
 }
 
 function insertFile(stmtLst) {
-        const boundary = '-------314159265358979323846264';
-        const delimiter = "\r\n--" + boundary + "\r\n";
-        const close_delim = "\r\n--" + boundary + "--";
+    const boundary = '-------314159265358979323846264';
+    const delimiter = "\r\n--" + boundary + "\r\n";
+    const close_delim = "\r\n--" + boundary + "--";
 
-        var fileName = 'RebroCommands.txt';
-        var contentType = 'application/json';
-        var metadata = {
-          'title': fileName,
-          'mimeType': contentType
-        };
-        var base64Data = btoa(stmtLst);
-        var multipartRequestBody =
-            delimiter +
-            'Content-Type: application/json\r\n\r\n' +
-            JSON.stringify(metadata) +
-            delimiter +
-            'Content-Type: ' + contentType + '\r\n' +
-            'Content-Transfer-Encoding: base64\r\n' +
-            '\r\n' +
-            base64Data +
-            close_delim;
-        var request = gapi.client.request({
-            'path': '/upload/drive/v2/files',
-            'method': 'POST',
-            'params': {'uploadType': 'multipart'},
-            'headers': {
-              'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
-            },
-            'body': multipartRequestBody});
-        request.execute(function(arg) {
-          console.log(arg);
-            alert("Commands Saved as RebroCommands.txt");
-        });
+    var fileName = 'RebroCommands.txt';
+    var contentType = 'application/json';
+    var metadata = {
+      'title': fileName,
+      'mimeType': contentType
+    };
+    var base64Data = btoa(stmtLst);
+    var multipartRequestBody =
+        delimiter +
+        'Content-Type: application/json\r\n\r\n' +
+        JSON.stringify(metadata) +
+        delimiter +
+        'Content-Type: ' + contentType + '\r\n' +
+        'Content-Transfer-Encoding: base64\r\n' +
+        '\r\n' +
+        base64Data +
+        close_delim;
+    var request = gapi.client.request({
+        'path': '/upload/drive/v2/files',
+        'method': 'POST',
+        'params': {'uploadType': 'multipart'},
+        'headers': {
+          'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
+        },
+        'body': multipartRequestBody});
+    request.execute(function(arg) {
+      console.log(arg);
+        alert("Commands Saved as RebroCommands.txt");
+    });
 };
     
 

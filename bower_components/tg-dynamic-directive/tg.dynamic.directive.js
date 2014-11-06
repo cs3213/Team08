@@ -10,6 +10,16 @@ angular.module('tg.dynamicDirective', [])
                     var ngModelItem = scope.$eval(attrs.ngModel);
                     scope.ngModelItem = ngModelItem;
 
+               
+                scope.$watch(
+                function(){
+                    return ngModel.$modelValue;
+                }, function(newValue, oldValue){
+                    ngModel.$modelValue = newValue;
+                    var ngModelItem = scope.$eval(attrs.ngModel);
+                    scope.ngModelItem = ngModelItem;
+                }, true);
+
                     var getView = scope.$eval(attrs.tgDynamicDirectiveView);
                     if (getView && typeof getView === 'function') {
                         var templateUrl = getView(ngModelItem);

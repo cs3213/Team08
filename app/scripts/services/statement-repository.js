@@ -14,9 +14,12 @@ angular.module('rebroApp')
             new Statement('changeCostume', false, 'costume-brainy'),
             new Statement('repeat', true, '1'),
             new Statement('forever', true),
-            new Statement('assign', false, undefined),
-            new Statement('if', 'true')
+            new Statement('assign', false, undefined, [undefined]),
+            new Statement('if', 'true', [undefined])
         ];
+
+        templates[9].expressionList = templates[9].args[1];
+        templates[10].expressionList = templates[10].args[0];
 
         return {
             getStatementTemplates: function() {

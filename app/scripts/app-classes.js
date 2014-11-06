@@ -11,7 +11,6 @@ angular.module('rebroApp')
         this.isContainer = isContainer;
         this.args = [];
         this.stmtList = [];
-        this.expressionList = [];
 
         this.hasArgs = function() {
             return this.args.length > 0;
@@ -20,35 +19,6 @@ angular.module('rebroApp')
         for (var i = 2; i < arguments.length; i++) {
             this.args.push(arguments[i]);
         }
-        if(this.type === 'assign' && this.expressionList.length === 0){
-            this.expressionList.push(undefined);
-        }
-        if(this.type === 'if' && this.expressionList.length === 0){
-            this.expressionList.push(undefined);
-        }
-        this.removeOperation = function(){
-            if(this.type === 'assign'){
-                if(this.expressionList.length > 2){
-                    this.expressionList.pop();
-                    this.expressionList.pop();
-                }
-            }else if(this.type === 'if'){
-                if(this.expressionList.length > 2){
-                    this.expressionList.pop();
-                    this.expressionList.pop();
-                }
-            }
-        };
-
-        this.addOperation = function(){
-            if(this.type === 'assign'){
-                this.expressionList.push(undefined);
-                this.expressionList.push(undefined);
-            }else if(this.type === 'if'){
-                this.expressionList.push(undefined);
-                this.expressionList.push(undefined);
-            }
-        };
     })
 
     .value('Character', function() {
