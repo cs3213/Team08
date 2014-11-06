@@ -25,6 +25,7 @@ angular.module('rebroApp')
                 for (var name in reservedVars) {
                     varNames.push(name);
                 }
+                console.log(varNames);
                 return varNames;
             },
 
