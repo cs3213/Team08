@@ -39,20 +39,24 @@
         .costume-brainy {
             background-image: url('http://www.pixentral.com/pics/1AUkXIBm3XbYPNWYR5wSRpQ6FnZD0l.png') !important;
         }
-        .addOperationbtn {
+        .buttonControl{
             float: right;
+            position: relative;
+        }
+        .addOperationbtn {
             background-image: url("images/plus.gif");
             background-size: 100%;
+        float: right;
             position: relative;
              height: 20px;
             width: 20px;
         }
         .removeOperationbtn {
-            float: right;
             background-image: url("images/minus.gif");
             background-size: 100%;
+            float: right;
             position: relative;
-             height: 20px;
+                     height: 20px;
             width: 20px;
         }
     </style>
@@ -89,6 +93,7 @@
 <!--============DRAWER box==================--> 
         <div class="col-xs-3 fixed-height drawer" ui-sortable="sortableOptions" ng-model="drawer.statements" style="border: 1px solid #333;">
             drawer
+            <div class="buttonControl">asd</div>
             <div ng-repeat="templateStmt in drawer.statements" ng-model="drawer.statements" class="stmt-block" >
         <!--=========Normal Commands==========-->
                 <span>{{templateStmt.type}}</span>
@@ -109,10 +114,10 @@
                     <input type="text" ng-model="templateStmt.expressionList[$index]" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead typeahead="oper for oper in operators | filter:$viewValue:stateComparator" placeholder="oper" class="operatorBox">
                     </span>
                     </span>
-
+                    <span class="buttonControl">
                     <span ng-click="addOperation(templateStmt)" class="addOperationbtn">
                     </span>
-                    <span ng-click="removeOperation(templateStmt)" class="removeOperationbtn"></span>
+                    <span ng-click="removeOperation(templateStmt)" class="removeOperationbtn"></span></span>
                 </span>
         <!--=========If Commands==========-->
                 <span ng-show="templateStmt.type === 'if'" ng-controller="TypeaheadCtrl">
@@ -128,9 +133,10 @@
                     </span>
                     </span>
 
+                    <span class="buttonControl">
                     <span ng-click="addOperation(templateStmt)" class="addOperationbtn">
                     </span>
-                    <span ng-click="removeOperation(templateStmt)" class="removeOperationbtn"></span>
+                    <span ng-click="removeOperation(templateStmt)" class="removeOperationbtn"></span></span>
                 </span>
             </div>
         </div>
@@ -163,9 +169,10 @@
                  </span>
                 </span>
 
-                <span ng-click="addOperation(innerItem)" class="addOperationbtn">
-                </span>
-                <span ng-click="removeOperation(innerItem)" class="removeOperationbtn"></span>
+                    <span class="buttonControl">
+                    <span ng-click="addOperation(innerItem)" class="addOperationbtn">
+                    </span>
+                    <span ng-click="removeOperation(innerItem)" class="removeOperationbtn"></span></span>
                               
                 </span>
          <!--=========If Commands==========-->
@@ -182,9 +189,10 @@
                     </span>
                     </span>
 
+                   <span class="buttonControl">
                     <span ng-click="addOperation(innerItem)" class="addOperationbtn">
                     </span>
-                    <span ng-click="removeOperation(innerItem)" class="removeOperationbtn"></span>
+                    <span ng-click="removeOperation(innerItem)" class="removeOperationbtn"></span></span>
                 </span>
         <span ng-show="innerItem.isContainer">         
                 <tg-dynamic-directive  ng-model="innerItem.stmtList" tg-dynamic-directive-view="getView">
@@ -221,7 +229,6 @@
 
 
     <div class="footer">
-      {{model.program.stmtList}}
        
     </div>
 </div>
