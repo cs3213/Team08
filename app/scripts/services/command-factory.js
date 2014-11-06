@@ -7,24 +7,24 @@ angular.module('rebroApp')
         var constructors = {
             setX: function(varTable, value) {
                 this.execute = function() {
-                    varTable.setVar('spriteX', Number(value));
+                    varTable.setValue(varTable.VAR_CHARACTER_X, Number(value));
                 }
             },
             setY: function(varTable, value) {
                 this.execute = function() {
-                    varTable.setVar('spriteY', Number(value));
+                    varTable.setValue(varTable.VAR_CHARACTER_Y, Number(value));
                 }
             },
             moveX: function(varTable, value) {
                 this.execute = function() {
-                    value = varTable.getVar('spriteX') + Number(value);
-                    varTable.setVar('spriteX', value);
+                    var result = varTable.getValue(varTable.VAR_CHARACTER_X) + Number(value);
+                    varTable.setValue(varTable.VAR_CHARACTER_X, result);
                 }
             },
             moveY: function(varTable, value) {
                 this.execute = function() {
-                    value = varTable.getVar('spriteY') + Number(value);
-                    varTable.setVar('spriteY', value);
+                    var result = varTable.getValue(varTable.VAR_CHARACTER_Y) + Number(value);
+                    varTable.setValue(varTable.VAR_CHARACTER_Y, result);
                 }
             },
             changeCostume: function(character, value) {
