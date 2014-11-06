@@ -4,9 +4,10 @@ angular.module('rebroApp')
 
     .factory('Runner', function($interval) {
 
-        var refreshRate = 20;
         var isRunning = false;
         var stack = [];
+        var intervalPromise;
+        var refreshRate = 20;
 
         function StatementPointer(stmtList, repeatCount) {
             this.stmtList = stmtList;
@@ -24,6 +25,10 @@ angular.module('rebroApp')
         }
 
         return {
+            isRunning: function() {
+                return isRunning;
+            },
+
             runProgram: function(executable) {
                 if (isRunning) {
                     return;
@@ -33,7 +38,7 @@ angular.module('rebroApp')
                 stack = [];
                 stack.push(new StatementPointer(executable.stmtList, 0));
 
-                var intervalPromise = $interval(function () {
+                intervalPromise = $interval(function () {
                     var ptr = peekStack();
 
                     if (ptr.index < ptr.stmtList.length) {
@@ -79,7 +84,7 @@ angular.module('rebroApp')
                 return intervalPromise;
             },
 
-            stopProgram: function(intervalPromise) {
+            stopProgram: function() {
                 $interval.cancel(intervalPromise);
                 isRunning = false;
             }

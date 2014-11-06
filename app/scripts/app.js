@@ -16,6 +16,7 @@ angular.module('rebroApp', ['tg.dynamicDirective', 'ui.sortable', 'ui.bootstrap'
         $scope.newProgram = function () {
             $scope.model.character = new Character();
             $scope.model.program.stmtList = [];
+            VarTable.initValues();
         };
         $scope.createJPicker = function () {
             createPicker();
@@ -51,18 +52,16 @@ angular.module('rebroApp', ['tg.dynamicDirective', 'ui.sortable', 'ui.bootstrap'
         };
 
         $scope.onPlay = function () {
-            var receiver = $scope.model.character;
-            var build = Compiler.compile($scope.model.program, receiver);
-
-            // some temp reset code
-            VarTable.initValues();
-            receiver.isVisible = true;
-
-            $scope.intervalPromise = Runner.runProgram(build);
+            if (!Runner.isRunning()) {
+                VarTable.initValues();
+                $scope.model.character.isVisible = true;
+                var executable = Compiler.compile($scope.model.program, $scope.model.character);
+                Runner.runProgram(executable);
+            }
         };
 
         $scope.onStop = function () {
-            Runner.stopProgram($scope.intervalPromise);
+            Runner.stopProgram();
         };
 
         $scope.drawer.statements = StatementRepository.getStatementTemplates();
