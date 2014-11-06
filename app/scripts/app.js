@@ -29,6 +29,7 @@ angular.module('rebroApp', ['tg.dynamicDirective', 'ui.sortable', 'ui.bootstrap'
     .controller('sortableController', function ($scope, VarTable, Compiler, Runner, StatementRepository, Expression) {
         /******* INITIALIZATION ************/
         $scope.loadProgram = function (text) {
+            VarTable.clearTable();
             var temp = angular.fromJson(text);
             for (var i = 0; i < temp[0].length; i++) {
                 VarTable.addVarName(temp[0][i]);
