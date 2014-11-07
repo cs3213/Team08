@@ -17,14 +17,20 @@
     <style>
 
         .apps-container {
-            border: 2px dashed white;
-            padding: 5px;
+            border: 1px dashed white;
+            padding: 3px;
         }
         .stmt-block {
             background-color: #31b0d5;
-            border: 2px solid white;
-            padding: 5px;
+            border: 1px solid white;
+            padding: 3px;
             cursor: move;
+            font-size: 11px;
+        }
+        .stmt-block input {
+            font-family: monospace;
+            width: 20px;
+            min-width: 20px;
         }
         .character {
             height: 100px;
@@ -109,18 +115,18 @@
                 
                 <span ng-show="hasArgs(templateStmt.args) && (templateStmt.type !== 'assign' && templateStmt.type !== 'if')">
 
-                <input class="btnTextSize" type="text" ng-model="templateStmt.args[0]"  size="10" value="{{templateStmt.args[0]}}">
+                <input class="btnTextSize" type="text" ng-model="templateStmt.args[0]" ng-style="inputStyle(templateStmt.args[0])" value="{{templateStmt.args[0]}}">
                 </span>
         <!--=========Assign Commands==========-->
                 <span  ng-model="templateStmt" ng-show="templateStmt.type === 'assign'" ng-controller="TypeaheadCtrl">
-                    <input type="text" ng-model="templateStmt.args[0]" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead typeahead="var for var in programVariables() | filter:$viewValue:stateComparator" placeholder="var" class="variableBox">
+                    <input type="text" ng-model="templateStmt.args[0]" ng-style="inputStyle(templateStmt.args[0])" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead typeahead="var for var in programVariables() | filter:$viewValue:stateComparator" placeholder="var" ng-style="inputStyle(templateStmt.args[0])">
                     =
                     <span ng-model="templateStmt.expressionList" ng-repeat="ops in templateStmt.expressionList track by $index">
                     <span ng-show="$even">
-                    <input type="text" ng-model="templateStmt.expressionList[$index]" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead typeahead="var for var in programVariables() | filter:$viewValue:stateComparator" placeholder="var" class="variableBox">
+                    <input type="text" ng-model="templateStmt.expressionList[$index]" ng-style="inputStyle(templateStmt.expressionList[$index])" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead typeahead="var for var in programVariables() | filter:$viewValue:stateComparator" placeholder="var" ng-style="inputStyle(templateStmt.expressionList[$index])">
                     </span>
                     <span ng-show="$odd">
-                    <input type="text" ng-model="templateStmt.expressionList[$index]" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead typeahead="oper for oper in mathOperators | filter:$viewValue:stateComparator" placeholder="oper" class="operatorBox">
+                    <input type="text" ng-model="templateStmt.expressionList[$index]" ng-style="inputStyle(templateStmt.expressionList[$index])" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead typeahead="oper for oper in mathOperators | filter:$viewValue:stateComparator" placeholder="oper" ng-style="inputStyle(templateStmt.expressionList[$index])">
                     </span>
                     </span>
                     <span class="buttonControl">
