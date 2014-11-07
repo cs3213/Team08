@@ -2,7 +2,7 @@
 
 angular.module('rebroApp')
 
-    .factory('Expression', function() {
+    .factory('Expression', function(VarTable) {
 
         var mathOpr = {
             addition: '+',
@@ -18,7 +18,9 @@ angular.module('rebroApp')
             greaterThan: '>',
             greaterThanOrEqual: '>=',
             equality: '==',
-            inequality: '!='
+            inequality: '!=',
+            and: '&&',
+            or: "||"
         };
 
         var add = {
@@ -87,7 +89,19 @@ angular.module('rebroApp')
             }
         };
 
-        var evaluators = [{}, {}, {}, {}];
+        var and = {
+            evaluate: function(a, b) {
+                return (a !== 0) && (b !== 0) ? 1 : 0;
+            }
+        };
+
+        var or = {
+            evaluate: function(a, b) {
+                return (a !== 0) || (b !== 0) ? 1 : 0;
+            }
+        };
+
+        var evaluators = [{}, {}, {}, {}, {}, {}];
         evaluators[0][mathOpr.multiplication] = multiply;
         evaluators[0][mathOpr.division] = divide;
         evaluators[0][mathOpr.modulo] = modulo;
@@ -99,6 +113,16 @@ angular.module('rebroApp')
         evaluators[2][boolOpr.greaterThanOrEqual] = greaterThanOrEqual;
         evaluators[3][boolOpr.equality] = equality;
         evaluators[3][boolOpr.inequality] = inequality;
+        evaluators[4][boolOpr.and] = and;
+        evaluators[5][boolOpr.or] = or;
+
+        function resolveOperand(operand) {
+            if (isNaN(operand)) {
+                return VarTable.getValue(operand);
+            } else {
+                return Number(operand);
+            }
+        }
 
         return {
             getMathOperators: function() {
@@ -128,8 +152,8 @@ angular.module('rebroApp')
                     var i = 1;
                     while (i + 1 < result.length) {
                         var oprSign = result[i];
-                        var lhs = Number(result[i-1]);
-                        var rhs = Number(result[i+1]);
+                        var lhs = resolveOperand(result[i-1]);
+                        var rhs = resolveOperand(result[i+1]);
                         if (evaluators[prec].hasOwnProperty(oprSign)) {
                             var tmp = evaluators[prec][oprSign].evaluate(lhs, rhs);
                             result.splice(i-1, 3, tmp);

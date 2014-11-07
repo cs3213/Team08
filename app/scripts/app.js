@@ -10,6 +10,11 @@ angular.module('rebroApp', ['tg.dynamicDirective', 'ui.sortable', 'ui.bootstrap'
         $rootScope.model = {};
         $rootScope.model.character = new Character();
         $rootScope.model.program = new Program();
+        $rootScope.inputStyle = function(str) {
+            return {
+                "width": (str.length + 1) * 7 + "px"
+            };
+        };
     })
 
     .controller('headerCtrl', function ($scope, Program, Character, VarTable) {

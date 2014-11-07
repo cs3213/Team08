@@ -5,20 +5,26 @@ angular.module('rebroApp')
     .factory('VarTable', function() {
 
         var ReservedVar = {
-            CHARACTER_X: '_characterX',
-            CHARACTER_Y: '_characterY'
+            POSITION_X: '_positionX',
+            POSITION_Y: '_positionY',
+            SCALE_X: '_scaleX',
+            SCALE_Y: '_scaleY'
         };
 
         var defaultValues = {};
-        defaultValues[ReservedVar.CHARACTER_X] = 0;
-        defaultValues[ReservedVar.CHARACTER_Y] = 0;
+        defaultValues[ReservedVar.POSITION_X] = 0;
+        defaultValues[ReservedVar.POSITION_Y] = 0;
+        defaultValues[ReservedVar.SCALE_X] = 1.0;
+        defaultValues[ReservedVar.SCALE_Y] = 1.0;
 
         var reservedVars = angular.copy(defaultValues);
         var userVars = {};
 
         return {
-            VAR_CHARACTER_X: ReservedVar.CHARACTER_X,
-            VAR_CHARACTER_Y: ReservedVar.CHARACTER_Y,
+            VAR_POSITION_X: ReservedVar.POSITION_X,
+            VAR_POSITION_Y: ReservedVar.POSITION_Y,
+            VAR_SCALE_X: ReservedVar.SCALE_X,
+            VAR_SCALE_Y: ReservedVar.SCALE_Y,
 
             getReservedVarNames: function() {
                 var varNames = [];
@@ -49,11 +55,8 @@ angular.module('rebroApp')
             },
 
             initValues: function() {
-                var name;
-                for (name in reservedVars) {
-                    reservedVars[name] = 0;
-                }
-                for (name in userVars) {
+                reservedVars = angular.copy(defaultValues);
+                for (var name in userVars) {
                     userVars[name] = 0;
                 }
             },
@@ -75,9 +78,9 @@ angular.module('rebroApp')
 
             setValue: function(name, value) {
                 if (reservedVars.hasOwnProperty(name)) {
-                    reservedVars[name] = value;
+                    reservedVars[name] = Number(value);
                 } else if (userVars.hasOwnProperty(name)) {
-                    userVars[name] = value;
+                    userVars[name] = Number(value);
                 } else {
                     // error
                 }

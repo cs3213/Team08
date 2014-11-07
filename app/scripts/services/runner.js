@@ -7,7 +7,7 @@ angular.module('rebroApp')
         var isRunning = false;
         var stack = [];
         var intervalPromise;
-        var refreshRate = 20;
+        var refreshRate = 10;
 
         function StatementPointer(stmtList, repeatCount) {
             this.stmtList = stmtList;
@@ -22,6 +22,10 @@ angular.module('rebroApp')
             } else {
                 return stack[stack.length - 1];
             }
+        }
+
+        function doit(ptr) {
+
         }
 
         return {
