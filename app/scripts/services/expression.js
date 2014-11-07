@@ -138,7 +138,7 @@ angular.module('rebroApp')
                         }
                     }
                 }
-                return result[0];
+                return Number(result[0]);
             }
         };
     });

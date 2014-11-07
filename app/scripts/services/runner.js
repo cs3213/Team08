@@ -2,7 +2,7 @@
 
 angular.module('rebroApp')
 
-    .factory('Runner', function($interval) {
+    .factory('Runner', function($interval, Expression) {
 
         var isRunning = false;
         var stack = [];
@@ -53,8 +53,12 @@ angular.module('rebroApp')
                             stack.push(new StatementPointer(stmt.stmtList, -1));
                             //redo
 
-                        //} else if (stmt.type === 'if') {
-
+                        } else if (stmt.type === 'if') {
+                            var expr = stmt.args[0];
+                            console.log(angular.toJson(expr));
+                            if (Expression.evaluate(expr) !== 0) {
+                                stack.push(new StatementPointer(stmt.stmtList, 0));
+                            }
 
                         } else {
                             stmt.command.execute();
