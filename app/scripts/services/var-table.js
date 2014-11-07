@@ -38,7 +38,7 @@ angular.module('rebroApp')
             },
 
             getAllVarNames: function() {
-                return this.getReservedVarNames().concat(this.getUserVarNames());
+                return this.getUserVarNames().concat(this.getReservedVarNames());
             },
 
             addVarName: function(name) {

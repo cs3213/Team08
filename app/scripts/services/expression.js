@@ -14,96 +14,91 @@ angular.module('rebroApp')
 
         var boolOpr = {
             lessThan: '<',
-            lessThanEqual: '<=',
+            lessThanOrEqual: '<=',
             greaterThan: '>',
-            greaterThanEqual: '>=',
+            greaterThanOrEqual: '>=',
             equality: '==',
             inequality: '!='
         };
 
         var add = {
-            sign: mathOpr.addition,
             evaluate: function(a, b) {
                 return a + b;
             }
         };
 
         var subtract = {
-            sign: mathOpr.subtraction,
             evaluate: function(a, b) {
                 return a - b;
             }
         };
 
         var multiply = {
-            sign: mathOpr.multiplication,
             evaluate: function(a, b) {
                 return a * b;
             }
         };
 
         var divide = {
-            sign: mathOpr.division,
             evaluate: function(a, b) {
                 return a / b;
             }
         };
 
         var modulo = {
-            sign: mathOpr.modulo,
             evaluate: function(a, b) {
                 return a % b;
             }
         };
 
         var lessThan = {
-            sign: boolOpr.lessThan,
             evaluate: function(a, b) {
-                return a < b;
+                return a < b ? 1 : 0;
             }
         };
 
         var lessThanOrEqual = {
-            sign: boolOpr.lessThanEqual,
             evaluate: function(a, b) {
-                return a <= b;
+                return a <= b ? 1 : 0;
             }
         };
 
         var greaterThan = {
-            sign: boolOpr.greaterThan,
             evaluate: function(a, b) {
-                return a > b;
+                return a > b ? 1 : 0;
             }
         };
 
         var greaterThanOrEqual = {
-            sign: boolOpr.greaterThanEqual,
             evaluate: function(a, b) {
-                return a >= b;
+                return a >= b ? 1 : 0;
             }
         };
 
         var equality = {
-            sign: boolOpr.equality,
             evaluate: function(a, b) {
-                return a === b;
+                return a === b ? 1 : 0;
             }
         };
 
         var inequality = {
-            sign: boolOpr.inequality,
             evaluate: function(a, b) {
-                return a !== b;
+                return a !== b ? 1 : 0;
             }
         };
 
-        var oprPrec = [
-            [multiply, divide, modulo],
-            [add, subtract],
-            [lessThan, lessThanOrEqual, greaterThan, greaterThanOrEqual],
-            [equality, inequality]
-        ];
+        var evaluators = [{}, {}, {}, {}];
+        evaluators[0][mathOpr.multiplication] = multiply;
+        evaluators[0][mathOpr.division] = divide;
+        evaluators[0][mathOpr.modulo] = modulo;
+        evaluators[1][mathOpr.addition] = add;
+        evaluators[1][mathOpr.subtraction] = subtract;
+        evaluators[2][boolOpr.lessThan] = lessThan;
+        evaluators[2][boolOpr.lessThanOrEqual] = lessThanOrEqual;
+        evaluators[2][boolOpr.greaterThan] = greaterThan;
+        evaluators[2][boolOpr.greaterThanOrEqual] = greaterThanOrEqual;
+        evaluators[3][boolOpr.equality] = equality;
+        evaluators[3][boolOpr.inequality] = inequality;
 
         return {
             getMathOperators: function() {
@@ -127,13 +122,23 @@ angular.module('rebroApp')
             },
 
             // Pre-condition: Expression must be resolved to numeric values
-            evaluateExpr: function(expr) {
+            evaluate: function(expr) {
                 var result = expr.slice();  // copy to workspace
-                for (var prec = 0; prec < oprPrec.length; prec++) {
-                    for (var i = 0; i < result.length; i++) {
-                        // to be implemented
+                for (var prec = 0; prec < evaluators.length; prec++) {
+                    var i = 1;
+                    while (i + 1 < result.length) {
+                        var oprSign = result[i];
+                        var lhs = Number(result[i-1]);
+                        var rhs = Number(result[i+1]);
+                        if (evaluators[prec].hasOwnProperty(oprSign)) {
+                            var tmp = evaluators[prec][oprSign].evaluate(lhs, rhs);
+                            result.splice(i-1, 3, tmp);
+                        } else {
+                            i += 2;
+                        }
                     }
                 }
+                return result[0];
             }
         };
     });

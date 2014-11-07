@@ -2,7 +2,7 @@
 
 angular.module('rebroApp')
 
-    .factory('CommandFactory', function() {
+    .factory('CommandFactory', function(Expression) {
 
         var constructors = {
             setX: function(varTable, value) {
@@ -25,6 +25,12 @@ angular.module('rebroApp')
                 this.execute = function() {
                     var result = varTable.getValue(varTable.VAR_CHARACTER_Y) + Number(value);
                     varTable.setValue(varTable.VAR_CHARACTER_Y, result);
+                }
+            },
+            assign: function(varTable, lhsVarName, rhsExpr) {
+                this.execute = function() {
+                    var result = Expression.evaluate(rhsExpr);
+                    varTable.setValue(lhsVarName, result);
                 }
             },
             changeCostume: function(character, value) {
