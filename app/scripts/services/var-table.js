@@ -76,9 +76,9 @@ angular.module('rebroApp')
 
             setValue: function(name, value) {
                 if (reservedVars.hasOwnProperty(name)) {
-                    reservedVars[name] = value;
+                    reservedVars[name] = Number(value);
                 } else if (userVars.hasOwnProperty(name)) {
-                    userVars[name] = value;
+                    userVars[name] = Number(value);
                 } else {
                     // error
                 }

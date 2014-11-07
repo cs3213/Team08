@@ -2,7 +2,7 @@
 
 angular.module('rebroApp')
 
-    .factory('Expression', function() {
+    .factory('Expression', function(VarTable) {
 
         var mathOpr = {
             addition: '+',
@@ -100,6 +100,14 @@ angular.module('rebroApp')
         evaluators[3][boolOpr.equality] = equality;
         evaluators[3][boolOpr.inequality] = inequality;
 
+        function resolveOperand(operand) {
+            if (isNaN(operand)) {
+                return VarTable.getValue(operand);
+            } else {
+                return Number(operand);
+            }
+        }
+
         return {
             getMathOperators: function() {
                 var result = [];
@@ -128,8 +136,8 @@ angular.module('rebroApp')
                     var i = 1;
                     while (i + 1 < result.length) {
                         var oprSign = result[i];
-                        var lhs = Number(result[i-1]);
-                        var rhs = Number(result[i+1]);
+                        var lhs = resolveOperand(result[i-1]);
+                        var rhs = resolveOperand(result[i+1]);
                         if (evaluators[prec].hasOwnProperty(oprSign)) {
                             var tmp = evaluators[prec][oprSign].evaluate(lhs, rhs);
                             result.splice(i-1, 3, tmp);
