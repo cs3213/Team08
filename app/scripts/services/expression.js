@@ -18,7 +18,9 @@ angular.module('rebroApp')
             greaterThan: '>',
             greaterThanOrEqual: '>=',
             equality: '==',
-            inequality: '!='
+            inequality: '!=',
+            and: '&&',
+            or: "||"
         };
 
         var add = {
@@ -87,7 +89,19 @@ angular.module('rebroApp')
             }
         };
 
-        var evaluators = [{}, {}, {}, {}];
+        var and = {
+            evaluate: function(a, b) {
+                return (a !== 0) && (b !== 0) ? 1 : 0;
+            }
+        };
+
+        var or = {
+            evaluate: function(a, b) {
+                return (a !== 0) || (b !== 0) ? 1 : 0;
+            }
+        };
+
+        var evaluators = [{}, {}, {}, {}, {}, {}];
         evaluators[0][mathOpr.multiplication] = multiply;
         evaluators[0][mathOpr.division] = divide;
         evaluators[0][mathOpr.modulo] = modulo;
@@ -99,6 +113,8 @@ angular.module('rebroApp')
         evaluators[2][boolOpr.greaterThanOrEqual] = greaterThanOrEqual;
         evaluators[3][boolOpr.equality] = equality;
         evaluators[3][boolOpr.inequality] = inequality;
+        evaluators[4][boolOpr.and] = and;
+        evaluators[5][boolOpr.or] = or;
 
         function resolveOperand(operand) {
             if (isNaN(operand)) {

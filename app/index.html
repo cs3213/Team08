@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
     <style>
-     
+
         .apps-container {
             border: 2px dashed white;
             padding: 5px;
@@ -65,11 +65,11 @@
 <!--[if lt IE 7]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
-  
+
 <!-- Add your site or application content here -->
 <div ng-cloak class="container">
-    
-        
+
+
     <div class="header" id="headerCtrl" ng-controller="headerCtrl">
         <ul class="nav nav-pills pull-left">
             <li class="active"><a ng-href="#" ng-click="newProgram()">New</a></li>
@@ -77,12 +77,12 @@
             <li><a ng-href="#" ng-click="insertJFile()">Save</a></li>
         </ul>
         <ul class="nav nav-pills pull-right">
-            
+
             <li> <div id="login-area"><a ng-href="#" onclick="hello('google').login();getGoogleProfileName();">Log In</a> </div>
             </li>
-          
-      <li><div id="result"></div></li> 
-            
+
+      <li><div id="result"></div></li>
+
         </ul>
         <h3 class="text-muted text-center">rebro</h3>
     </div>
@@ -99,10 +99,10 @@
                 <button class="btn btn-default" type="button" ng-click="deleteVariable(tempVar); tempVar=undefined">Delete Var</button>
             </span>
             </div>
-           
-<!--============DRAWER box==================--> 
-            <div ui-sortable="sortableOptions" ng-model="drawer.statements">   
-          
+
+<!--============DRAWER box==================-->
+            <div ui-sortable="sortableOptions" ng-model="drawer.statements">
+
             <div ng-repeat="templateStmt in drawer.statements" ng-model="drawer.statements" class="stmt-block" >
         <!--=========Normal Commands==========-->
                 <span>{{templateStmt.type}}</span>
@@ -151,13 +151,13 @@
             </div>
         </div>
         </div>
-<!--============Editor box==================--> 
+<!--============Editor box==================-->
         <div class="col-xs-3 fixed-height editor" id="editor" ui-sortable="sortableOptions2" ng-model="model.program.stmtList" style="border: 1px solid #333;">
             editor {{model.program.stmtList.length}}
              <tg-dynamic-directive ng-model="model.program.stmtList" tg-dynamic-directive-view="getView">
              </tg-dynamic-directive>
-            
-      
+
+
     <script type ="text/ng-template" id="nest_Item.html">
     <div class="apps-container editor" ui-sortable="sortableOptions2" ng-model="ngModelItem">
         <div class="stmt-block" ng-repeat="innerItem in ngModelItem" ng-model="ngModelItem">
@@ -214,8 +214,8 @@
       </div>
      </script>
     </div>
-         
-<!--============Stage box==================--> 
+
+<!--============Stage box==================-->
         <div class="col-xs-6 fixed-height" style="border: 1px solid #333;">
             <div id="row1.1" class="text-center" style="border: 1px solid #333;">
                 <button class="btn btn-default btn-xs" ng-click="onPlay()" style="height:50px; width:50px">
@@ -231,16 +231,19 @@
                 -->
             </div>
             <div id="row1.2" style="border: 1px solid #333; height: 460px;">
-                {{varTable.getValue(varTable.VAR_CHARACTER_X)}}  {{varTable.getValue(varTable.VAR_CHARACTER_Y)}}
+                x:{{varTable.getValue(varTable.VAR_POSITION_X)}} y:{{varTable.getValue(varTable.VAR_POSITION_Y)}}<br />
+                scaleX:{{varTable.getValue(varTable.VAR_SCALE_X)}} scaleY:{{varTable.getValue(varTable.VAR_SCALE_Y)}}
                 <div class="character" ng-class="model.character.costume" ng-show="model.character.isVisible"
-                     ng-style="{'top': varTable.getValue(varTable.VAR_CHARACTER_Y) + 'px', 'left': varTable.getValue(varTable.VAR_CHARACTER_X) + 'px'}"></div>
+                     ng-style="{'top': varTable.getValue(varTable.VAR_POSITION_Y) + 'px',
+                     'left': varTable.getValue(varTable.VAR_POSITION_X) + 'px',
+                     'background-size': varTable.getValue(varTable.VAR_SCALE_X)*100 + '% ' + varTable.getValue(varTable.VAR_SCALE_Y)*100 + '%'}"></div>
             </div>
         </div>
     </div>
 
 
     <div class="footer">
-       
+
     </div>
 </div>
 
@@ -273,12 +276,12 @@
 <script src="scripts/app.js"></script>
 <script src="scripts/googleOauth.js"></script>
 <script src="scripts/app-classes.js"></script>
-<script src="scripts/services/expression.js"></script>
-<script src="scripts/services/var-table.js"></script>
 <script src="scripts/services/command-factory.js"></script>
 <script src="scripts/services/compiler.js"></script>
+<script src="scripts/services/expression.js"></script>
 <script src="scripts/services/runner.js"></script>
 <script src="scripts/services/statement-repository.js"></script>
+<script src="scripts/services/var-table.js"></script>
 <script type="text/javascript" src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
 <!-- endbuild -->
 
