@@ -130,8 +130,8 @@ angular.module('rebroApp', ['tg.dynamicDirective', 'ui.sortable', 'ui.bootstrap'
         // Assumption: Only 'assign' or 'if' can use this function
         $scope.addOperation = function (stmt) {
             if (stmt.type === 'assign' || stmt.type === 'if') {
-                stmt.expressionList.push(undefined);
-                stmt.expressionList.push(undefined);
+                stmt.expressionList.push(null);
+                stmt.expressionList.push(null);
             }
         };
         // Assumption: Only 'assign' or 'if' can use this function

@@ -175,7 +175,7 @@
         
                  </span>
                  <span ng-show="$odd">
-                 <input type="text" ng-model="innerItem.expressionList[$index]" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead typeahead="oper for oper in operators | filter:$viewValue:stateComparator" placeholder="oper" class="operatorBox">
+                 <input type="text" ng-model="innerItem.expressionList[$index]" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead typeahead="oper for oper in mathOperators | filter:$viewValue:stateComparator" placeholder="oper" class="operatorBox">
                  </span>
                 </span>
 
