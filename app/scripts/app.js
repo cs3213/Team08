@@ -5,12 +5,16 @@ var secretEmptyKey = '[$empty$]';
 angular.module('rebroApp', ['tg.dynamicDirective', 'ui.sortable', 'ui.bootstrap'])
 
     .controller('masterCtrl', function ($rootScope, VarTable, Program, Character) {
-        $rootScope.drawer = {}
         $rootScope.varTable = VarTable;
+        $rootScope.drawer = {};
         $rootScope.model = {};
         $rootScope.model.character = new Character();
         $rootScope.model.program = new Program();
+
         $rootScope.inputStyle = function(str) {
+            if (str === null || typeof str === 'undefined') {
+                str = "";
+            }
             return {
                 "width": (str.length + 1) * 7 + "px"
             };
