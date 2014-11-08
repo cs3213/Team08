@@ -15,7 +15,8 @@ angular.module('rebroApp')
             new Statement('repeat', true, '1'),
             new Statement('forever', true),
             new Statement('assign', false, null, [null]),
-            new Statement('if', 'true', [null])
+            new Statement('if', 'true', [null]),
+            new Statement('while', 'true', [null])
         ];
 
         templates[9].expressionList = templates[9].args[1];
