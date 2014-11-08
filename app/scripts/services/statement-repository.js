@@ -21,6 +21,7 @@ angular.module('rebroApp')
 
         templates[9].expressionList = templates[9].args[1];
         templates[10].expressionList = templates[10].args[0];
+        templates[11].expressionList = templates[11].args[0];
 
         return {
             getStatementTemplates: function() {

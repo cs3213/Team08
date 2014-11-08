@@ -96,7 +96,7 @@
         <!--=========Normal Commands==========-->
                 <span>{{templateStmt.type}}</span>
                 
-                <span ng-show="hasArgs(templateStmt.args) && (templateStmt.type !== 'assign' && templateStmt.type !== 'if')">
+                <span ng-show="hasArgs(templateStmt.args) && (templateStmt.type !== 'assign' && templateStmt.type !== 'if' && templateStmt.type !== 'while')">
 
                 <input ng-show="templateStmt.type !== 'changeCostume'" type="text" ng-model="templateStmt.args[0]" ng-style="inputStyle(templateStmt.args[0])" value="{{templateStmt.args[0]}}" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead typeahead="var for var in programVariables() | filter:$viewValue:stateComparator" placeholder="var">
 
@@ -124,7 +124,7 @@
                      <input type="text" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead ng-model="templateStmt.expressionList[0]" typeahead="var for var in programVariables()  | filter:$viewValue:stateComparator" placeholder="var" class="variableBox">
 
                     <span ng-repeat="ops in templateStmt.expressionList track by $index">
-                                 
+
                     <span ng-show="!$first && $even">
                     <input type="text" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead ng-model="templateStmt.expressionList[$index]" typeahead="var for var in programVariables()  | filter:$viewValue:stateComparator" placeholder="var" class="variableBox">
                     </span>
@@ -153,7 +153,7 @@
     <div class="apps-container editor" ui-sortable="sortableOptions2" ng-model="ngModelItem">
         <div class="stmt-block" ng-repeat="innerItem in ngModelItem" ng-model="ngModelItem" ng-controller="TypeaheadCtrl">
         <span>{{innerItem.type}}</span>
-        <span ng-show="hasArgs(innerItem.args) && (innerItem.type !== 'assign' && innerItem.type !== 'if')">
+        <span ng-show="hasArgs(innerItem.args) && (innerItem.type !== 'assign' && innerItem.type !== 'if'  && innerItem.type !== 'while')">
                 <input class="btnTextSize" type="text" ng-model="innerItem.args[0]" ng-style="inputStyle(innerItem.args[0])" value="{{innerItem.args[0]}} ng-focus="onFocus($event)" ng-trim="false" empty-typeahead typeahead="var for var in programVariables()  | filter:$viewValue:stateComparator" placeholder="var"">
         </span>
 
