@@ -2,7 +2,7 @@
 
 angular.module('rebroApp')
 
-    .factory('Compiler', function(CommandFactory, VarTable) {
+    .factory('Compiler', function(CommandFactory, CommandType, VarTable) {
 
         var character = null;
 
@@ -22,9 +22,9 @@ angular.module('rebroApp')
 
             } else {
                 switch (stmt.type) {
-                    case 'show':
-                    case 'hide':
-                    case 'changeCostume':
+                    case CommandType.SHOW:
+                    case CommandType.HIDE:
+                    case CommandType.CHANGE_COSTUME:
                         command = CommandFactory.createCommand(stmt.type, character, stmt.args);
                         break;
 

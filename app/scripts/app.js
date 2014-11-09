@@ -4,19 +4,19 @@ var secretEmptyKey = '[$empty$]';
 
 angular.module('rebroApp', ['tg.dynamicDirective', 'ui.sortable', 'ui.bootstrap'])
 
-    .controller('masterCtrl', function ($rootScope, VarTable, Program, Character) {
+    .controller('masterCtrl', function ($rootScope, CommandType, VarTable, Program, Character) {
+        $rootScope.CmdType = CommandType;
         $rootScope.varTable = VarTable;
         $rootScope.drawer = {};
         $rootScope.model = {};
         $rootScope.model.character = new Character();
         $rootScope.model.program = new Program();
-
         $rootScope.inputStyle = function(str) {
             if (str === null || typeof str === 'undefined') {
                 str = "";
             }
             return {
-                "width": (str.length + 1) * 7 + "px"
+                "width": (String(str).length + 1) * 7 + "px"
             };
         };
     })
@@ -130,7 +130,8 @@ angular.module('rebroApp', ['tg.dynamicDirective', 'ui.sortable', 'ui.bootstrap'
             }
         }
     })
-    .controller('TypeaheadCtrl', function ($scope, $http, $timeout) {
+
+    .controller('TypeaheadCtrl', function ($scope, $http, $timeout, CommandType) {
         $scope.stateComparator = function (state, viewValue) {
             return viewValue === secretEmptyKey || ('' + state).toLowerCase().indexOf(('' + viewValue).toLowerCase()) > -1;
         };
@@ -142,17 +143,23 @@ angular.module('rebroApp', ['tg.dynamicDirective', 'ui.sortable', 'ui.bootstrap'
         };
         // Assumption: Only 'assign' or 'if' can use this function
         $scope.addOperation = function (stmt) {
-            if (stmt.type === 'assign' || stmt.type === 'if' || stmt.type === 'while') {
-                stmt.expressionList.push(null);
-                stmt.expressionList.push(null);
+            switch (stmt.type) {
+                case CommandType.SET_VAR:
+                case CommandType.IF:
+                case CommandType:WHILE:
+                    stmt.expressionList.push(null);
+                    stmt.expressionList.push(null);
             }
         };
         // Assumption: Only 'assign' or 'if' can use this function
         $scope.removeOperation = function (stmt) {
-            if (stmt.type === 'assign' || stmt.type === 'if' || stmt.type === 'while') {
-                if (stmt.expressionList.length > 2) {
-                    stmt.expressionList.pop();
-                    stmt.expressionList.pop();
+            if (stmt.expressionList.length > 2) {
+                switch (stmt.type) {
+                    case CommandType.SET_VAR:
+                    case CommandType.IF:
+                    case CommandType:WHILE:
+                        stmt.expressionList.pop();
+                        stmt.expressionList.pop();
                 }
             }
         };
