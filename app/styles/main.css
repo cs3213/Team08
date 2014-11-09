@@ -97,6 +97,7 @@ body {
     padding: 3px;
     cursor: move;
     font-size: 11px;
+    height: 28px;
 }
 .stmt-block input {
     font-family: monospace;

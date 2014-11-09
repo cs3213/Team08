@@ -49,6 +49,8 @@ angular.module('rebroApp', ['tg.dynamicDirective', 'ui.sortable', 'ui.bootstrap'
             });
         };
 
+        $scope.deleteList = [];
+
         $scope.addVariable = function (args) {
             VarTable.addVarName(args);
         };
@@ -92,7 +94,9 @@ angular.module('rebroApp', ['tg.dynamicDirective', 'ui.sortable', 'ui.bootstrap'
             }
         };
         $scope.sortableOptions2 = {
-            connectWith: [".editor", ".repeat"]
+            connectWith: [".editor", ".repeat", ".deleteBox"]
+          
+            
         };
         $scope.getViewRepeat = function (item) {
             if (item) {

@@ -45,8 +45,21 @@
             background-size: 100%;
             float: right;
             position: relative;
-                     height: 20px;
+            height: 20px;
             width: 20px;
+        }
+        .deleteBox{
+            height: 24px;            
+            width : 24px;
+            background-color: red;
+               float:right;
+        } 
+        .deleteBox img{
+            max-width:100%; 
+            max-height:100%;
+            margin:auto;
+            vertical-align: top;
+            display:block;
         }
     </style>
 </head>
@@ -80,9 +93,9 @@
      <div class="canvas" id="sortableController" ng-controller="sortableController">
         <div class="col-xs-2 fixed-height drawer">
             Drawer
-           <div class="input-group input-group-xs">
+           <div class="input-group input-group-xs" ng-controller="TypeaheadCtrl">
                 <span class="input-group-addon">Name:</span>
-                <input type="text" class="form-control" ng-model="tempVar">
+                <input type="text" class="form-control" ng-model="tempVar"  ng-focus="onFocus($event)" ng-trim="false" empty-typeahead typeahead="var for var in programVariables() | filter:$viewValue:stateComparator" placeholder="var">
                 <span class="input-group-btn">
                 <button class="btn btn-default" type="button" ng-click="addVariable(tempVar); tempVar=undefined">Add Var</button>
                 <button class="btn btn-default" type="button" ng-click="deleteVariable(tempVar); tempVar=undefined">Delete Var</button>
@@ -144,7 +157,8 @@
         </div>
 <!--============Editor box==================-->
         <div class="col-xs-3 fixed-height editor" id="editor" ui-sortable="sortableOptions2" ng-model="model.program.stmtList">
-            editor {{model.program.stmtList.length}}
+            editor <div class="deleteBox" id="deleteBox" ng-model="deleteList" ui-sortable="sortableOptions2"><img src="images/delete.png" ></div>
+        </br>
              <tg-dynamic-directive ng-model="model.program.stmtList" tg-dynamic-directive-view="getView">
              </tg-dynamic-directive>
 
@@ -153,8 +167,9 @@
     <div class="apps-container editor" ui-sortable="sortableOptions2" ng-model="ngModelItem">
         <div class="stmt-block" ng-repeat="innerItem in ngModelItem" ng-model="ngModelItem" ng-controller="TypeaheadCtrl">
         <span>{{innerItem.type}}</span>
-        <span ng-show="hasArgs(innerItem.args) && (innerItem.type !== 'assign' && innerItem.type !== 'if'  && innerItem.type !== 'while')">
-                <input class="btnTextSize" type="text" ng-model="innerItem.args[0]" ng-style="inputStyle(innerItem.args[0])" value="{{innerItem.args[0]}} ng-focus="onFocus($event)" ng-trim="false" empty-typeahead typeahead="var for var in programVariables()  | filter:$viewValue:stateComparator" placeholder="var"">
+        <span class="btnTextSize" ng-show="hasArgs(innerItem.args) && (innerItem.type !== 'assign' && innerItem.type !== 'if'  && innerItem.type !== 'while')">
+
+            <input class="btnTextSize" type="text" ng-model="innerItem.args[0]" ng-style="inputStyle(innerItem.args[0])" value="{{innerItem.args[0]}}" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead typeahead="var for var in programVariables()  | filter:$viewValue:stateComparator" placeholder="var">
         </span>
 
         <span ng-show="innerItem.type === 'assign'" >
