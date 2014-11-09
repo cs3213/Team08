@@ -6,9 +6,9 @@ angular.module('rebroApp')
 
         var templates = [
             new Statement(CommandType.FOREVER, true),
-            new Statement(CommandType.REPEAT, true, '1'),
-            new Statement(CommandType.WHILE, 'true', [null]),
-            new Statement(CommandType.IF, 'true', [null]),
+            new Statement(CommandType.REPEAT, true, 1),
+            new Statement(CommandType.WHILE, true, [null]),
+            new Statement(CommandType.IF, true, [null]),
             new Statement(CommandType.SET_VAR, false, null, [null]),
             new Statement(CommandType.SET_X, false, 0),
             new Statement(CommandType.SET_Y, false, 0),

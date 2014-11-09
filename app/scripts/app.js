@@ -151,7 +151,7 @@ angular.module('rebroApp', ['tg.dynamicDirective', 'ui.sortable', 'ui.bootstrap'
             switch (stmt.type) {
                 case CommandType.SET_VAR:
                 case CommandType.IF:
-                case CommandType:WHILE:
+                case CommandType.WHILE:
                     stmt.expressionList.push(null);
                     stmt.expressionList.push(null);
             }
@@ -162,7 +162,7 @@ angular.module('rebroApp', ['tg.dynamicDirective', 'ui.sortable', 'ui.bootstrap'
                 switch (stmt.type) {
                     case CommandType.SET_VAR:
                     case CommandType.IF:
-                    case CommandType:WHILE:
+                    case CommandType.WHILE:
                         stmt.expressionList.pop();
                         stmt.expressionList.pop();
                 }
