@@ -59,9 +59,15 @@ angular.module('rebroApp')
 
                         } else if (stmt.type === 'if') {
                             var expr = stmt.args[0];
-                            console.log(angular.toJson(expr));
                             if (Expression.evaluate(expr) !== 0) {
                                 stack.push(new StatementPointer(stmt.stmtList, 0));
+                            }
+
+                        } else if (stmt.type === 'while') {
+                            var expr = stmt.args[0];
+                            if (Expression.evaluate(expr) !== 0) {
+                                stack.push(new StatementPointer(stmt.stmtList, 0));
+                                ptr.index--;  // after returning, evaluate while condition again
                             }
 
                         } else {
