@@ -3,25 +3,28 @@ var CLIENT_ID = '762525072987-jvj4k7qp586b3ro93dfq3ieiegjo6f37.apps.googleuserco
 var developerKey = 'AIzaSyDBKs5GQEYcqvHSTvlRKu_hs9JhanUdu3o';
 var SCOPES = 'https://www.googleapis.com/auth/drive.readonly';
 var myModule = angular.module('myModule', []);
-    
+var json = '';
 hello.init({ 
 	google   : CLIENT_ID}
 , {redirect_uri: 'http://localhost:9000/index.html'}
 );
 
-//test login
-function toggleLog(myVal, btId){        
-    if(myVal == "Login"){
-        hello('google').login();
-        getGoogleProfileName();
-        document.getElementById(btId).value = "Logout";
-        
-    }
-    else if(myVal == "logout"){
-         window.location.assign("https://accounts.google.com/logout")
-    }
+function handleClientLoad() {
+  gapi.client.setApiKey(CLIENT_ID);
 }
 
+hello.on('auth.login', function(auth){
+    hello( "google" ).api("me").then(function(j){
+        json = j;
+        if(oauthToken === ''){
+            //onApiLoad(); 
+        }
+         getGoogleProfileName();
+        }
+
+    )
+
+});
 //when user click logout
 //listener for authenticator to logout
 hello.on('auth.logout', function(auth){
@@ -32,17 +35,22 @@ hello.on('auth.logout', function(auth){
 	alert( "Signed out error: " + e.error.message );
 });
 
-
 //GET input username
-function getGoogleProfileName(){
-	hello( "google" ).api("me").then(function(json){
+function getGoogleProfileName(){ 
+    console.log("json =" + json);
+      /*  if(json === ''){
+            hello( "google" ).api("me").then(function(j){
+            console.log("Your name is "+ j.name + ", " + j.url);
+            json = j;
+            //if(oauthToken === ''){
+                onApiLoad(); 
+           // }
+        })
+        }else{*/
+        console.log(json);
         document.getElementById('login-area').innerHTML = "Signed in as <a href='" + json.url +         "'>" + json.name + "</a></br><a onclick=\"hello.logout()\">log out</a>";
-		console.log("Your name is "+ json.name + ", " + json.url);
-       onApiLoad();
-	}, function(e){
-		console.log("Whoops! " + e.error.message );
-	});
-}
+      //  }
+       }
     
 //Start Google Picker
 //=============================================
@@ -52,15 +60,17 @@ function getGoogleProfileName(){
 //   var scope = ['https://www.googleapis.com/auth/drive.readonly'];
 
 var pickerApiLoaded = false;
-var oauthToken;
+var oauthToken = '';
 
 // Use the API Loader script to load google.picker and gapi.auth.
 function onApiLoad() {
+
     gapi.load('auth', {'callback': onAuthApiLoad});
     gapi.load('picker',{'callback': onPickerApiLoad});
 }
 
 function onAuthApiLoad() {
+
  window.gapi.auth.authorize(
     {
       'client_id': CLIENT_ID,
@@ -79,6 +89,7 @@ function handleAuthResultG(authResult) {
 
 if (authResult && !authResult.error) {
     oauthToken = authResult.access_token;
+    hello('google').login();
 }
 }
 
