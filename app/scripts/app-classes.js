@@ -19,7 +19,7 @@ angular.module('rebroApp')
     })
 
     .value('Character', function() {
-        this.costume = "costume-default";
+        this.costume = 'costume-default';
         this.isVisible = true;
     })
 
