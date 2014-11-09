@@ -6,7 +6,7 @@ var myModule = angular.module('myModule', []);
 var json = '';
 hello.init({ 
 	google   : CLIENT_ID}
-, {redirect_uri: 'http://localhost:9000/index.html'}
+, {redirect_uri: ''}
 );
 
 function handleClientLoad() {
@@ -91,7 +91,8 @@ function handleAuthResultG(authResult) {
 
 if (authResult && !authResult.error) {
     oauthToken = authResult.access_token;
-  //  hello('google').login();
+    hello('google').login();
+
 }
 }
 
@@ -115,12 +116,14 @@ function createPicker() {
 function pickerCallback(data) {
     if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
         var fileId = data.docs[0].id;
+        console.log(data.docs[0]);
         var url = 'https://www.googleapis.com/drive/v2/files/' + fileId;
         //var doc = data[google.picker.Response.DOCUMENTS][0];
         getData(url, function(responseText){
             var metaData = JSON.parse(responseText);
             getData(metaData.downloadUrl, function(text) {
             //  console.log(text);
+             angular.element($('#headerCtrl')).scope().inputFileName = data.docs[0].name;
             angular.element($('#sortableController')).scope().loadProgram(text);
             });
         });
@@ -151,12 +154,14 @@ function alertMe(){
     console.log("Ello download done!");
 }
 
-function insertFile(stmtLst) {
+function insertFile(stmtLst, inputName) {
     const boundary = '-------314159265358979323846264';
     const delimiter = "\r\n--" + boundary + "\r\n";
     const close_delim = "\r\n--" + boundary + "--";
 
-    var fileName = 'RebroCommands.txt';
+    var fileName = inputName;
+    if(fileName === '')
+      fileName="RebroCommands"
     var contentType = 'application/json';
     var metadata = {
       'title': fileName,
@@ -183,7 +188,7 @@ function insertFile(stmtLst) {
         'body': multipartRequestBody});
     request.execute(function(arg) {
       console.log(arg);
-        alert("Commands Saved as RebroCommands.txt");
+        alert("Commands Saved as "+ fileName +"");
     });
 };
     

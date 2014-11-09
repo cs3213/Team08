@@ -22,6 +22,7 @@ angular.module('rebroApp', ['tg.dynamicDirective', 'ui.sortable', 'ui.bootstrap'
     })
 
     .controller('headerCtrl', function ($scope, Program, Character, VarTable) {
+         $scope.inputFileName = 'rebroCommands';
         $scope.newProgram = function () {
             $scope.model.character = new Character();
             $scope.model.program.stmtList = [];
@@ -31,12 +32,13 @@ angular.module('rebroApp', ['tg.dynamicDirective', 'ui.sortable', 'ui.bootstrap'
             createPicker();
         };
         $scope.insertJFile = function () {
-            insertFile(angular.toJson([VarTable.getUserVarNames(), $scope.model.program.stmtList], true));
+            insertFile(angular.toJson([VarTable.getUserVarNames(), $scope.model.program.stmtList], true),$scope.inputFileName);
         };
     })
 
     .controller('sortableController', function ($scope, VarTable, Compiler, Runner, StatementRepository, Expression) {
         /******* INITIALIZATION ************/
+
         $scope.loadProgram = function (text) {
             VarTable.clearTable();
             var temp = angular.fromJson(text);
@@ -48,10 +50,6 @@ angular.module('rebroApp', ['tg.dynamicDirective', 'ui.sortable', 'ui.bootstrap'
                 $scope.model.program.stmtList = angular.copy(temp[1]);
             });
         };
-
-        $scope.getValue = function(args){
-            return VarTable.getValue(args);
-        }
 
         $scope.deleteList = [];
 
