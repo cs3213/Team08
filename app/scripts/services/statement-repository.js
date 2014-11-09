@@ -2,26 +2,26 @@
 
 angular.module('rebroApp')
 
-    .factory('StatementRepository', function (Statement) {
+    .factory('StatementRepository', function (Statement, CommandType) {
 
         var templates = [
-            new Statement('setX', false, 0),
-            new Statement('setY', false, 0),
-            new Statement('moveX', false, 0),
-            new Statement('moveY', false, 0),
-            new Statement('hide', false),
-            new Statement('show', false),
-            new Statement('changeCostume', false, 'costume-brainy'),
-            new Statement('repeat', true, '1'),
-            new Statement('forever', true),
-            new Statement('assign', false, null, [null]),
-            new Statement('if', 'true', [null]),
-            new Statement('while', 'true', [null])
+            new Statement(CommandType.FOREVER, true),
+            new Statement(CommandType.REPEAT, true, '1'),
+            new Statement(CommandType.WHILE, 'true', [null]),
+            new Statement(CommandType.IF, 'true', [null]),
+            new Statement(CommandType.SET_VAR, false, null, [null]),
+            new Statement(CommandType.SET_X, false, 0),
+            new Statement(CommandType.SET_Y, false, 0),
+            new Statement(CommandType.MOVE_X, false, 1),
+            new Statement(CommandType.MOVE_Y, false, 1),
+            new Statement(CommandType.HIDE, false),
+            new Statement(CommandType.SHOW, false),
+            new Statement(CommandType.CHANGE_COSTUME, false, 'brainy')
         ];
 
-        templates[9].expressionList = templates[9].args[1];
-        templates[10].expressionList = templates[10].args[0];
-        templates[11].expressionList = templates[11].args[0];
+        templates[2].expressionList = templates[2].args[0];
+        templates[3].expressionList = templates[3].args[0];
+        templates[4].expressionList = templates[4].args[1];
 
         return {
             getStatementTemplates: function() {

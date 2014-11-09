@@ -2,7 +2,7 @@
 
 angular.module('rebroApp')
 
-    .factory('Runner', function($interval, Expression) {
+    .factory('Runner', function($interval, CommandType, Expression) {
 
         var isRunning = false;
         var stack = [];
@@ -48,22 +48,22 @@ angular.module('rebroApp')
                     if (ptr.index < ptr.stmtList.length) {
                         var stmt = ptr.stmtList[ptr.index];
 
-                        if (stmt.type === 'repeat') {
+                        if (stmt.type === CommandType.REPEAT) {
                             var repeatCount = stmt.args[0];
                             stack.push(new StatementPointer(stmt.stmtList, repeatCount));
                             //redo
 
-                        } else if (stmt.type === 'forever') {
+                        } else if (stmt.type === CommandType.FOREVER) {
                             stack.push(new StatementPointer(stmt.stmtList, -1));
                             //redo
 
-                        } else if (stmt.type === 'if') {
+                        } else if (stmt.type === CommandType.IF) {
                             var expr = stmt.args[0];
                             if (Expression.evaluate(expr) !== 0) {
                                 stack.push(new StatementPointer(stmt.stmtList, 0));
                             }
 
-                        } else if (stmt.type === 'while') {
+                        } else if (stmt.type === CommandType.WHILE) {
                             var expr = stmt.args[0];
                             if (Expression.evaluate(expr) !== 0) {
                                 stack.push(new StatementPointer(stmt.stmtList, 0));

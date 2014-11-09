@@ -21,4 +21,19 @@ angular.module('rebroApp')
     .value('Character', function() {
         this.costume = "costume-default";
         this.isVisible = true;
+    })
+
+    .value('CommandType', {
+        FOREVER: 'Forever',
+        REPEAT: 'Repeat',
+        WHILE: 'While',
+        IF: 'If',
+        SET_VAR: 'Set Var',
+        SET_X: 'Set X',
+        SET_Y: 'Set Y',
+        MOVE_X: 'Move X',
+        MOVE_Y: 'Move Y',
+        HIDE: 'Hide',
+        SHOW: 'Show',
+        CHANGE_COSTUME: 'Change Costume'
     });
