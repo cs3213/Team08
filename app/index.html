@@ -19,7 +19,7 @@
             height: 100px;
             width: 90px;
             background-image: url('http://www.pixentral.com/pics/1t6fTMLSw9s24qiVwQSqF0n0FpmjhZ.png');
-            background-size: 100%;
+            background-size: 100% 100%;
             background-repeat: no-repeat;
             position: relative;
             top: 30px;
@@ -312,7 +312,8 @@
                 <div class="character" ng-class="model.character.costume" ng-show="model.character.isVisible"
                      ng-style="{'top': varTable.getValue(varTable.VAR_POSITION_Y) + 'px',
                          'left': varTable.getValue(varTable.VAR_POSITION_X) + 'px',
-                         'background-size': varTable.getValue(varTable.VAR_SCALE_X)*100 + '% ' + varTable.getValue(varTable.VAR_SCALE_Y)*100 + '%'}">
+                         'width': varTable.getValue(varTable.VAR_SCALE_X)*100 + 'px',
+                         'height': varTable.getValue(varTable.VAR_SCALE_Y)*100 + 'px'}">
                 </div>
             </div>
         </div>
