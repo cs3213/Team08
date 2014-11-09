@@ -20,7 +20,7 @@ angular.module('rebroApp')
             equality: '==',
             inequality: '!=',
             and: '&&',
-            or: "||"
+            or: '||'
         };
 
         var add = {
@@ -162,7 +162,7 @@ angular.module('rebroApp')
                         }
                     }
                 }
-                return Number(result[0]);
+                return resolveOperand(result[0]);
             }
         };
     });

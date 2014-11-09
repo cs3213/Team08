@@ -7,6 +7,8 @@ var json = '';
 hello.init({ 
 	google   : CLIENT_ID}
 , {redirect_uri: 'http://localhost:9000/index.html'}
+           //ian try replace with this and upload to try
+           //{redirect_uri: 'http://54.169.86.150/rebro/app/index.html'}
 );
 
 function handleClientLoad() {
