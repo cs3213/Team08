@@ -98,6 +98,11 @@ angular.module('rebroApp', ['tg.dynamicDirective', 'ui.sortable', 'ui.bootstrap'
           
             
         };
+          $scope.sortableOptions3 = {
+            connectWith: []
+          
+            
+        };
         $scope.getViewRepeat = function (item) {
             if (item) {
                 return "nest_Item2.html";
