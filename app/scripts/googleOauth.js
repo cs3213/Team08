@@ -14,10 +14,12 @@ function handleClientLoad() {
 }
 
 hello.on('auth.login', function(auth){
+   console.log(oauthToken);
     hello( "google" ).api("me").then(function(j){
         json = j;
+
         if(oauthToken === ''){
-            //onApiLoad(); 
+            //onApiLoad();
         }
          getGoogleProfileName();
         }
@@ -89,14 +91,14 @@ function handleAuthResultG(authResult) {
 
 if (authResult && !authResult.error) {
     oauthToken = authResult.access_token;
-    hello('google').login();
+  //  hello('google').login();
 }
 }
 
 // Create and render a Picker object for loading items from drive.
 function createPicker() {
     if (pickerApiLoaded && oauthToken) {
-      var picker = new google.picker.PickerBuilder().
+          var picker = new google.picker.PickerBuilder().
           addView(google.picker.ViewId.DOCS).
           setOrigin(window.location.protocol + '//' + window.location.host).
           setOAuthToken(oauthToken).
@@ -104,6 +106,9 @@ function createPicker() {
           setCallback(pickerCallback).
           build();
       picker.setVisible(true);
+    }else{
+      console.log("callingOnApiLoad");
+        onApiLoad();
     }
 }
     

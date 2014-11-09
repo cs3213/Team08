@@ -8,7 +8,7 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -169,6 +169,7 @@
                     <!--=========If Commands==========-->
                 <span ng-show="templateStmt.type === CmdType.IF || templateStmt.type === CmdType.WHILE"
                       ng-controller="TypeaheadCtrl">
+                      {{templateStmt.expressionList.length}}
                      <input type="text" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead
                             ng-model="templateStmt.expressionList[0]"
                             typeahead="var for var in programVariables()  | filter:$viewValue:stateComparator"
@@ -215,6 +216,7 @@
                     <div ng-class="{'stmt-block': true, 'isContainer': innerItem.isContainer}" ng-repeat="innerItem in ngModelItem" ng-model="ngModelItem"
                          ng-controller="TypeaheadCtrl">
                         <span>{{innerItem.type}}</span>
+                        {{getValue(innerItem.args[0])}}
         <span class="btnTextSize"
               ng-show="hasArgs(innerItem.args) && (innerItem.type !== CmdType.SET_VAR && innerItem.type !== CmdType.IF  && innerItem.type !== CmdType.WHILE)">
 
