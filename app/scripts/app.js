@@ -36,7 +36,7 @@ angular.module('rebroApp', ['tg.dynamicDirective', 'ui.sortable', 'ui.bootstrap'
         };
     })
 
-    .controller('sortableController', function ($scope, VarTable, Compiler, Runner, StatementRepository, Expression) {
+    .controller('sortableController', function ($scope, VarTable, Compiler, Runner, StatementRepository, Expression, CommandType) {
         /******* INITIALIZATION ************/
 
         $scope.loadProgram = function (text) {
@@ -48,7 +48,16 @@ angular.module('rebroApp', ['tg.dynamicDirective', 'ui.sortable', 'ui.bootstrap'
 
             $scope.$apply(function () {
                 $scope.model.program.stmtList = angular.copy(temp[1]);
+                for(var i = 0;i < $scope.model.program.stmtList.length;i++){
+                    if(($scope.model.program.stmtList[i].type === CommandType.WHILE) || ($scope.model.program.stmtList[i].type === CommandType.IF)){
+                        $scope.model.program.stmtList[i].expressionList = $scope.model.program.stmtList[i].args[0];
+                    }else if($scope.model.program.stmtList[i].type === CommandType.SET_VAR){
+                        $scope.model.program.stmtList[i].expressionList = $scope.model.program.stmtList[i].args[1];
+                    }
+
+                }
             });
+
         };
 
         $scope.deleteList = [];
