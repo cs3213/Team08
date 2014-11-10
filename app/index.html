@@ -8,7 +8,7 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -145,7 +145,9 @@
 
                 <input ng-show="templateStmt.type === CmdType.CHANGE_COSTUME" type="text"
                        ng-model="templateStmt.args[0]"
-                       ng-style="inputStyle(templateStmt.args[0])" value="{{templateStmt.args[0]}}">
+                       ng-style="inputStyle(templateStmt.args[0])" value="{{templateStmt.args[0]}}"  ng-focus="onFocus($event)" ng-trim="false" empty-typeahead
+                       typeahead="costume for costume in costumeVariables() | filter:$viewValue:stateComparator"
+                       placeholder="costume">
                 </span>
             <!--=========Assign Commands==========-->
                 <span ng-model="templateStmt" ng-show="templateStmt.type === CmdType.SET_VAR">
