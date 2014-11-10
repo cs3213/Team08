@@ -26,7 +26,7 @@ angular.module('rebroApp', ['tg.dynamicDirective', 'ui.sortable', 'ui.bootstrap'
         $scope.newProgram = function () {
             $scope.model.character = new Character();
             $scope.model.program.stmtList = [];
-            VarTable.initValues();
+            VarTable.clearTable();
         };
         $scope.createJPicker = function () {
             createPicker();
