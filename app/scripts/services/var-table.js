@@ -7,15 +7,21 @@ angular.module('rebroApp')
         var ReservedVar = {
             POSITION_X: '_positionX',
             POSITION_Y: '_positionY',
-            SCALE_X: '_scaleX',
-            SCALE_Y: '_scaleY'
+            SCALE_X: '_spriteWidth',
+            SCALE_Y: '_spriteHeight'
+        };
+
+        var costumeValues = {
+            default: 'images/default.png',
+            brainy: 'images/brainy.png',
+            ball: 'images/soccer.png'
         };
 
         var defaultValues = {};
         defaultValues[ReservedVar.POSITION_X] = 0;
         defaultValues[ReservedVar.POSITION_Y] = 0;
-        defaultValues[ReservedVar.SCALE_X] = 1.0;
-        defaultValues[ReservedVar.SCALE_Y] = 1.0;
+        defaultValues[ReservedVar.SCALE_X] = 100;
+        defaultValues[ReservedVar.SCALE_Y] = 100;
 
         var reservedVars = angular.copy(defaultValues);
         var userVars = {};
@@ -25,6 +31,14 @@ angular.module('rebroApp')
             VAR_POSITION_Y: ReservedVar.POSITION_Y,
             VAR_SCALE_X: ReservedVar.SCALE_X,
             VAR_SCALE_Y: ReservedVar.SCALE_Y,
+
+            getCostumeNames: function() {
+                var costumeNames = [];
+                for (var name in costumeValues) {
+                    costumeNames.push(name);
+                }
+                return costumeNames;
+            },
 
             getReservedVarNames: function() {
                 var varNames = [];
