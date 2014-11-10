@@ -40,6 +40,10 @@ angular.module('rebroApp')
                 return costumeNames;
             },
 
+            getCostumeValue: function(costumeName) {
+                return costumeValues[costumeName];
+            },
+
             getReservedVarNames: function() {
                 var varNames = [];
                 for (var name in reservedVars) {
