@@ -220,9 +220,19 @@
         <span class="btnTextSize"
               ng-show="hasArgs(innerItem.args) && (innerItem.type !== CmdType.SET_VAR && innerItem.type !== CmdType.IF  && innerItem.type !== CmdType.WHILE)">
 
-            <input class="btnTextSize" type="text" ng-model="innerItem.args[0]" ng-style="inputStyle(innerItem.args[0])"
-                   value="{{innerItem.args[0]}}" ng-focus="onFocus($event)" ng-trim="false" empty-typeahead
-                   typeahead="var for var in programVariables()  | filter:$viewValue:stateComparator" placeholder="var">
+             <input ng-show="innerItem.type !== CmdType.CHANGE_COSTUME" type="text"
+                       ng-model="innerItem.args[0]"
+                       ng-style="inputStyle(innerItem.args[0])" value="{{innerItem.args[0]}}"
+                       ng-focus="onFocus($event)" ng-trim="false" empty-typeahead
+                       typeahead="var for var in programVariables() | filter:$viewValue:stateComparator"
+                       placeholder="var">
+
+                <input ng-show="innerItem.type === CmdType.CHANGE_COSTUME" type="text"
+                       ng-model="innerItem.args[0]"
+                       ng-style="inputStyle(innerItem.args[0])" value="{{innerItem.args[0]}}"  ng-focus="onFocus($event)" ng-trim="false" empty-typeahead
+                       typeahead="costume for costume in costumeVariables() | filter:$viewValue:stateComparator"
+                       placeholder="costume">
+
         </span>
 
         <span ng-show="innerItem.type === CmdType.SET_VAR">
