@@ -81,9 +81,15 @@ angular.module('rebroApp', ['tg.dynamicDirective', 'ui.sortable', 'ui.bootstrap'
         $scope.drawer.statements = StatementRepository.getStatementTemplates();
         $scope.mathOperators = Expression.getMathOperators();
         $scope.allOperators = Expression.getAllOperators();
+        
         $scope.programVariables = function () {
             return VarTable.getAllVarNames();
         };
+
+        $scope.costumeVariables = function () {
+            return VarTable.getCostumeNames();
+        };
+
         $scope.sortableOptions = {
             helper: "clone",
             connectWith: [".editor", ".repeat"],
