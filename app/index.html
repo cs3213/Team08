@@ -18,16 +18,12 @@
         .character {
             height: 100px;
             width: 90px;
-            background-image: url('http://www.pixentral.com/pics/1t6fTMLSw9s24qiVwQSqF0n0FpmjhZ.png');
+            background-image: url('images/default.png');
             background-size: 100% 100%;
             background-repeat: no-repeat;
             position: relative;
             top: 30px;
             left: 30px;
-        }
-
-        .brainy {
-            background-image: url('http://www.pixentral.com/pics/1AUkXIBm3XbYPNWYR5wSRpQ6FnZD0l.png') !important;
         }
 
         .buttonControl {
@@ -60,14 +56,6 @@
             background-image: url('images/delete.png');
             background-size: 100%;
             float: right;
-        }
-
-        .deleteBox img {
-            max-width: 100%;
-            max-height: 100%;
-            margin: auto;
-            vertical-align: top;
-            display: block;
         }
     </style>
 </head>
@@ -324,11 +312,12 @@
     <div id="row1.2" class="stage-boundary">
         x:{{varTable.getValue(varTable.VAR_POSITION_X)}} y:{{varTable.getValue(varTable.VAR_POSITION_Y)}}<br/>
         scaleX:{{varTable.getValue(varTable.VAR_SCALE_X)}} scaleY:{{varTable.getValue(varTable.VAR_SCALE_Y)}}
-        <div class="character" ng-class="model.character.costume" ng-show="model.character.isVisible"
+        <div class="character" ng-show="model.character.isVisible"
              ng-style="{'top': varTable.getValue(varTable.VAR_POSITION_Y) + 'px',
                          'left': varTable.getValue(varTable.VAR_POSITION_X) + 'px',
                          'width': varTable.getValue(varTable.VAR_SCALE_X) + 'px',
-                         'height': varTable.getValue(varTable.VAR_SCALE_Y) + 'px'}">
+                         'height': varTable.getValue(varTable.VAR_SCALE_Y) + 'px',
+                         'background-image': 'url(\'' + varTable.getValue(model.character.costume) + '\')'}">
         </div>
     </div>
 </div>
