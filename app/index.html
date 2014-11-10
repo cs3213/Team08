@@ -26,6 +26,18 @@
             left: 30px;
         }
 
+        .default {
+            background-image: url('images/default.png') !important;
+        }
+
+        .brainy {
+            background-image: url('images/brainy.png') !important;
+        }
+
+        .ball {
+            background-image: url('images/soccer.png') !important;
+        }
+
         .buttonControl {
             float: right;
             position: relative;
@@ -320,18 +332,17 @@
         </button>
     </div>
     <div id="row1.2" class="stage-boundary">
-        <div class="debug">
+        <!--<div class="debug">
             <span ng-repeat="varName in varTable.getAllVarNames()">
                 {{varName}}: {{varTable.getValue(varName)}}<br />
             </span>
-        </div>
+        </div>-->
 
-        <div class="character" ng-show="model.character.isVisible"
+        <div class="character" ng-class="model.character.costume" ng-show="model.character.isVisible"
              ng-style="{'top': varTable.getValue(varTable.VAR_POSITION_Y) + 'px',
                          'left': varTable.getValue(varTable.VAR_POSITION_X) + 'px',
                          'width': varTable.getValue(varTable.VAR_SCALE_X) + 'px',
-                         'height': varTable.getValue(varTable.VAR_SCALE_Y) + 'px',
-                         'background-image': 'url(\'' + varTable.getCostumeValue(model.character.costume) + '\')'}">
+                         'height': varTable.getValue(varTable.VAR_SCALE_Y) + 'px'}">
         </div>
     </div>
 </div>
