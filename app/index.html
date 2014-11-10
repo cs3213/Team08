@@ -97,7 +97,7 @@
 <!--<div ng-view=""></div>-->
 <div class="canvas" id="sortableController" ng-controller="sortableController">
 <div class="col-xs-2 fixed-height drawer">
-    Drawer
+    <b><u>Drawer</u></b><br />
     <div class="input-group input-group-xs" ng-controller="TypeaheadCtrl">
         <span class="input-group-addon">Name:</span>
         <input type="text" class="form-control" ng-model="tempVar" ng-focus="onFocus($event)" ng-trim="false"
@@ -206,9 +206,7 @@
     </div>
     <div class="fixed-height editor" ui-sortable="sortableOptions2"
          ng-model="model.program.stmtList">
-        editor
-
-        </br>
+        <b><u>Editor</u></b><br />
         <tg-dynamic-directive ng-model="model.program.stmtList" tg-dynamic-directive-view="getView">
         </tg-dynamic-directive>
 
@@ -312,8 +310,12 @@
         </button>
     </div>
     <div id="row1.2" class="stage-boundary">
-        x:{{varTable.getValue(varTable.VAR_POSITION_X)}} y:{{varTable.getValue(varTable.VAR_POSITION_Y)}}<br/>
-        scaleX:{{varTable.getValue(varTable.VAR_SCALE_X)}} scaleY:{{varTable.getValue(varTable.VAR_SCALE_Y)}}
+        <div class="debug">
+            <span ng-repeat="varName in varTable.getAllVarNames()">
+                {{varName}}: {{varTable.getValue(varName)}}<br />
+            </span>
+        </div>
+
         <div class="character" ng-show="model.character.isVisible"
              ng-style="{'top': varTable.getValue(varTable.VAR_POSITION_Y) + 'px',
                          'left': varTable.getValue(varTable.VAR_POSITION_X) + 'px',
