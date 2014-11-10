@@ -7,23 +7,23 @@ angular.module('rebroApp')
         var Command = {};
         Command[CommandType.SET_X] = function (varTable, value) {
             this.execute = function () {
-                varTable.setValue(varTable.VAR_POSITION_X, Number(value));
+                varTable.setValue(varTable.VAR_POSITION_X, Expression.evaluate(value));
             };
         };
         Command[CommandType.SET_Y] = function (varTable, value) {
             this.execute = function () {
-                varTable.setValue(varTable.VAR_POSITION_Y, Number(value));
+                varTable.setValue(varTable.VAR_POSITION_Y, Expression.evaluate(value));
             };
         };
         Command[CommandType.MOVE_X] = function (varTable, value) {
             this.execute = function () {
-                var result = varTable.getValue(varTable.VAR_POSITION_X) + Number(value);
+                var result = varTable.getValue(varTable.VAR_POSITION_X) + Expression.evaluate(value);
                 varTable.setValue(varTable.VAR_POSITION_X, result);
             };
         };
         Command[CommandType.MOVE_Y] = function (varTable, value) {
             this.execute = function () {
-                var result = varTable.getValue(varTable.VAR_POSITION_Y) + Number(value);
+                var result = varTable.getValue(varTable.VAR_POSITION_Y) + Expression.evaluate(value);
                 varTable.setValue(varTable.VAR_POSITION_Y, result);
             };
         };
