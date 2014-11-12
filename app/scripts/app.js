@@ -48,17 +48,23 @@ angular.module('rebroApp', ['tg.dynamicDirective', 'ui.sortable', 'ui.bootstrap'
 
             $scope.$apply(function () {
                 $scope.model.program.stmtList = angular.copy(temp[1]);
-                for(var i = 0;i < $scope.model.program.stmtList.length;i++){
-                    if(($scope.model.program.stmtList[i].type === CommandType.WHILE) || ($scope.model.program.stmtList[i].type === CommandType.IF)){
-                        $scope.model.program.stmtList[i].expressionList = $scope.model.program.stmtList[i].args[0];
-                    }else if($scope.model.program.stmtList[i].type === CommandType.SET_VAR){
-                        $scope.model.program.stmtList[i].expressionList = $scope.model.program.stmtList[i].args[1];
-                    }
+               $scope.traverse($scope.model.program.stmtList);
 
-                }
             });
 
         };
+
+        $scope.traverse = function(stmtList){
+             for(var i = 0;i < stmtList.length;i++){
+                    if((stmtList[i].type === CommandType.WHILE) || (stmtList[i].type === CommandType.IF)){
+                        stmtList[i].expressionList = stmtList[i].args[0];
+                        $scope.traverse(stmtList[i].stmtList);
+                    }else if(stmtList[i].type === CommandType.SET_VAR){
+                        stmtList[i].expressionList = stmtList[i].args[1];
+                    }
+
+             }
+        }
 
         $scope.deleteList = [];
 
